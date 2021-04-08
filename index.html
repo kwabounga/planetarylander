@@ -5,15 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Maxi</title>
+    <link rel="stylesheet" href="./css/styles.css">
   </head>
   <body onload="init()">
+    <!-- loader -->
+    <div id="loader"><img id="loader-logo" class="rotating"src="./assets/iconkwa.png"></img></div>
     <!-- canvas -->
-    <canvas id="game-canvas" width="800" height="600"></canvas>
+    <canvas id="game-canvas" width="800" height="600" style="display: none;"></canvas>
     <!-- libs -->
     <script src="./lib/pixi.js"></script>
     <script src="./lib/matter.js"></script>
     <!-- scripts -->
     <script src="./exports/tools.js"></script>
+    <script src="./exports/State.js"></script>
     <script src="./exports/Keyboard.js"></script>
     <script src="./exports/Flag.js"></script>
     <script src="./exports/Stabilizer.js"></script>
@@ -23,7 +27,13 @@
 
     <script>
         function init(){
-            Tools.ajaxGet("./data/europa.json", (data) => {
+            let s = State.getInstance();
+            // s.height = Tools.availableSize.height();
+            // s.width = Tools.availableSize.width();
+
+
+            
+            Tools.ajaxGet(`./data/${Tools.getHash()}.json`, (data) => {
             let d = JSON.parse(data);
             let main = new Main(d);
             });

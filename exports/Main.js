@@ -1,4 +1,8 @@
 function Main(data) {
+
+  this.loader = document.getElementById("loader");
+  this.view = document.getElementById("game-canvas");
+
   this.data = data;
   this.Engine = Matter.Engine;
   this.World = Matter.World;
@@ -11,8 +15,8 @@ function Main(data) {
   this.ground = this.Bodies.rectangle(400, 610, 810, 60, { isStatic: true, });
   this.bodies = [];
   this.bodies.push(this.ground);
-
-  this.view = document.getElementById("game-canvas");
+  
+  
   this.stage = new PIXI.Container();
   this.renderer = PIXI.autoDetectRenderer(800, 600, {
     backgroundColor: "#3a3a41".replace("#", "0x"),
@@ -26,6 +30,23 @@ function Main(data) {
   this.lander;
   
   this.loadSpriteSheet();
+}
+Main.prototype.addFocusEvents = function(){
+  this.view.addEventListener('focus',(event)=>{
+    console.log('FOCUS');
+  })
+  this.view.addEventListener('blur',(event)=>{
+    console.log('LOOSE FOCUS');
+  })
+
+}
+Main.prototype.showCanvas = function(){
+  this.view.style="";
+  this.loader.style = "display: none;"
+}
+Main.prototype.showLoader = function(){
+  this.view.style="display: none;";
+  this.loader.style = ""
 }
 /**
  * sprite sheet loader
@@ -53,11 +74,14 @@ Main.prototype.spriteSheetLoaded = function () {
 
   //mouse constraints
 //   this.addMouseConstraint();
-    this.addKeysEvents()
-    this.addCollisions()
+    this.addKeysEvents();
+    this.addCollisions();
+
+    this.showCanvas()
   // run the engine
   this.Engine.run(this.engine);
   requestAnimationFrame(this.update.bind(this));
+  this.addFocusEvents();
 };
 Main.prototype.addCollisions = function () {
   // add mouse control

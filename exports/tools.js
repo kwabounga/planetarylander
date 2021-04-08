@@ -57,4 +57,13 @@ Tools.ajaxGet = function(url, callback) {
     console.log(isMob)
     return isMob;
   }
+
+  Tools.getHash = function(){
+    let world = 'moon';
+    let hashIsWorld = new RegExp(/moon|europa|titan|mars/);
+    if(hashIsWorld.test(window.location.hash.replace('#',''))){
+        world = window.location.hash.replace('#','');                
+    }
+    return world;
+  }
   
