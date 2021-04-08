@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maxi</title>
+  </head>
+  <body onload="init()">
+    <!-- canvas -->
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+    <!-- libs -->
+    <script src="./lib/pixi.js"></script>
+    <script src="./lib/matter.js"></script>
+    <!-- scripts -->
+    <script src="./exports/tools.js"></script>
+    <script src="./exports/Flag.js"></script>
+    <script src="./exports/Stabilizer.js"></script>
+    <script src="./exports/Reactor.js"></script>
+    <script src="./exports/Lander.js"></script>
+    <script src="./exports/Main.js"></script>
+
+    <script>
+        function init(){
+            let m = new Main()
+        }
+
+    </script>
+  </body>
+</html>
