@@ -41,6 +41,13 @@ Main.prototype.spriteSheetLoaded = function () {
 
   // todo: change this
   this.addLander();
+  let test = new Flag({ sprite: "mcFlag", x: -69, y: -4, rotation: -0 })
+  test.x=400;
+  test.y=300;
+  this.stage.addChild(test);
+  test.play()
+
+
 
   // add all of the bodies to the world
   this.World.add(this.engine.world, this.bodies);
@@ -67,17 +74,20 @@ Main.prototype.addMouseConstraint = function () {
   this.World.add(this.engine.world, mouseConstraint);
   this.renderer.mouse = mouse;
 };
+
 Main.prototype.addLander = function () {
   console.log("ADD LANDER");
   const me = this;
  let paramsLander = {
      physic:{
         x:400,
-        y:0
+        y:0,
+        width:38,
+        height:76
      },
      sprite:{
         sprite: "landerLunar0000",
-        reactor: { sprite: "mcReactor", x: -12, y: 22 },
+        reactor: { sprite: "mcReactor", x: 1.5, y: 25 },
         stabilizers: [
           { sprite: "mcPropulsor", x: -24, y: 7, rotation: 0 },
           { sprite: "mcPropulsor", x: 24, y: 7, rotation: 180 },
@@ -85,39 +95,11 @@ Main.prototype.addLander = function () {
         flag: { sprite: "mcFlag", x: -69, y: -4, rotation: -0 },
       }
  }
-//   var texture = PIXI.Texture.from("landerLunar0000");
-  // var shape = new PIXI.Graphics();
-  // shape.beginFill(0xCC5533);
-  // shape.lineStyle(1, 0xFFFFFF);
-  // shape.drawRect(0, 0, 40, 40);
-  // var texture2 = shape.generateCanvasTexture();
-
-  //   function SpriteObject() {
-  //     // create a new Sprite using the texture
-  //     var bunny = new PIXI.Sprite(texture);
-  //     // real size of frame's sprite
-  //     console.log(bunny._texture._frame.width,bunny._texture._frame.height);
-  //     // center the sprite's anchor point
-  //     bunny.anchor.x = 0.5;
-  //     bunny.anchor.y = 0.5;
-  //     // move the sprite to the center of the screen
-  //     bunny.position.x = 200;
-  //     bunny.position.y = 150;
-
-  //     me.stage.addChild(bunny);
-  //     return bunny;
-  //   }
 
   function PhysicsObject(params) {
-    // create two boxes and a ground
-    var x, y, scale;
-    // position at start
-    x = params.x;
-    y = params.y;
-    // size of the box (square)
-    scale = Math.random() * 20 + 20;
-    console.log("PhysicsObject: ", x, y, scale, scale);
-    var box = me.Bodies.rectangle(x, y, scale, scale);
+    // create the box for lander
+    
+    var box = me.Bodies.rectangle(params.x, params.y, params.width, params.height);
     // adding box to the bodies array
     me.bodies.push(box);
     console.log(box);
@@ -132,6 +114,7 @@ Main.prototype.addLander = function () {
   };
 
   let l = createLander();
+  console.log(l.sprite);
   this.lander = l;
 };
 Main.prototype.update = function () {
