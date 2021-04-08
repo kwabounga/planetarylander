@@ -1,0 +1,22 @@
+{
+    "lander":{
+        "physic":{
+           "x":400,
+           "y":0,
+           "width":58,
+           "height":68
+        },
+        "sprite":{
+           "sprite": "landerEuropa0000",
+           "reactor": { "sprite": "mcReactor", "x": 2, "y": 35 },
+           "stabilizers": [
+            { "sprite": "mcPropulsor", "x": -24, "y": 27, "rotation": 50 },
+            { "sprite": "mcPropulsor", "x": 24, "y": 27, "rotation": 130 }
+           ],
+           "flag": { "sprite": "mcFlag", "x": -60, "y": 5, "rotation": -0 }
+         }
+    },
+    "levels":[
+        {}
+    ]
+}

@@ -1,27 +1,30 @@
-function Main() {
+function Main(data) {
+  this.data = data;
   this.Engine = Matter.Engine;
   this.World = Matter.World;
   this.Bodies = Matter.Bodies;
   this.Mouse = Matter.Mouse;
+  this.Events = Matter.Events;
   this.MouseConstraint = Matter.MouseConstraint;
 
   this.engine = this.Engine.create();
-  this.ground = this.Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+  this.ground = this.Bodies.rectangle(400, 610, 810, 60, { isStatic: true, });
   this.bodies = [];
   this.bodies.push(this.ground);
 
   this.view = document.getElementById("game-canvas");
   this.stage = new PIXI.Container();
   this.renderer = PIXI.autoDetectRenderer(800, 600, {
-    backgroundColor: 0xffffe0,
+    backgroundColor: "#3a3a41".replace("#", "0x"),
     antialias: true,
     resolution: window.devicePixelRatio,
     view: this.view,
   });
 
   //   this.bunnies = [];
+ 
   this.lander;
-
+  
   this.loadSpriteSheet();
 }
 /**
@@ -41,24 +44,47 @@ Main.prototype.spriteSheetLoaded = function () {
 
   // todo: change this
   this.addLander();
-  let test = new Flag({ sprite: "mcFlag", x: -69, y: -4, rotation: -0 })
-  test.x=400;
-  test.y=300;
-  this.stage.addChild(test);
-  test.play()
+ 
 
 
-
+  this.engine.world.gravity.scale = 0.0005
   // add all of the bodies to the world
   this.World.add(this.engine.world, this.bodies);
 
   //mouse constraints
-  this.addMouseConstraint();
-
+//   this.addMouseConstraint();
+    this.addKeysEvents()
+    this.addCollisions()
   // run the engine
   this.Engine.run(this.engine);
   requestAnimationFrame(this.update.bind(this));
 };
+Main.prototype.addCollisions = function () {
+  // add mouse control
+  const me = this;
+  this.Events.on(me.engine, 'collisionStart', function(event) {
+    var pairs = event.pairs;
+    console.log(pairs[0]);
+    for (var i = 0, j = pairs.length; i != j; ++i) {
+        var pair = pairs[i];
+
+        if (pair.bodyA === me.ground ) {
+            me.win();
+        } else if (pair.bodyB === me.ground) {
+            me.win();
+        }
+    }
+});
+};
+Main.prototype.win = function () {
+    this.lander.sprite.showFlag();
+    this.lander.sprite.hideReactor();
+    this.lander.sprite.hideStabilizersLeft();
+    this.lander.sprite.hideStabilizersRight();
+    this.removeKeyEvents();
+}
+
+// only for test
 Main.prototype.addMouseConstraint = function () {
   // add mouse control
   var mouse = this.Mouse.create(this.renderer.view),
@@ -78,28 +104,30 @@ Main.prototype.addMouseConstraint = function () {
 Main.prototype.addLander = function () {
   console.log("ADD LANDER");
   const me = this;
- let paramsLander = {
-     physic:{
-        x:400,
-        y:0,
-        width:38,
-        height:76
-     },
-     sprite:{
-        sprite: "landerLunar0000",
-        reactor: { sprite: "mcReactor", x: 1.5, y: 25 },
-        stabilizers: [
-          { sprite: "mcPropulsor", x: -24, y: 7, rotation: 0 },
-          { sprite: "mcPropulsor", x: 24, y: 7, rotation: 180 },
-        ],
-        flag: { sprite: "mcFlag", x: -69, y: -4, rotation: -0 },
-      }
- }
+
+  // exemple : cf JSON.parse(./data/moon.json).lander
+//  let paramsLander = {
+//      physic:{
+//         x:400,
+//         y:0,
+//         width:38,
+//         height:76
+//      },
+//      sprite:{
+//         sprite: "landerLunar0000",
+//         reactor: { sprite: "mcReactor", x: 1.5, y: 25 },
+//         stabilizers: [
+//           { sprite: "mcPropulsor", x: -24, y: 7, rotation: 0 },
+//           { sprite: "mcPropulsor", x: 24, y: 7, rotation: 180 },
+//         ],
+//         flag: { sprite: "mcFlag", x: -69, y: -4, rotation: -0 },
+//       }
+//  }
 
   function PhysicsObject(params) {
     // create the box for lander
     
-    var box = me.Bodies.rectangle(params.x, params.y, params.width, params.height);
+    var box = me.Bodies.rectangle(params.x, params.y, params.width, params.height,{rot:0});
     // adding box to the bodies array
     me.bodies.push(box);
     console.log(box);
@@ -108,8 +136,8 @@ Main.prototype.addLander = function () {
 
   var createLander = function () {
     return {
-      sprite: new Lander(me.stage, paramsLander.sprite),
-      body: new PhysicsObject(paramsLander.physic),
+      sprite: new Lander(me.stage, me.data.lander.sprite),
+      body: new PhysicsObject(me.data.lander.physic),
     };
   };
 
@@ -118,13 +146,25 @@ Main.prototype.addLander = function () {
   this.lander = l;
 };
 Main.prototype.update = function () {
-  // console.log('UPDATE');
-  const me = this;
+
+    const m = this
+    if(this.keyUp && this.keyRight && this.keyLeft){
+
+        if(this.keyUp.isDown){
+            Matter.Body.setVelocity(m.lander.body,{x:m.lander.body.velocity.x,y:(m.lander.body.velocity.y-0.5)})
+          
+        }
+        if(this.keyRight.isDown){
+          Matter.Body.setVelocity(m.lander.body,{x:m.lander.body.velocity.x+0.2,y:(m.lander.body.velocity.y)})
+          Matter.Body.setAngle(m.lander.body, m.lander.body.angle+0.002);
+        }
+        if(this.keyLeft.isDown){
+          Matter.Body.setVelocity(m.lander.body,{x:m.lander.body.velocity.x-0.2,y:(m.lander.body.velocity.y)})
+          Matter.Body.setAngle(m.lander.body, m.lander.body.angle-0.002);
+        }
+    }
+
   
-//   for (var b in me.bunnies) {
-//     me.bunnies[b].sprite.position = me.bunnies[b].body.position;
-//     me.bunnies[b].sprite.rotation = me.bunnies[b].body.angle;
-//   }
     this.lander.sprite.position = this.lander.body.position
     this.lander.sprite.rotation = this.lander.body.angle
     this.lander.sprite.update();
@@ -133,3 +173,55 @@ Main.prototype.update = function () {
   this.renderer.render(this.stage);
   requestAnimationFrame(this.update.bind(this));
 };
+
+
+
+Main.prototype.removeKeyEvents = function () {
+    this.keyUp.unsubscribe();
+    this.keyRight.unsubscribe();
+    this.keyLeft.unsubscribe();
+
+    this.keyUp = null;
+    this.keyRight = null;
+    this.keyLeft = null;
+}
+Main.prototype.addKeysEvents = function () {
+    console.log("adding key Events");
+    this.keyUp = keyboard("ArrowUp");
+    this.keyRight = keyboard("ArrowRight");
+    this.keyLeft = keyboard("ArrowLeft");
+    
+    const me = this;
+  
+    
+    this.keyLeft.press = () => {
+      console.log("keyLeft pressed");
+      me.lander.sprite.showStabilizersLeft();
+      
+    };
+    this.keyLeft.release = () => {
+      console.log("keyLeft Released");
+      me.lander.sprite.hideStabilizersLeft();
+    };
+    this.keyRight.press = () => {
+      console.log("keyRight pressed");
+      me.lander.sprite.showStabilizersRight();
+      
+    };
+    this.keyRight.release = () => {
+      console.log("keyRight Released");
+      me.lander.sprite.hideStabilizersRight();
+    };
+
+    this.keyUp.press = () => {
+      console.log("Up pressed");
+      me.lander.sprite.showReactor()
+      
+    };
+    this.keyUp.release = () => {
+      console.log("Up Released");
+      me.lander.sprite.hideReactor()
+    };
+  
+    
+  }

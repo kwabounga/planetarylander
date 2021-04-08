@@ -1,0 +1,22 @@
+{
+    "lander":{
+        "physic":{
+           "x":400,
+           "y":0,
+           "width":98,
+           "height":38
+        },
+        "sprite":{
+           "sprite": "landerMars0000",
+           "reactor": { "sprite": "mcReactorBig", "x": 1.5, "y": 10 },
+           "stabilizers": [
+             { "sprite": "mcPropulsor", "x": -24, "y": 7, "rotation": 50 },
+             { "sprite": "mcPropulsor", "x": 24, "y": 7, "rotation": 130 }
+           ],
+           "flag": { "sprite": "mcFlag", "x": -35, "y": 15, "rotation": -0 }
+         }
+    },
+    "levels":[
+        {}
+    ]
+}

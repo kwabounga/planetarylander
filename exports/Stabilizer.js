@@ -8,6 +8,7 @@ function Stabilizer(params){
 	this.ticker.speed = 0.25;
     this.gotoAndPlay(0);
     // this.textures
+    this.visible = false;
     console.log(this);
 }
 Stabilizer.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);

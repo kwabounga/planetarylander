@@ -5,7 +5,7 @@ function Flag(params){
     this.anchor.set(0,1)
     this.ticker = PIXI.ticker.shared;
 	this.ticker.speed = 0.25;
-    this.play();
+    this.gotoAndPlay(0);
 }
 Flag.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);
 

@@ -8,9 +8,9 @@ function Lander(stage,params) {
   this.shell ;
   this.flag ;
 
-  this.addShell(this.params.sprite);
   this.addStabilizers(this.params.stabilizers);
   this.addReactor(this.params.reactor);
+  this.addShell(this.params.sprite);
   this.addFlag(this.params.flag);
 //   this.loop = true;
   this.gotoAndPlay(0);
@@ -19,11 +19,11 @@ function Lander(stage,params) {
   const me = this;
   this.interactive = true;
 //   this.dirty = true;
-  this.on('click', ()=>{
-    console.log('click');
-    // this.showFlag()
-    
-})
+//   this.on('click', ()=>{
+//     console.log('click');
+//     // this.showFlag()
+
+//     })
   
 }
 Lander.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);
@@ -47,7 +47,7 @@ Lander.prototype.addFlag = function (params) {
 }
   this.addChild(f);
   
-  f.play();
+//   f.play();
   f.visible = false;
   this.flag = f;
 };
@@ -88,3 +88,40 @@ Lander.prototype.hideFlag = function(){
 Lander.prototype.showFlag = function(){
   this.flag.visible = true;
 }
+// flag Ok
+Lander.prototype.hideReactor = function(){
+  this.reactor.visible = false;
+}
+Lander.prototype.showReactor = function(){
+  this.reactor.visible = true;
+}
+
+
+// flag Ok
+Lander.prototype.hideStabilizersRight = function(){
+    for (let s = 0; s < this.stabilizers.length/2; s++) {
+        const  stab = this.stabilizers[s];
+        stab.visible = false;        
+    }
+    
+  }
+  Lander.prototype.showStabilizersRight= function(){
+    for (let s = 0; s < this.stabilizers.length/2; s++) {
+        const  stab = this.stabilizers[s];
+        stab.visible = true;        
+    }
+  }
+
+  // flag Ok
+Lander.prototype.hideStabilizersLeft = function(){
+    for (let s = this.stabilizers.length/2; s < this.stabilizers.length; s++) {
+        const  stab = this.stabilizers[s];
+        stab.visible = false;        
+    }
+  }
+  Lander.prototype.showStabilizersLeft = function(){
+    for (let s = this.stabilizers.length/2; s < this.stabilizers.length; s++) {
+        const  stab = this.stabilizers[s];
+        stab.visible = true;        
+    }
+  }

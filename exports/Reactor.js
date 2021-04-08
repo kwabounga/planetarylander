@@ -4,7 +4,8 @@ function Reactor(params){
     PIXI.extras.AnimatedSprite.call(this, this.getAnimationLoop(1,14),true);
     
     this.anchor.set(0.5,0);
-    this.play();
+    this.gotoAndPlay(0);
+    this.visible = false;
 
 }
 Reactor.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);

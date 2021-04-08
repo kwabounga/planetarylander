@@ -14,6 +14,7 @@
     <script src="./lib/matter.js"></script>
     <!-- scripts -->
     <script src="./exports/tools.js"></script>
+    <script src="./exports/Keyboard.js"></script>
     <script src="./exports/Flag.js"></script>
     <script src="./exports/Stabilizer.js"></script>
     <script src="./exports/Reactor.js"></script>
@@ -22,7 +23,11 @@
 
     <script>
         function init(){
-            let m = new Main()
+            Tools.ajaxGet("./data/europa.json", (data) => {
+            let d = JSON.parse(data);
+            let main = new Main(d);
+            });
+            
         }
 
     </script>
