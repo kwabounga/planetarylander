@@ -1,31 +1,33 @@
 {
-    "lander":{
-        "physic":{
-           "x":400,
-           "y":0,
-           "width":98,
-           "height":38,
-           "reactorPower": 0.5,
-           "stabilizersPower":0.2,
-           "density":0.001,
-           "frictionAir":0.01,
-           "friction":0.1,
-           "restitution":0.001
-        },
-        "sprite":{
-           "sprite": "landerMars0000",
-           "reactor": { "sprite": "mcReactorBig", "x": 1.5, "y": 10 },
-           "stabilizers": [
-             { "sprite": "mcPropulsor", "x": -24, "y": 7, "rotation": 50 },
-             { "sprite": "mcPropulsor", "x": 24, "y": 7, "rotation": 130 }
-           ],
-           "flag": { "sprite": "mcFlag", "x": -35, "y": 15, "rotation": -0 }
-         }
+  "lander": {
+    "motor": {
+      "reactorPower": 0.5,
+      "stabilizersPower": 0.2,
+      "fuel": 500,
+      "fuelConsumption": 2
     },
-    "environment":{
-      "gravityScale": 0.001 
+    "physic": {
+      "x": 400,
+      "y": 0,
+      "width": 98,
+      "height": 38,
+      "density": 0.01,
+      "frictionAir": 0.01,
+      "friction": 0.1,
+      "restitution": 0.001
     },
-    "levels":[
-        {}
-    ]
+    "sprite": {
+      "sprite": "landerMars0000",
+      "reactor": { "sprite": "mcReactorBig", "x": 1.5, "y": 10 },
+      "stabilizers": [
+        { "sprite": "mcPropulsor", "x": -24, "y": 7, "rotation": 50 },
+        { "sprite": "mcPropulsor", "x": 24, "y": 7, "rotation": 130 }
+      ],
+      "flag": { "sprite": "mcFlag", "x": -35, "y": 15, "rotation": -0 }
+    }
+  },
+  "environment": {
+    "gravityScale": 0.001
+  },
+  "levels": [{}]
 }

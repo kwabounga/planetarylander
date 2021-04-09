@@ -1,33 +1,35 @@
 {
-    "lander":{
-        "physic":{
-           "x":400,
-           "y":0,
-           "width":82,
-           "height":68,
-           "reactorPower": 1.5,
-           "stabilizersPower":0.2,
-           "density":0.2,
-           "frictionAir":0.01,
-           "friction":0.1,
-           "restitution":0.001
-        },
-        "sprite":{
-           "sprite": "landerTitan0000",
-           "reactor": { "sprite": "mcReactorBig", "x": 1.5, "y": 25 },
-           "stabilizers": [
-             { "sprite": "mcPropulsor", "x": -35, "y": 30, "rotation": 0 },
-             { "sprite": "mcPropulsor", "x": -38, "y": 18, "rotation": 0.2 },
-             { "sprite": "mcPropulsor", "x": 35, "y": 30, "rotation": 180 },
-             { "sprite": "mcPropulsor", "x": 38, "y": 18, "rotation": 179.8 }
-           ],
-           "flag": { "sprite": "mcFlag", "x": -69, "y": -4, "rotation": -0 }
-         }
+  "lander": {
+    "motor": {
+      "reactorPower": 1.5,
+      "stabilizersPower": 0.5,
+      "fuel": 500,
+      "fuelConsumption": 2
     },
-    "environment":{
-      "gravityScale": 0.003
+    "physic": {
+      "x": 400,
+      "y": 0,
+      "width": 82,
+      "height": 68,
+      "density": 0.2,
+      "frictionAir": 0.1,
+      "friction": 0.1,
+      "restitution": 0.9
     },
-    "levels":[
-        {}
-    ]
+    "sprite": {
+      "sprite": "landerTitan0000",
+      "reactor": { "sprite": "mcReactorBig", "x": 1.5, "y": 25 },
+      "stabilizers": [
+        { "sprite": "mcPropulsor", "x": -35, "y": 30, "rotation": 0 },
+        { "sprite": "mcPropulsor", "x": -38, "y": 18, "rotation": 0.2 },
+        { "sprite": "mcPropulsor", "x": 35, "y": 30, "rotation": 180 },
+        { "sprite": "mcPropulsor", "x": 38, "y": 18, "rotation": 179.8 }
+      ],
+      "flag": { "sprite": "mcFlag", "x": -69, "y": -4, "rotation": -0 }
+    }
+  },
+  "environment": {
+    "gravityScale": 0.003
+  },
+  "levels": [{}]
 }
