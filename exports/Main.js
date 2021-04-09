@@ -25,21 +25,14 @@ function Main(data) {
     view: this.view,
   });
 
-  //   this.bunnies = [];
  
   this.lander;
   
   this.loadSpriteSheet();
-}
-Main.prototype.addFocusEvents = function(){
-  this.view.addEventListener('focus',(event)=>{
-    console.log('FOCUS');
-  })
-  this.view.addEventListener('blur',(event)=>{
-    console.log('LOOSE FOCUS');
-  })
 
+  this.loopID;
 }
+
 Main.prototype.showCanvas = function(){
   this.view.style="";
   this.loader.style = "display: none;"
@@ -72,19 +65,25 @@ Main.prototype.spriteSheetLoaded = function () {
   // add all of the bodies to the world
   this.World.add(this.engine.world, this.bodies);
 
-  //mouse constraints
-//   this.addMouseConstraint();
-    this.addKeysEvents();
-    this.addCollisions();
+  // mouse constraints
+  // this.addMouseConstraint();
 
+  // controls
+    this.addKeysEvents();
+  // collisions
+    this.addCollisions();
+  // loader to game swapper
     this.showCanvas()
-  // run the engine
-  this.Engine.run(this.engine);
-  requestAnimationFrame(this.update.bind(this));
-  this.addFocusEvents();
+
+  // run the engine  
+  this.loopID = requestAnimationFrame(this.update.bind(this));
+  
 };
+
+
+
 Main.prototype.addCollisions = function () {
-  // add mouse control
+  
   const me = this;
   this.Events.on(me.engine, 'collisionStart', function(event) {
     var pairs = event.pairs;
@@ -170,7 +169,9 @@ Main.prototype.addLander = function () {
   this.lander = l;
 };
 Main.prototype.update = function () {
-
+  // using pixi loop for Matter Engine updating 
+  Matter.Engine.update(this.engine)
+  // console.log("this.update")
     const m = this
     if(this.keyUp && this.keyRight && this.keyLeft){
 
@@ -195,7 +196,7 @@ Main.prototype.update = function () {
 
   // render the container
   this.renderer.render(this.stage);
-  requestAnimationFrame(this.update.bind(this));
+  this.loopID = requestAnimationFrame(this.update.bind(this));
 };
 
 
@@ -211,18 +212,35 @@ Main.prototype.removeKeyEvents = function () {
 }
 Main.prototype.addKeysEvents = function () {
     console.log("adding key Events");
-    this.keyUp = keyboard("ArrowUp");
-    this.keyRight = keyboard("ArrowRight");
-    this.keyLeft = keyboard("ArrowLeft");
+
+    this.keyUp = keyboard("ArrowUp");// propulsion
+    this.keyRight = keyboard("ArrowRight"); // direction
+    this.keyLeft = keyboard("ArrowLeft"); // direction
+    this.keySpace = keyboard(" "); // pause
     
     const me = this;
   
     
+    this.keySpace.release = () => {
+      // console.log("SPACE Released");
+      if(me.isPause){
+        me.loopID = requestAnimationFrame(me.update.bind(me));
+        me.isPause = false;
+        console.log('EXIT PAUSE');
+      } else{
+        console.log(me.engine);
+        cancelAnimationFrame(me.loopID);
+        me.isPause = true;
+        console.log('ENTER PAUSE');
+      }
+      
+    };
+
     this.keyLeft.press = () => {
       console.log("keyLeft pressed");
       me.lander.sprite.showStabilizersLeft();
       
-    };
+    }; 
     this.keyLeft.release = () => {
       console.log("keyLeft Released");
       me.lander.sprite.hideStabilizersLeft();
