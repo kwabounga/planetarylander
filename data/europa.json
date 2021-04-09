@@ -4,7 +4,13 @@
            "x":400,
            "y":0,
            "width":58,
-           "height":68
+           "height":68,
+           "reactorPower": 0.5,
+           "stabilizersPower":0.2,
+           "density":0.01,
+           "frictionAir":0.01,
+           "friction":0.1,
+           "restitution":0.001
         },
         "sprite":{
            "sprite": "landerEuropa0000",
@@ -16,6 +22,9 @@
            "flag": { "sprite": "mcFlag", "x": -60, "y": 5, "rotation": -0 }
          }
     },
+    "environment":{
+        "gravityScale": 0.0005 
+      },
     "levels":[
         {}
     ]

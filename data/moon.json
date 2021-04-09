@@ -4,7 +4,13 @@
            "x":400,
            "y":0,
            "width":38,
-           "height":76
+           "height":76,
+           "reactorPower": 0.1,
+           "stabilizersPower":0.1,
+           "density":0.03,
+           "frictionAir":0.01,
+           "friction":0.1,
+           "restitution":0.1
         },
         "sprite":{
            "sprite": "landerLunar0000",
@@ -15,6 +21,9 @@
            ],
            "flag": { "sprite": "mcFlag", "x": -69, "y": -4, "rotation": -0 }
          }
+    },
+    "environment":{
+      "gravityScale": 0.0001 
     },
     "levels":[
         {}

@@ -10,8 +10,12 @@ const State = (function () {
         this.width = 800;
         this.height = 600;
         this.isMobile = Tools.isMobile();
+        this.isPause = false;
 
-
+        this.keyUp;
+        this.keyLeft;
+        this.keyRight;
+        this.keySpace;
         
        
         // public elements
@@ -19,6 +23,11 @@ const State = (function () {
             width: this.width,
             height: this.height,
             isMobile: this.isMobile,            
+            isPause: this.isPause,            
+            keyUp: this.keyUp,            
+            keyLeft: this.keyLeft,            
+            keyRight: this.keyRight,            
+            keySpace: this.keySpace,            
         };
     }
     

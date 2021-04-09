@@ -38,6 +38,8 @@ function keyboard(value) {
     
     // Detach event listeners
     key.unsubscribe = () => {
+      key.isDown = false;
+      key.isUp = true;
       window.removeEventListener("keydown", downListener);
       window.removeEventListener("keyup", upListener);
     };

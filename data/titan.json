@@ -4,7 +4,13 @@
            "x":400,
            "y":0,
            "width":82,
-           "height":68
+           "height":68,
+           "reactorPower": 1.5,
+           "stabilizersPower":0.2,
+           "density":0.2,
+           "frictionAir":0.01,
+           "friction":0.1,
+           "restitution":0.001
         },
         "sprite":{
            "sprite": "landerTitan0000",
@@ -17,6 +23,9 @@
            ],
            "flag": { "sprite": "mcFlag", "x": -69, "y": -4, "rotation": -0 }
          }
+    },
+    "environment":{
+      "gravityScale": 0.003
     },
     "levels":[
         {}

@@ -4,7 +4,13 @@
            "x":400,
            "y":0,
            "width":98,
-           "height":38
+           "height":38,
+           "reactorPower": 0.5,
+           "stabilizersPower":0.2,
+           "density":0.001,
+           "frictionAir":0.01,
+           "friction":0.1,
+           "restitution":0.001
         },
         "sprite":{
            "sprite": "landerMars0000",
@@ -15,6 +21,9 @@
            ],
            "flag": { "sprite": "mcFlag", "x": -35, "y": 15, "rotation": -0 }
          }
+    },
+    "environment":{
+      "gravityScale": 0.001 
     },
     "levels":[
         {}
