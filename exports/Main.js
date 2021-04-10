@@ -49,6 +49,7 @@ Main.prototype.loadSpriteSheet = function () {
   console.log("LOAD");
   var loader = PIXI.loader;
   loader.add("landersSpriteSheet", "./assets/landers.json");
+  loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
   loader.once("complete", this.spriteSheetLoaded.bind(this));
   loader.load();
 };
@@ -62,10 +63,10 @@ Main.prototype.spriteSheetLoaded = function () {
   this.level.getAllBodiesInThisLevel().forEach(b => {
     this.bodies.push(b)
   });
-
+  this.ui = this.createUi();
 
   this.engine.world.gravity.scale = this.data.environment.gravityScale;
-  
+
   // add all of the bodies to the world
   Matter.World.add(this.engine.world, this.bodies);
 
@@ -77,7 +78,11 @@ Main.prototype.spriteSheetLoaded = function () {
 };
 
 
-
+Main.prototype.createUi = function () {
+  let ui = new Ui(this.data);
+  this.stage.addChild(ui);
+  return ui;
+}
 // only for test
 Main.prototype.addMouseConstraint = function () {
   // add mouse control
@@ -100,6 +105,9 @@ Main.prototype.update = function () {
     // using pixi loop for Matter Engine updating
     Matter.Engine.update(this.engine);
     this.level.update();
+    if(!this.level.isGameOver){
+      this.ui.update();
+  }
     // pixi render the container
     this.renderer.render(this.stage);
   }

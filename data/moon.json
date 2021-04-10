@@ -4,7 +4,7 @@
       "reactorPower": 0.1,
       "stabilizersPower": 0.1,
       "fuel": 500,
-      "fuelConsumption": 2
+      "fuelConsumption": 0.2
     },
     "physic": {
       "x": 400,
@@ -27,7 +27,7 @@
     }
   },
   "environment": {
-    "gravityScale": 0.0001
+    "gravityScale": 0.0003
   },
   "levels": [{}]
 }

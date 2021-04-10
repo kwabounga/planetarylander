@@ -17,6 +17,12 @@ const State = (function () {
         this.keyRight;
         this.keySpace;
         
+        this.game = {
+            speedX:0,
+            speedY:0,
+            fuelMax:500,
+            fuelCurrent:500,
+        }
        
         // public elements
         return {
@@ -28,6 +34,7 @@ const State = (function () {
             keyLeft: this.keyLeft,            
             keyRight: this.keyRight,            
             keySpace: this.keySpace,            
+            game: this.game,            
         };
     }
     

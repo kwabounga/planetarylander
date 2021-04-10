@@ -21,6 +21,7 @@
     <script src="./exports/tools.js"></script>
     <script src="./exports/State.js"></script>
     <script src="./exports/Keyboard.js"></script>
+    <script src="./exports/Ui.js"></script>
     <script src="./exports/Level.js"></script>
     <script src="./exports/Flag.js"></script>
     <script src="./exports/Stabilizer.js"></script>
@@ -32,10 +33,7 @@
         function init(){
             let s = State.getInstance();
             // s.height = Tools.availableSize.height();
-            // s.width = Tools.availableSize.width();
-
-
-            
+            // s.width = Tools.availableSize.width();            
             Tools.ajaxGet(`./data/${Tools.getHash()}.json`, (data) => {
             let d = JSON.parse(data);
             let main = new Main(d);

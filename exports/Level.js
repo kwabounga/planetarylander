@@ -2,8 +2,8 @@ function Level(stage, engine, data) {
   this.engine = engine;
   this.stage = stage;
   this.data = data;
+  this.isGameOver = false;
   // PIXI.Container.call(this);
-
   this.state = State.getInstance();
 
   this.lander;
@@ -20,7 +20,8 @@ function Level(stage, engine, data) {
   // collisions
   this.addCollisions();
 }
-
+// todo: mette tout dans le container et croiser les doigts
+// Level.prototype = Object.create(PIXI.Container.prototype)
 Level.prototype.addCollisions = function () {
   const me = this;
   Matter.Events.on(me.engine, "collisionStart", function (event) {
@@ -45,7 +46,8 @@ Level.prototype.win = function () {
   this.lander.sprite.hideReactor();
   this.lander.sprite.hideStabilizersLeft();
   this.lander.sprite.hideStabilizersRight();
-  // this.lander.body.setVelocity({x:0,y:0})
+  this.isGameOver = true;
+
 };
 Level.prototype.update = function () {
   const m = this;
@@ -55,6 +57,7 @@ Level.prototype.update = function () {
         x: m.lander.body.velocity.x,
         y: m.lander.body.velocity.y - m.data.lander.motor.reactorPower,
       });
+      this.state.game.fuelCurrent -= m.data.lander.motor.fuelConsumption
     }
     if (this.state.keyRight.isDown) {
       Matter.Body.setVelocity(m.lander.body, {
@@ -73,14 +76,18 @@ Level.prototype.update = function () {
       });
       Matter.Body.setAngle(
         m.lander.body,
-        m.lander.body.angle -0.002
+        m.lander.body.angle - 0.002
       );
     }
-  }
+  
+}
+  this.state.game.speedX = m.lander.body.velocity.x;
+  this.state.game.speedY = m.lander.body.velocity.y;
 
   this.lander.sprite.position = this.lander.body.position;
   this.lander.sprite.rotation = this.lander.body.angle;
   this.lander.sprite.update();
+
 };
 
 Level.prototype.addLander = function () {

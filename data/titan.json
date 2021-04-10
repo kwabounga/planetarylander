@@ -1,10 +1,10 @@
 {
   "lander": {
     "motor": {
-      "reactorPower": 1.5,
+      "reactorPower": 1.1,
       "stabilizersPower": 0.5,
       "fuel": 500,
-      "fuelConsumption": 2
+      "fuelConsumption": 0.2
     },
     "physic": {
       "x": 400,
