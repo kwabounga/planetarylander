@@ -14,9 +14,12 @@ function Level(stage, engine, data) {
   this.malus = [];
 
   this.addLander();
+  // todo: gerer les landzones ds les json
   this.addlandZones();
+
   // controls
   this.addKeysEvents();
+
   // collisions
   this.addCollisions();
 }
@@ -40,6 +43,7 @@ Level.prototype.addCollisions = function () {
     }
   });
 };
+
 Level.prototype.win = function () {
   this.removeKeyEvents();
   this.lander.sprite.showFlag();
@@ -47,8 +51,8 @@ Level.prototype.win = function () {
   this.lander.sprite.hideStabilizersLeft();
   this.lander.sprite.hideStabilizersRight();
   this.isGameOver = true;
-
 };
+
 Level.prototype.update = function () {
   const m = this;
   if (this.state.keyUp && this.state.keyRight && this.state.keyLeft) {
@@ -147,6 +151,7 @@ Level.prototype.addLander = function () {
   console.log(l.sprite);
   this.lander = l;
 };
+
 Level.prototype.getLander = function () {
   return this.lander;
 };
@@ -160,21 +165,22 @@ Level.prototype.addlandZones = function () {
 Level.prototype.getLandZones = function () {
   return this.landZones;
 };
+
 Level.prototype.getAllBodiesInThisLevel = function () {
   let lz = this.getLandZones();
   let l = this.getLander().body;
-
   return lz.concat(l).flat();
 };
+
 
 Level.prototype.removeKeyEvents = function () {
   this.keyUp.unsubscribe();
   this.keyRight.unsubscribe();
   this.keyLeft.unsubscribe();
-
-  // this.keyUp = null;
-  // this.keyRight = null;
-  // this.keyLeft = null;
+// toto : synchro with state
+//   this.keyUp = null;
+//   this.keyRight = null;
+//   this.keyLeft = null;
 };
 Level.prototype.addKeysEvents = function () {
   console.log("adding key Events");

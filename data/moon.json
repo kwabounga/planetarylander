@@ -1,6 +1,7 @@
 {
   "lander": {
     "motor": {
+      "shell": 100,
       "reactorPower": 0.1,
       "stabilizersPower": 0.1,
       "fuel": 500,
