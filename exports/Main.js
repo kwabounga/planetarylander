@@ -48,6 +48,7 @@ Main.prototype.showLoader = function () {
 Main.prototype.loadSpriteSheet = function () {
   console.log("LOAD");
   var loader = PIXI.loader;
+  loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
   loader.add("landersSpriteSheet", "./assets/landers.json");
   loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
   loader.once("complete", this.spriteSheetLoaded.bind(this));
@@ -56,13 +57,22 @@ Main.prototype.loadSpriteSheet = function () {
 
 Main.prototype.spriteSheetLoaded = function () {
   console.log("LOADED");
-
+  const me = this;
 
   // creation du niveau et ajout des elements dans le moteur
-  this.level = new Level(this.stage,this.engine, this.data);  
-  this.level.getAllBodiesInThisLevel().forEach(b => {
-    this.bodies.push(b)
-  });
+  this.level = new Level(this.stage,this.engine, this.data, ()=>{
+    me.level.getAllBodiesInThisLevel().forEach(b => {
+      me.bodies.push(b)
+    });
+    me.initAfterLoadingTerrain()
+  });  
+  
+  
+};
+
+
+Main.prototype.initAfterLoadingTerrain = function () {
+  console.log('initAfterLoadingTerrain')
   this.ui = this.createUi();
 
   this.engine.world.gravity.scale = this.data.environment.gravityScale;
@@ -72,12 +82,10 @@ Main.prototype.spriteSheetLoaded = function () {
 
   // loader to game swapper
   this.showCanvas();
-
+  this.addMouseConstraint()
   // run the engine
   this.loopID = requestAnimationFrame(this.update.bind(this));
-};
-
-
+}
 Main.prototype.createUi = function () {
   let ui = new Ui(this.data);
   this.stage.addChild(ui);

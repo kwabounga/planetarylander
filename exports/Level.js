@@ -1,4 +1,4 @@
-function Level(stage, engine, data) {
+function Level(stage, engine, data, callBack = null) {
   this.engine = engine;
   this.stage = stage;
   this.data = data;
@@ -12,7 +12,31 @@ function Level(stage, engine, data) {
   this.stars = [];
   this.bonus = [];
   this.malus = [];
+  this.callBack = callBack;
+  //   this.addLander();
+  //   // todo: gerer les landzones ds les json
+  //   this.addlandZones();
 
+  //   // controls
+  //   this.addKeysEvents();
+
+  //   // collisions
+  //   this.addCollisions();
+  this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
+}
+Level.prototype.loadTerrain = function (levelParams) {
+  const me = this;
+  Tools.ajaxGet(levelParams.terrain, (data) => {
+    // let d = JSON.parse(data);
+    me.addTerrain(data);
+    if (me.callBack) {
+        me.init();
+        me.callBack();
+      }
+  });
+};
+Level.prototype.init = function () {
+  console.log(this.terrain);
   this.addLander();
   // todo: gerer les landzones ds les json
   this.addlandZones();
@@ -22,7 +46,7 @@ function Level(stage, engine, data) {
 
   // collisions
   this.addCollisions();
-}
+};
 // todo: mette tout dans le container et croiser les doigts
 // Level.prototype = Object.create(PIXI.Container.prototype)
 Level.prototype.addCollisions = function () {
@@ -61,39 +85,69 @@ Level.prototype.update = function () {
         x: m.lander.body.velocity.x,
         y: m.lander.body.velocity.y - m.data.lander.motor.reactorPower,
       });
-      this.state.game.fuelCurrent -= m.data.lander.motor.fuelConsumption
+      this.state.game.fuelCurrent -= m.data.lander.motor.fuelConsumption;
     }
     if (this.state.keyRight.isDown) {
       Matter.Body.setVelocity(m.lander.body, {
         x: m.lander.body.velocity.x + m.data.lander.motor.stabilizersPower,
         y: m.lander.body.velocity.y,
       });
-      Matter.Body.setAngle(
-        m.lander.body,
-        m.lander.body.angle + 0.002
-      );
+      Matter.Body.setAngle(m.lander.body, m.lander.body.angle + 0.002);
     }
     if (this.state.keyLeft.isDown) {
       Matter.Body.setVelocity(m.lander.body, {
         x: m.lander.body.velocity.x - m.data.lander.motor.stabilizersPower,
         y: m.lander.body.velocity.y,
       });
-      Matter.Body.setAngle(
-        m.lander.body,
-        m.lander.body.angle - 0.002
-      );
+      Matter.Body.setAngle(m.lander.body, m.lander.body.angle - 0.002);
     }
-  
-}
+  }
   this.state.game.speedX = m.lander.body.velocity.x;
   this.state.game.speedY = m.lander.body.velocity.y;
 
   this.lander.sprite.position = this.lander.body.position;
   this.lander.sprite.rotation = this.lander.body.angle;
   this.lander.sprite.update();
-
 };
-
+Level.prototype.addTerrain = function (data) {
+  function PhysicsObject(data) {
+    console.log("loadTerrain:", data);
+    let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
+    var select = function (root, selector) {
+      return Array.prototype.slice.call(root.querySelectorAll(selector));
+    };
+    let paths = select(root, "path");
+    let vertexSets = paths.map(function (path) {
+      return Matter.Svg.pathToVertices(path, 5);
+    });
+    let terrain = Matter.Bodies.fromVertices(
+      350,
+      1290,
+      vertexSets,
+      {
+        isStatic: true,
+        render: {
+            fillStyle: '#060a19',
+            strokeStyle: '#060a19',
+            lineWidth: 1
+        }
+      },
+      false
+    );
+    return terrain;
+  }
+  console.log("ADD Terrain");
+  const me = this;
+  var createTerrain = function (data) {
+    return {
+      sprite: new PIXI.Sprite( PIXI.Texture.from('terrain')),
+      body: new PhysicsObject(data),
+    };
+  };
+  me.terrain = createTerrain(data)
+  this.stage.addChild(me.terrain.sprite)
+  
+};
 Level.prototype.addLander = function () {
   console.log("ADD LANDER");
   const me = this;
@@ -169,18 +223,19 @@ Level.prototype.getLandZones = function () {
 Level.prototype.getAllBodiesInThisLevel = function () {
   let lz = this.getLandZones();
   let l = this.getLander().body;
-  return lz.concat(l).flat();
+  let t = this.terrain.body;
+  console.log('TErain Physic:',this.terrain.body)
+  return lz.concat(l).concat(t).flat();
 };
-
 
 Level.prototype.removeKeyEvents = function () {
   this.keyUp.unsubscribe();
   this.keyRight.unsubscribe();
   this.keyLeft.unsubscribe();
-// toto : synchro with state
-//   this.keyUp = null;
-//   this.keyRight = null;
-//   this.keyLeft = null;
+  // toto : synchro with state
+  //   this.keyUp = null;
+  //   this.keyRight = null;
+  //   this.keyLeft = null;
 };
 Level.prototype.addKeysEvents = function () {
   console.log("adding key Events");

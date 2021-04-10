@@ -18,6 +18,7 @@ const State = (function () {
         this.keySpace;
         
         this.game = {
+            currentLevel:0,
             speedX:0,
             speedY:0,
             fuelMax:500,

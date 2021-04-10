@@ -30,5 +30,5 @@
   "environment": {
     "gravityScale": 0.001
   },
-  "levels": [{}]
+  "levels": [{"terrain":"./assets/levels/level_01.svg"}]
 }
