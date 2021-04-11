@@ -11,7 +11,7 @@ const State = (function () {
         this.height = 600;
         this.isMobile = Tools.isMobile();
         this.isPause = false;
-        this.isDebug = false;
+        this.isDebug = true;
 
         this.keyUp;
         this.keyLeft;
@@ -25,7 +25,11 @@ const State = (function () {
             fuelMax:500,
             fuelCurrent:500,
         }
-       
+        this.log = function(...arg){
+            if(instance.isDebug){
+                console.log(...arg)
+            }
+        }
         // public elements
         return {
             width: this.width,
@@ -38,6 +42,7 @@ const State = (function () {
             keyRight: this.keyRight,            
             keySpace: this.keySpace,            
             game: this.game,            
+            log: this.log,            
         };
     }
     

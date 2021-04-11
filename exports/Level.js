@@ -36,7 +36,7 @@ Level.prototype.loadTerrain = function (levelParams) {
   });
 };
 Level.prototype.init = function () {
-  console.log(this.terrain);
+  this.state.log(this.terrain);
   this.addLander();
   // todo: gerer les landzones ds les json
   this.addlandZones();
@@ -53,7 +53,7 @@ Level.prototype.addCollisions = function () {
   const me = this;
   Matter.Events.on(me.engine, "collisionStart", function (event) {
     var pairs = event.pairs;
-    console.log(pairs[0]);
+    me.state.log(pairs[0]);
     for (var i = 0, j = pairs.length; i != j; ++i) {
       var pair = pairs[i];
 
@@ -125,7 +125,7 @@ Level.prototype.addTerrain = function (data,centerOfMass) {
     let vertexSets = paths.map(function (path) {
         return Matter.Svg.pathToVertices(path, 5);
     });
-    console.log("vertexSets:", vertexSets);
+    me.state.log("vertexSets:", vertexSets);
     let terrain = Matter.Bodies.fromVertices(
         centerOfMass.x,
         centerOfMass.y,
@@ -144,7 +144,7 @@ Level.prototype.addTerrain = function (data,centerOfMass) {
     let wireFrame = me.wireFrameFromVertex(360, 1290,vertexSets);
     return {terrain,wireFrame};
   }
-  console.log("ADD Terrain");
+  this.state.log("ADD Terrain");
   var createTerrain = function (data) {
       let b = new PhysicsObject(data);
     //   me.stage.addChild(b.wireFrame)
@@ -162,24 +162,42 @@ Level.prototype.addTerrain = function (data,centerOfMass) {
   
   
 };
-Level.prototype.wireFrameFromVertex = function (x,y,vertexSets, color="#86f11c") {
+Level.prototype.wireFrameFromVertex = function (x,y,vertexSets,centered = false , color="#86f11c") {
     let vSet = vertexSets.flat();
     var wireFrame = new PIXI.Graphics();
     wireFrame.lineStyle(1, color.replace("#", "0x"),1 );
     wireFrame.moveTo( vSet[0].x, vSet[0].y );
-    vSet.slice().reverse().forEach(v => {
+    // wireFrame.moveTo( 0, 0 );
+    vSet.forEach(v => {
         wireFrame.lineTo( v.x, v.y);
     });
     wireFrame.lineTo( vSet[0].x, vSet[0].y );
-    wireFrame.lineTo( x, y );
-    // wireFrame.lineTo( vSet[0].x, vSet[0].y );
+    // wireFrame.lineTo( x, y );
+    // wireFrame.lineTo( 0, 0 );
+    wireFrame.lineTo( vSet[1].x, vSet[1].y );
     wireFrame.endFill();
     // wireFrame.pivot = {};
-    // wireFrame.pivot = {x:(0),y:(wireFrame.height/2)}
+    if(centered){
+        let sizeW = {x:Infinity,y:-Infinity};
+        let sizeH = {x:Infinity,y:-Infinity};
+
+        vSet.map((v)=>{
+            // width
+            sizeW.x = Math.min(sizeW.x,v.x)
+            sizeW.y = Math.max(sizeW.y,v.x)
+            // height
+            sizeH.x = Math.min(sizeH.x,v.y)
+            sizeH.y = Math.max(sizeH.y,v.y)
+        })
+        let width = sizeW.y//-sizeW.x;
+        let height = sizeH.y//-sizeH.x;
+        this.state.log('CENTERIZATION:', sizeW,sizeH, width, height)
+        wireFrame.pivot = {x:(width/2)+sizeW.x,y:(height/2)+sizeH.x}
+    } 
     return wireFrame
 }
 Level.prototype.addLander = function () {
-  console.log("ADD LANDER");
+    this.state.log("ADD LANDER");
   const me = this;
 
   // exemple : cf JSON.parse(./data/moon.json).lander
@@ -224,7 +242,7 @@ Level.prototype.addLander = function () {
         }
         }, false
       );
-      wireFrame = me.wireFrameFromVertex(params.x, params.y, params.vertices, "#08fff2");
+      wireFrame = me.wireFrameFromVertex(params.x, params.y, params.vertices, true, "#08fff2");
  } else{
     box = Matter.Bodies.rectangle(
         params.x,
@@ -242,12 +260,12 @@ Level.prototype.addLander = function () {
       );
       // vertices from rectangle
       let vertexSet = [{x:params.x,y:params.y},{x:params.width,y:params.y},{x:params.width,y:params.height},{x:params.x,y:params.height},{x:params.x,y:params.y}]
-      wireFrame = me.wireFrameFromVertex(params.x, params.y, vertexSet, "#08fff2");
+      wireFrame = me.wireFrameFromVertex(params.x, params.y, vertexSet,true, "#08fff2");
  }
     
     // adding box to the bodies array
     //me.bodies.push(box);
-    console.log('LANDER BODY',box);
+    me.state.log('LANDER BODY',box);
     return {box, wireFrame};
   }
 
@@ -261,7 +279,7 @@ Level.prototype.addLander = function () {
   };
   let l = createLander();
   //me.stage.addChild(l.body)
-  console.log(l.sprite);
+  this.state.log(l.sprite);
   this.lander = l;
   if(me.state.isDebug){
     this.stage.addChild(this.lander.wireFrame)
@@ -286,7 +304,7 @@ Level.prototype.getAllBodiesInThisLevel = function () {
   let lz = this.getLandZones();
   let l = this.getLander().body;
   let t = this.terrain.body;
-  console.log('TErain Physic:',this.terrain.body)
+  this.state.log('Terrain Physic:',this.terrain.body)
   return lz.concat(l).concat(t).flat();
 };
 
@@ -300,7 +318,7 @@ Level.prototype.removeKeyEvents = function () {
   //   this.keyLeft = null;
 };
 Level.prototype.addKeysEvents = function () {
-  console.log("adding key Events");
+    this.state.log("adding key Events");
 
   this.keyUp = keyboard("ArrowUp"); // propulsion
   this.keyRight = keyboard("ArrowRight"); // direction
@@ -319,38 +337,38 @@ Level.prototype.addKeysEvents = function () {
     if (me.state.isPause) {
       // me.loopID = requestAnimationFrame(me.update.bind(me));
       me.state.isPause = false;
-      console.log("EXIT PAUSE");
+      me.state.log("EXIT PAUSE");
     } else {
-      console.log(me.engine);
+       // this.state.log(me.engine);
       // cancelAnimationFrame(me.loopID);
       me.state.isPause = true;
-      console.log("ENTER PAUSE");
+      me.state.log("ENTER PAUSE");
     }
   };
 
   this.keyLeft.press = () => {
-    console.log("keyLeft pressed");
+    me.state.log("keyLeft pressed");
     me.lander.sprite.showStabilizersLeft();
   };
   this.keyLeft.release = () => {
-    console.log("keyLeft Released");
+    me.state.log("keyLeft Released");
     me.lander.sprite.hideStabilizersLeft();
   };
   this.keyRight.press = () => {
-    console.log("keyRight pressed");
+    me.state.log("keyRight pressed");
     me.lander.sprite.showStabilizersRight();
   };
   this.keyRight.release = () => {
-    console.log("keyRight Released");
+    me.state.log("keyRight Released");
     me.lander.sprite.hideStabilizersRight();
   };
 
   this.keyUp.press = () => {
-    console.log("Up pressed");
+    me.state.log("Up pressed");
     me.lander.sprite.showReactor();
   };
   this.keyUp.release = () => {
-    console.log("Up Released");
+    me.state.log("Up Released");
     me.lander.sprite.hideReactor();
   };
 };
