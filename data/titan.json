@@ -13,8 +13,8 @@
       "width": 82,
       "height": 68,
       "density": 0.2,
-      "frictionAir": 0.1,
-      "friction": 0.1,
+      "frictionAir": 0.08,
+      "friction": 0.01,
       "restitution": 0.9,
       "vertices": [
         [ { "x":96, "y":81 }, { "x":93, "y":59 }, { "x":59, "y":5 }, { "x":39, "y":5 }, { "x":6, "y":60 }, { "x":2, "y":81 } ]
