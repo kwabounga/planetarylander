@@ -28,7 +28,7 @@ Level.prototype.loadTerrain = function (levelParams) {
   const me = this;
   Tools.ajaxGet(levelParams.terrain, (data) => {
     // let d = JSON.parse(data);
-    me.addTerrain(data);
+    me.addTerrain(data,levelParams.centerOfMass);
     if (me.callBack) {
         me.init();
         me.callBack();
@@ -107,9 +107,13 @@ Level.prototype.update = function () {
 
   this.lander.sprite.position = this.lander.body.position;
   this.lander.sprite.rotation = this.lander.body.angle;
+  if(this.state.isDebug){
+    this.lander.wireFrame.position = this.lander.body.position;
+    this.lander.wireFrame.rotation = this.lander.body.angle; 
+}
   this.lander.sprite.update();
 };
-Level.prototype.addTerrain = function (data) {
+Level.prototype.addTerrain = function (data,centerOfMass) {
   const me = this;
   function PhysicsObject(data) {
     // console.log("loadTerrain:", data);
@@ -123,8 +127,8 @@ Level.prototype.addTerrain = function (data) {
     });
     console.log("vertexSets:", vertexSets);
     let terrain = Matter.Bodies.fromVertices(
-      360,
-      1290,
+        centerOfMass.x,
+        centerOfMass.y,
       vertexSets,
       {
         isStatic: true,
@@ -158,15 +162,20 @@ Level.prototype.addTerrain = function (data) {
   
   
 };
-Level.prototype.wireFrameFromVertex = function (x,y,vertexSets) {
+Level.prototype.wireFrameFromVertex = function (x,y,vertexSets, color="#86f11c") {
     let vSet = vertexSets.flat();
     var wireFrame = new PIXI.Graphics();
-    wireFrame.lineStyle(1, "#86f11c".replace("#", "0x"),1 );
-    wireFrame.moveTo( x, y );
-    vSet.forEach(v => {
+    wireFrame.lineStyle(1, color.replace("#", "0x"),1 );
+    wireFrame.moveTo( vSet[0].x, vSet[0].y );
+    vSet.slice().reverse().forEach(v => {
         wireFrame.lineTo( v.x, v.y);
     });
+    wireFrame.lineTo( vSet[0].x, vSet[0].y );
+    wireFrame.lineTo( x, y );
+    // wireFrame.lineTo( vSet[0].x, vSet[0].y );
     wireFrame.endFill();
+    // wireFrame.pivot = {};
+    // wireFrame.pivot = {x:(0),y:(wireFrame.height/2)}
     return wireFrame
 }
 Level.prototype.addLander = function () {
@@ -215,7 +224,7 @@ Level.prototype.addLander = function () {
         }
         }, false
       );
-      wireFrame = me.wireFrameFromVertex(params.x, params.y, params.vertices);
+      wireFrame = me.wireFrameFromVertex(params.x, params.y, params.vertices, "#08fff2");
  } else{
     box = Matter.Bodies.rectangle(
         params.x,
@@ -233,7 +242,7 @@ Level.prototype.addLander = function () {
       );
       // vertices from rectangle
       let vertexSet = [{x:params.x,y:params.y},{x:params.width,y:params.y},{x:params.width,y:params.height},{x:params.x,y:params.height},{x:params.x,y:params.y}]
-      wireFrame = me.wireFrameFromVertex(params.x, params.y, vertexSet);
+      wireFrame = me.wireFrameFromVertex(params.x, params.y, vertexSet, "#08fff2");
  }
     
     // adding box to the bodies array

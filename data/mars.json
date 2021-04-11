@@ -36,6 +36,7 @@
   "environment": {
     "gravityScale": 0.001
   },
-  "levels": [{"terrain":"./assets/levels/svg/level_01.svg","sprite":"./assets/levels/png/level_01.png"}]
+  "levels": [{"terrain":"./assets/levels/svg/level_01.svg","sprite":"./assets/levels/png/level_01.png","centerOfMass":{"x":360,"y":1290}}]
+
 
 }
