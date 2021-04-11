@@ -15,7 +15,13 @@
       "density": 0.01,
       "frictionAir": 0.01,
       "friction": 0.1,
-      "restitution": 0.001
+      "restitution": 0.001,
+      "vertices": [
+        [ { "x":125, "y":27 }, { "x":117, "y":19 }, { "x":103, "y":10 }, { "x":80, "y":11 }, { "x":80, "y":19 }, { "x":120, "y":40 } ],
+        [ { "x":20, "y":24 }, { "x":25, "y":36 }, { "x":80, "y":19 }, { "x":32, "y":19 }, { "x":24, "y":20 } ],
+        [ { "x":32, "y":12 }, { "x":32, "y":19 }, { "x":80, "y":19 }, { "x":51, "y":3 }, { "x":42, "y":4 } ],
+        [ { "x":25, "y":36 }, { "x":11, "y":57 }, { "x":130, "y":57 }, { "x":120, "y":40 }, { "x":80, "y":19 } ]
+      ]
     },
     "sprite": {
       "sprite": "landerMars0000",
@@ -30,5 +36,6 @@
   "environment": {
     "gravityScale": 0.001
   },
-  "levels": [{"terrain":"./assets/levels/level_01.svg"}]
+  "levels": [{"terrain":"./assets/levels/svg/level_01.svg","sprite":"./assets/levels/png/level_01.png"}]
+
 }

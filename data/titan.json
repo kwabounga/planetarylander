@@ -15,7 +15,11 @@
       "density": 0.2,
       "frictionAir": 0.1,
       "friction": 0.1,
-      "restitution": 0.9
+      "restitution": 0.9,
+      "vertices": [
+        [ { "x":50, "y":1 }, { "x":39, "y":5 }, { "x":6, "y":60 }, { "x":2, "y":81 }, { "x":93, "y":59 }, { "x":59, "y":5 } ],
+        [ { "x":96, "y":81 }, { "x":93, "y":59 }, { "x":2, "y":81 } ]
+      ]
     },
     "sprite": {
       "sprite": "landerTitan0000",
@@ -32,5 +36,6 @@
   "environment": {
     "gravityScale": 0.003
   },
-  "levels": [{"terrain":"./assets/levels/level_01.svg"}]
+  "levels": [{"terrain":"./assets/levels/svg/level_01.svg","sprite":"./assets/levels/png/level_01.png"}]
+
 }

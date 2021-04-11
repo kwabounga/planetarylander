@@ -15,7 +15,10 @@
       "density": 0.03,
       "frictionAir": 0.01,
       "friction": 0.1,
-      "restitution": 0.1
+      "restitution": 0.1,
+      "vertices": [
+        [ { "x":67, "y":81 }, { "x":69, "y":34 }, { "x":46, "y":7 }, { "x":23, "y":7 }, { "x":9, "y":51 }, { "x":9, "y":81 } ]
+      ]
     },
     "sprite": {
       "sprite": "landerLunar0000",

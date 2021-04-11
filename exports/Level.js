@@ -111,17 +111,18 @@ Level.prototype.update = function () {
 };
 Level.prototype.addTerrain = function (data) {
   function PhysicsObject(data) {
-    console.log("loadTerrain:", data);
+    // console.log("loadTerrain:", data);
     let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
     var select = function (root, selector) {
-      return Array.prototype.slice.call(root.querySelectorAll(selector));
+        return Array.prototype.slice.call(root.querySelectorAll(selector));
     };
     let paths = select(root, "path");
     let vertexSets = paths.map(function (path) {
-      return Matter.Svg.pathToVertices(path, 5);
+        return Matter.Svg.pathToVertices(path, 5);
     });
+    console.log("vertexSets:", vertexSets);
     let terrain = Matter.Bodies.fromVertices(
-      350,
+      360,
       1290,
       vertexSets,
       {
@@ -172,25 +173,47 @@ Level.prototype.addLander = function () {
   //  }
 
   function PhysicsObject(params) {
+      let box;
     // create the box for lander
-
-    var box = Matter.Bodies.rectangle(
-      params.x,
-      params.y,
-      params.width,
-      params.height,
-      {
-        rot: 0,
-
-        density: params.density,
-        frictionAir: params.frictionAir,
-        friction: params.friction,
-        restitution: params.restitution,
-      }
-    );
+ if(params.vertices){
+    box = Matter.Bodies.fromVertices(
+        params.x,
+        params.y,
+        params.vertices,
+        {
+          rot: 0,
+  
+          density: params.density,
+          frictionAir: params.frictionAir,
+          friction: params.friction,
+          restitution: params.restitution,
+          render: {
+            fillStyle: '#f19648',
+            strokeStyle: '#f19648',
+            lineWidth: 1
+        }
+        }, false
+      );
+ } else{
+    box = Matter.Bodies.rectangle(
+        params.x,
+        params.y,
+        params.width,
+        params.height,
+        {
+          rot: 0,
+  
+          density: params.density,
+          frictionAir: params.frictionAir,
+          friction: params.friction,
+          restitution: params.restitution,
+        }
+      );
+ }
+    
     // adding box to the bodies array
     //me.bodies.push(box);
-    console.log(box);
+    console.log('LANDER BODY',box);
     return box;
   }
 
@@ -200,8 +223,8 @@ Level.prototype.addLander = function () {
       body: new PhysicsObject(me.data.lander.physic),
     };
   };
-
   let l = createLander();
+  //me.stage.addChild(l.body)
   console.log(l.sprite);
   this.lander = l;
 };

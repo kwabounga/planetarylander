@@ -15,7 +15,11 @@
       "density": 0.1,
       "frictionAir": 0.01,
       "friction": 0.1,
-      "restitution": 0.001
+      "restitution": 0.001,
+      "vertices": [
+        [ { "x":44, "y":2 }, { "x":42, "y":26 }, { "x":74, "y":26 }, { "x":71, "y":2 } ],
+        [ { "x":7, "y":95 }, { "x":108, "y":95 }, { "x":87, "y":38 }, { "x":74, "y":26 }, { "x":42, "y":26 }, { "x":30, "y":38 } ]
+    ]
     },
     "sprite": {
       "sprite": "landerEuropa0000",
@@ -30,5 +34,6 @@
   "environment": {
     "gravityScale": 0.0005
   },
-  "levels": [{"terrain":"./assets/levels/level_01.svg"}]
+  "levels": [{"terrain":"./assets/levels/svg/level_01.svg","sprite":"./assets/levels/png/level_01.png"}]
+
 }

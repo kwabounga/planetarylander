@@ -99,6 +99,7 @@ Main.prototype.addMouseConstraint = function () {
       mouse: mouse,
       constraint: {
         stiffness: 0.2,
+        angularStiffness: 0,
         render: {
           visible: false,
         },

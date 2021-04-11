@@ -107,3 +107,7 @@ dist
 *.fla
 *.psd
 /src_assets/*
+assets/lander_europe.png
+assets/lander_mars.png
+assets/lander_moon.png
+assets/lander_titan.png
