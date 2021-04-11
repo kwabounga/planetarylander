@@ -1,12 +1,12 @@
 /**
- * 
+ *
  * @param {PIXI.Container} stage the stage
  * @param {Matter.Engine} engine the physic engine
  * @param {Object} data from json
- * @param {Function} callBack [optional] 
+ * @param {Function} callBack [optional]
  */
 function Level(stage, engine, data, callBack = null) {
-  // PIXI.Container.call(this);
+  PIXI.Container.call(this);
   this.engine = engine;
   this.stage = stage;
   this.data = data;
@@ -21,11 +21,14 @@ function Level(stage, engine, data, callBack = null) {
   this.malus = [];
   this.callBack = callBack;
 
-  
+  this.stage.addChild(this);
   // TODO: gerer les landzones ds les json
-  
+
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
+
+// todo: mette tout dans le container et croiser les doigts
+Level.prototype = Object.create(PIXI.Container.prototype);
 
 /**
  * load the current terrain (svg) then init and launch callback if any
@@ -35,11 +38,11 @@ Level.prototype.loadTerrain = function (levelParams) {
   const me = this;
   Tools.ajaxGet(levelParams.terrain, (data) => {
     // let d = JSON.parse(data);
-    me.addTerrain(data,levelParams.centerOfMass);
+    me.addTerrain(data, levelParams.centerOfMass);
     if (me.callBack) {
-        me.init();
-        me.callBack();
-      }
+      me.init();
+      me.callBack();
+    }
   });
 };
 
@@ -58,10 +61,6 @@ Level.prototype.init = function () {
   // collisions
   this.addCollisions();
 };
-
-// todo: mette tout dans le container et croiser les doigts 
-// Level.prototype = Object.create(PIXI.Container.prototype)
-
 
 /**
  * hitTest for landing zones ..see for stars  / bonus / malus here ?
@@ -86,7 +85,7 @@ Level.prototype.addCollisions = function () {
 };
 
 /**
- * win 
+ * win
  */
 Level.prototype.win = function () {
   // TODO: make condition for win or loose before call win
@@ -104,38 +103,36 @@ Level.prototype.win = function () {
 Level.prototype.update = function () {
   const m = this;
 
-
   if (this.state.keyUp && this.state.keyRight && this.state.keyLeft) {
     if (this.state.keyUp.isDown) {
-      let landerRot = m.lander.body.angle*180/Math.PI;
-      let velY = (-m.data.lander.motor.reactorPower) * Math.cos(landerRot * Math.PI / 180);
-      let velX = (-m.data.lander.motor.reactorPower) * Math.sin(landerRot * Math.PI / 180)*-1;	
+      let landerRot = (m.lander.body.angle * 180) / Math.PI;
+      let velY =
+        -m.data.lander.motor.reactorPower *
+        Math.cos((landerRot * Math.PI) / 180);
+      let velX =
+        -m.data.lander.motor.reactorPower *
+        Math.sin((landerRot * Math.PI) / 180) *
+        -1;
       console.log(landerRot, velY, velX);
-    
-      // Matter.Body.setVelocity(m.lander.body, {
-      //   x: m.lander.body.velocity.x,
-      //   y: m.lander.body.velocity.y - m.data.lander.motor.reactorPower,
-      // });
-      Matter.Body.applyForce(m.lander.body, {x:m.lander.body.position.x,y:m.lander.body.position.y}, {x:velX/200,y:velY/200});
+
+      Matter.Body.applyForce(
+        m.lander.body,
+        { x: m.lander.body.position.x, y: m.lander.body.position.y },
+        { x: velX / 200, y: velY / 200 }
+      );
       this.state.game.fuelCurrent -= m.data.lander.motor.fuelConsumption;
     }
     if (this.state.keyRight.isDown) {
-      // Matter.Body.setVelocity(m.lander.body, {
-      //   x: m.lander.body.velocity.x + m.data.lander.motor.stabilizersPower,
-      //   y: m.lander.body.velocity.y,
-      // });
-      // Matter.Body.rotate(m.lander.body,0.002)
-      Matter.Body.setAngularVelocity(m.lander.body, m.lander.body.angularVelocity + m.data.lander.motor.stabilizersPower);
-      // Matter.Body.setAngle(m.lander.body, m.lander.body.angle + 0.002);
+      Matter.Body.setAngularVelocity(
+        m.lander.body,
+        m.lander.body.angularVelocity + m.data.lander.motor.stabilizersPower
+      );
     }
     if (this.state.keyLeft.isDown) {
-      // Matter.Body.setVelocity(m.lander.body, {
-      //   x: m.lander.body.velocity.x - m.data.lander.motor.stabilizersPower,
-      //   y: m.lander.body.velocity.y,
-      // });
-      // Matter.Body.rotate(m.lander.body,-0.002)
-      Matter.Body.setAngularVelocity(m.lander.body, m.lander.body.angularVelocity - m.data.lander.motor.stabilizersPower);
-      // Matter.Body.setAngle(m.lander.body, m.lander.body.angle - 0.002);
+      Matter.Body.setAngularVelocity(
+        m.lander.body,
+        m.lander.body.angularVelocity - m.data.lander.motor.stabilizersPower
+      );
     }
   }
   this.state.game.speedX = m.lander.body.velocity.x;
@@ -143,120 +140,126 @@ Level.prototype.update = function () {
 
   this.lander.sprite.position = this.lander.body.position;
   this.lander.sprite.rotation = this.lander.body.angle;
-  if(this.state.isDebug){
+  if (this.state.isDebug) {
     this.lander.wireFrame.position = this.lander.body.position;
-    this.lander.wireFrame.rotation = this.lander.body.angle; 
-}
+    this.lander.wireFrame.rotation = this.lander.body.angle;
+  }
   this.lander.sprite.update();
 };
 
 /**
- * create, set and add terrain 
+ * create, set and add terrain
  * @param {SVG} data svg terrain raw data
  * @param {Point} centerOfMass  center of mass position point
  */
-Level.prototype.addTerrain = function (data,centerOfMass) {
+Level.prototype.addTerrain = function (data, centerOfMass) {
   const me = this;
   // create the physic object + wireframe
   function PhysicsObject(data) {
     // parsing svg object
     let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
     var select = function (root, selector) {
-        return Array.prototype.slice.call(root.querySelectorAll(selector));
+      return Array.prototype.slice.call(root.querySelectorAll(selector));
     };
     let paths = select(root, "path");
-    // converting svg path to vertices set 
+    // converting svg path to vertices set
     let vertexSets = paths.map(function (path) {
-        return Matter.Svg.pathToVertices(path, 5);
+      return Matter.Svg.pathToVertices(path, 5);
     });
     me.state.log("vertexSets:", vertexSets);
 
     // creation of the physic object
     let terrain = Matter.Bodies.fromVertices(
-        centerOfMass.x,
-        centerOfMass.y,
+      centerOfMass.x,
+      centerOfMass.y,
       vertexSets,
       {
         isStatic: true,
         render: {
-            fillStyle: '#060a19',
-            strokeStyle: '#060a19',
-            lineWidth: 1
-        }
+          fillStyle: "#060a19",
+          strokeStyle: "#060a19",
+          lineWidth: 1,
+        },
       },
       false
     );
-    
-    // creation of the wireframe object 
-    let wireFrame = me.wireFrameFromVertex(360, 1290,vertexSets);
-    return {terrain,wireFrame};
+
+    // creation of the wireframe object
+    let wireFrame = me.wireFrameFromVertex(360, 1290, vertexSets);
+    return { terrain, wireFrame };
   }
   // creation of the obejct terrain  sprite + body + wireframe
   var createTerrain = function (data) {
-      let b = new PhysicsObject(data);
+    let b = new PhysicsObject(data);
     return {
-      sprite: new PIXI.Sprite( PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)),
-      body: b.terrain,  
-      wireFrame: b.wireFrame,  
+      sprite: new PIXI.Sprite(
+        PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)
+      ),
+      body: b.terrain,
+      wireFrame: b.wireFrame,
     };
   };
 
   me.terrain = createTerrain(data);
-  this.stage.addChild(me.terrain.sprite);
+  this.addChild(me.terrain.sprite);
 
   // displaying wireframe on debug
-  if(me.state.isDebug){
-      this.stage.addChild(me.terrain.wireFrame)
-  }  
-  
+  if (me.state.isDebug) {
+    this.addChild(me.terrain.wireFrame);
+  }
 };
 
 /**
- * 
+ *
  * @param {number} x  position x
  * @param {number} y  position y
  * @param {Array} vertexSets set of vertices
  * @param {boolean} centered for set pivot point to the center of the object
- * @param {hexadecimal} color the color of wireframe lines 
+ * @param {hexadecimal} color the color of wireframe lines
  * @returns {PIXI.Graphics} wireframe object
  */
-Level.prototype.wireFrameFromVertex = function (x,y,vertexSets,centered = false , color="#86f11c") {
+Level.prototype.wireFrameFromVertex = function (
+  x,
+  y,
+  vertexSets,
+  centered = false,
+  color = "#86f11c"
+) {
+  // recuperation d'un array de vertices
+  let vSet = vertexSets.flat();
 
-    // recuperation d'un array de vertices
-    let vSet = vertexSets.flat();
+  // dessin des contours
+  var wireFrame = new PIXI.Graphics();
+  wireFrame.lineStyle(1, color.replace("#", "0x"), 1);
+  wireFrame.moveTo(vSet[0].x, vSet[0].y);
+  vSet.forEach((v) => {
+    wireFrame.lineTo(v.x, v.y);
+  });
+  wireFrame.lineTo(vSet[0].x, vSet[0].y);
+  wireFrame.lineTo(vSet[1].x, vSet[1].y);
+  wireFrame.endFill();
 
-    // dessin des contours
-    var wireFrame = new PIXI.Graphics();    
-    wireFrame.lineStyle(1, color.replace("#", "0x"),1 );
-    wireFrame.moveTo( vSet[0].x, vSet[0].y );
-    vSet.forEach(v => {
-        wireFrame.lineTo( v.x, v.y);
+  // replacement pour les landers
+  if (centered) {
+    let sizeW = { x: Infinity, y: -Infinity };
+    let sizeH = { x: Infinity, y: -Infinity };
+
+    vSet.map((v) => {
+      // width
+      sizeW.x = Math.min(sizeW.x, v.x);
+      sizeW.y = Math.max(sizeW.y, v.x);
+      // height
+      sizeH.x = Math.min(sizeH.x, v.y);
+      sizeH.y = Math.max(sizeH.y, v.y);
     });
-    wireFrame.lineTo( vSet[0].x, vSet[0].y );
-    wireFrame.lineTo( vSet[1].x, vSet[1].y );
-    wireFrame.endFill();
+    let width = sizeW.y; //-sizeW.x;
+    let height = sizeH.y; //-sizeH.x;
+    this.state.log("CENTERIZATION:", sizeW, sizeH, width, height);
+    wireFrame.pivot = { x: width / 2 + sizeW.x, y: height / 2 + sizeH.x };
+  }
 
-    // replacement pour les landers
-    if(centered){
-        let sizeW = {x:Infinity,y:-Infinity};
-        let sizeH = {x:Infinity,y:-Infinity};
-
-        vSet.map((v)=>{
-            // width
-            sizeW.x = Math.min(sizeW.x,v.x)
-            sizeW.y = Math.max(sizeW.y,v.x)
-            // height
-            sizeH.x = Math.min(sizeH.x,v.y)
-            sizeH.y = Math.max(sizeH.y,v.y)
-        })
-        let width = sizeW.y//-sizeW.x;
-        let height = sizeH.y//-sizeH.x;
-        this.state.log('CENTERIZATION:', sizeW,sizeH, width, height)
-        wireFrame.pivot = {x:(width/2)+sizeW.x,y:(height/2)+sizeH.x}
-    }
-
-    return wireFrame
-}
+  return wireFrame;
+};
 
 /**
  * create, set and add the lander
@@ -266,30 +269,41 @@ Level.prototype.addLander = function () {
   const me = this;
 
   // cf JSON.parse(./data/moon.json) >> "lander" for the parameters
- 
+
   // creation of the physic object and wireframe
   function PhysicsObject(params) {
-      let box = new LanderBody(params);
-      let wireFrame;
+    let box = new LanderBody(params);
+    let wireFrame;
     // create the box for lander
-    if(params.vertices){    
-        wireFrame = me.wireFrameFromVertex(params.x, params.y, params.vertices, true, "#08fff2");
-    } else{    
-        // vertices from rectangle
-        let vertexSet = [{x:params.x,y:params.y},{x:params.width,y:params.y},{x:params.width,y:params.height},{x:params.x,y:params.height},{x:params.x,y:params.y}]
-        wireFrame = me.wireFrameFromVertex(params.x, params.y, vertexSet,true, "#08fff2");
-    }    
-    me.state.log('LANDER BODY',box);
+    if (params.vertices) {
+      wireFrame = me.wireFrameFromVertex(
+        params.x,
+        params.y,
+        params.vertices,
+        true,
+        "#08fff2"
+      );
+    } else {
+      // vertices from rectangle
+      let vertexSet = [ { x: params.x, y: params.y }, { x: params.width, y: params.y }, { x: params.width, y: params.height }, { x: params.x, y: params.height }, { x: params.x, y: params.y }, ];
+      wireFrame = me.wireFrameFromVertex(
+        params.x,
+        params.y,
+        vertexSet,
+        true,
+        "#08fff2"
+      );
+    }
+    me.state.log("LANDER BODY", box);
 
-    return {box, wireFrame};
+    return { box, wireFrame };
   }
-
 
   // Object Lander : sprite + body + wireframe
   var createLander = function () {
-      let b = new PhysicsObject(me.data.lander.physic);
+    let b = new PhysicsObject(me.data.lander.physic);
     return {
-      sprite: new Lander(me.stage, me.data.lander.sprite),
+      sprite: new Lander(me, me.data.lander.sprite),
       body: b.box,
       wireFrame: b.wireFrame,
     };
@@ -297,11 +311,11 @@ Level.prototype.addLander = function () {
 
   this.lander = createLander();
   this.state.log(this.lander.sprite);
-  
+
   // adding wireframe to renderer if debug
-  if(me.state.isDebug){
-    this.stage.addChild(this.lander.wireFrame)
-}
+  if (me.state.isDebug) {
+    this.addChild(this.lander.wireFrame);
+  }
 };
 
 Level.prototype.getLander = function () {
@@ -310,7 +324,17 @@ Level.prototype.getLander = function () {
 
 Level.prototype.addlandZones = function () {
   //todo loop with lands zones object
-  let g = Matter.Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+  let g = Matter.Bodies.rectangle(400, 2000, 810, 60, { isStatic: true });
+  if (this.state.isDebug) {
+    let bw = new PIXI.Graphics();
+
+    // Rectangle
+    bw.lineStyle(2, 0xFEEB77, 1);
+    bw.drawRect(0, 1970, 810, 60);
+    bw.endFill();
+    this.addChild(bw);
+  }
+
   this.landZones.push(g);
 };
 
@@ -319,11 +343,10 @@ Level.prototype.getLandZones = function () {
 };
 
 /**
- * 
+ *
  * @returns {Array} all bodies in the level
  */
 Level.prototype.getAllBodiesInThisLevel = function () {
-
   // landing zones bodies
   let lz = this.getLandZones();
   // lander body
@@ -334,7 +357,6 @@ Level.prototype.getAllBodiesInThisLevel = function () {
   // return a flatten array of all bodies in the level
   return lz.concat(l).concat(t).flat();
 };
-
 
 /**
  * removing Keys Events
@@ -375,7 +397,7 @@ Level.prototype.addKeysEvents = function () {
     if (me.state.isPause) {
       me.state.isPause = false;
       me.state.log("EXIT PAUSE");
-    } else {      
+    } else {
       me.state.isPause = true;
       me.state.log("ENTER PAUSE");
     }
