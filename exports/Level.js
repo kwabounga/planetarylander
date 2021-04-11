@@ -103,27 +103,39 @@ Level.prototype.win = function () {
  */
 Level.prototype.update = function () {
   const m = this;
+
+
   if (this.state.keyUp && this.state.keyRight && this.state.keyLeft) {
     if (this.state.keyUp.isDown) {
-      Matter.Body.setVelocity(m.lander.body, {
-        x: m.lander.body.velocity.x,
-        y: m.lander.body.velocity.y - m.data.lander.motor.reactorPower,
-      });
+      let landerRot = m.lander.body.angle*180/Math.PI;
+      let velY = (-m.data.lander.motor.reactorPower) * Math.cos(landerRot * Math.PI / 180);
+      let velX = (-m.data.lander.motor.reactorPower) * Math.sin(landerRot * Math.PI / 180)*-1;	
+      console.log(landerRot, velY, velX);
+    
+      // Matter.Body.setVelocity(m.lander.body, {
+      //   x: m.lander.body.velocity.x,
+      //   y: m.lander.body.velocity.y - m.data.lander.motor.reactorPower,
+      // });
+      Matter.Body.applyForce(m.lander.body, {x:m.lander.body.position.x,y:m.lander.body.position.y}, {x:velX/200,y:velY/200});
       this.state.game.fuelCurrent -= m.data.lander.motor.fuelConsumption;
     }
     if (this.state.keyRight.isDown) {
-      Matter.Body.setVelocity(m.lander.body, {
-        x: m.lander.body.velocity.x + m.data.lander.motor.stabilizersPower,
-        y: m.lander.body.velocity.y,
-      });
-      Matter.Body.setAngle(m.lander.body, m.lander.body.angle + 0.002);
+      // Matter.Body.setVelocity(m.lander.body, {
+      //   x: m.lander.body.velocity.x + m.data.lander.motor.stabilizersPower,
+      //   y: m.lander.body.velocity.y,
+      // });
+      // Matter.Body.rotate(m.lander.body,0.002)
+      Matter.Body.setAngularVelocity(m.lander.body, m.lander.body.angularVelocity + m.data.lander.motor.stabilizersPower);
+      // Matter.Body.setAngle(m.lander.body, m.lander.body.angle + 0.002);
     }
     if (this.state.keyLeft.isDown) {
-      Matter.Body.setVelocity(m.lander.body, {
-        x: m.lander.body.velocity.x - m.data.lander.motor.stabilizersPower,
-        y: m.lander.body.velocity.y,
-      });
-      Matter.Body.setAngle(m.lander.body, m.lander.body.angle - 0.002);
+      // Matter.Body.setVelocity(m.lander.body, {
+      //   x: m.lander.body.velocity.x - m.data.lander.motor.stabilizersPower,
+      //   y: m.lander.body.velocity.y,
+      // });
+      // Matter.Body.rotate(m.lander.body,-0.002)
+      Matter.Body.setAngularVelocity(m.lander.body, m.lander.body.angularVelocity - m.data.lander.motor.stabilizersPower);
+      // Matter.Body.setAngle(m.lander.body, m.lander.body.angle - 0.002);
     }
   }
   this.state.game.speedX = m.lander.body.velocity.x;
