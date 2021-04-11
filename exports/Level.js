@@ -110,6 +110,7 @@ Level.prototype.update = function () {
   this.lander.sprite.update();
 };
 Level.prototype.addTerrain = function (data) {
+  const me = this;
   function PhysicsObject(data) {
     // console.log("loadTerrain:", data);
     let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
@@ -135,20 +136,39 @@ Level.prototype.addTerrain = function (data) {
       },
       false
     );
-    return terrain;
+    
+    let wireFrame = me.wireFrameFromVertex(360, 1290,vertexSets);
+    return {terrain,wireFrame};
   }
   console.log("ADD Terrain");
-  const me = this;
   var createTerrain = function (data) {
+      let b = new PhysicsObject(data);
+    //   me.stage.addChild(b.wireFrame)
     return {
       sprite: new PIXI.Sprite( PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)),
-      body: new PhysicsObject(data),
+      body: b.terrain,  
+      wireFrame: b.wireFrame,  
     };
   };
   me.terrain = createTerrain(data)
   this.stage.addChild(me.terrain.sprite)
+  if(me.state.isDebug){
+      this.stage.addChild(me.terrain.wireFrame)
+  }
+  
   
 };
+Level.prototype.wireFrameFromVertex = function (x,y,vertexSets) {
+    let vSet = vertexSets.flat();
+    var wireFrame = new PIXI.Graphics();
+    wireFrame.lineStyle(1, "#86f11c".replace("#", "0x"),1 );
+    wireFrame.moveTo( x, y );
+    vSet.forEach(v => {
+        wireFrame.lineTo( v.x, v.y);
+    });
+    wireFrame.endFill();
+    return wireFrame
+}
 Level.prototype.addLander = function () {
   console.log("ADD LANDER");
   const me = this;
@@ -174,6 +194,7 @@ Level.prototype.addLander = function () {
 
   function PhysicsObject(params) {
       let box;
+      let wireFrame=[{x:0,y:0}];
     // create the box for lander
  if(params.vertices){
     box = Matter.Bodies.fromVertices(
@@ -194,6 +215,7 @@ Level.prototype.addLander = function () {
         }
         }, false
       );
+      wireFrame = me.wireFrameFromVertex(params.x, params.y, params.vertices);
  } else{
     box = Matter.Bodies.rectangle(
         params.x,
@@ -209,24 +231,32 @@ Level.prototype.addLander = function () {
           restitution: params.restitution,
         }
       );
+      // vertices from rectangle
+      let vertexSet = [{x:params.x,y:params.y},{x:params.width,y:params.y},{x:params.width,y:params.height},{x:params.x,y:params.height},{x:params.x,y:params.y}]
+      wireFrame = me.wireFrameFromVertex(params.x, params.y, vertexSet);
  }
     
     // adding box to the bodies array
     //me.bodies.push(box);
     console.log('LANDER BODY',box);
-    return box;
+    return {box, wireFrame};
   }
 
   var createLander = function () {
+      let b = new PhysicsObject(me.data.lander.physic);
     return {
       sprite: new Lander(me.stage, me.data.lander.sprite),
-      body: new PhysicsObject(me.data.lander.physic),
+      body: b.box,
+      wireFrame: b.wireFrame,
     };
   };
   let l = createLander();
   //me.stage.addChild(l.body)
   console.log(l.sprite);
   this.lander = l;
+  if(me.state.isDebug){
+    this.stage.addChild(this.lander.wireFrame)
+}
 };
 
 Level.prototype.getLander = function () {

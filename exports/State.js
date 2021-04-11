@@ -11,6 +11,7 @@ const State = (function () {
         this.height = 600;
         this.isMobile = Tools.isMobile();
         this.isPause = false;
+        this.isDebug = false;
 
         this.keyUp;
         this.keyLeft;
@@ -31,6 +32,7 @@ const State = (function () {
             height: this.height,
             isMobile: this.isMobile,            
             isPause: this.isPause,            
+            isDebug: this.isDebug,            
             keyUp: this.keyUp,            
             keyLeft: this.keyLeft,            
             keyRight: this.keyRight,            
