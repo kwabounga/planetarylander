@@ -113,7 +113,7 @@ Level.prototype.update = function () {
         -m.data.lander.motor.reactorPower *
         Math.sin((landerRot * Math.PI) / 180) *
         -1;
-      console.log(landerRot, velY, velX);
+      m.state.log(landerRot, velY, velX);
 
       Matter.Body.applyForce(
         m.lander.body,

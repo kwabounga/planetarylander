@@ -44,7 +44,7 @@ Main.prototype.showLoader = function () {
  * sprite sheet loader
  */
 Main.prototype.loadSpriteSheet = function () {
-  console.log("LOAD");
+  this.state.log("LOAD");
   var loader = PIXI.loader;
   this.data.levels.forEach((lvl, lvlID) => {
     loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
@@ -57,7 +57,7 @@ Main.prototype.loadSpriteSheet = function () {
 };
 
 Main.prototype.spriteSheetLoaded = function () {
-  console.log("LOADED");
+  this.state.log("LOADED");
   const me = this;
 
   // creation du niveau et ajout des elements dans le moteur
@@ -70,7 +70,7 @@ Main.prototype.spriteSheetLoaded = function () {
 };
 
 Main.prototype.initAfterLoadingTerrain = function () {
-  console.log("initAfterLoadingTerrain");
+  this.state.log("initAfterLoadingTerrain");
   this.ui = this.createUi();
 
   this.engine.world.gravity.scale = this.data.environment.gravityScale;
@@ -127,7 +127,7 @@ Main.prototype.update = function () {
 Main.prototype.updateViewLevel = function(lvl){
   let target = lvl.getLander().body
   let newPos = (300-target.position.y); /// 300 (height of canvas /2) 
-  // console.log(newPos);
+  // this.state.log(newPos);
   lvl.y = Math.min(0,Math.max(newPos,-1400)) // 2000 (size of the level) - 600 (height of canvas)
 
 }
