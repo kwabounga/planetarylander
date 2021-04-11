@@ -141,7 +141,7 @@ Level.prototype.addTerrain = function (data) {
   const me = this;
   var createTerrain = function (data) {
     return {
-      sprite: new PIXI.Sprite( PIXI.Texture.from('terrain')),
+      sprite: new PIXI.Sprite( PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)),
       body: new PhysicsObject(data),
     };
   };

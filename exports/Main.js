@@ -48,7 +48,11 @@ Main.prototype.showLoader = function () {
 Main.prototype.loadSpriteSheet = function () {
   console.log("LOAD");
   var loader = PIXI.loader;
-  loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
+  this.data.levels.forEach((lvl,lvlID) => {
+    loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
+    
+  });
+  // loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
   loader.add("landersSpriteSheet", "./assets/landers.json");
   loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
   loader.once("complete", this.spriteSheetLoaded.bind(this));
