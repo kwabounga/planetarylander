@@ -323,19 +323,23 @@ Level.prototype.getLander = function () {
 };
 
 Level.prototype.addlandZones = function () {
-  //todo loop with lands zones object
-  let g = Matter.Bodies.rectangle(400, 2000, 810, 60, { isStatic: true });
-  if (this.state.isDebug) {
-    let bw = new PIXI.Graphics();
+  const me = this;
+  let lZonesFromJson = [{x:0,y:1970,width:810,height:60}];
+  lZonesFromJson.forEach(lZone => {
+      //todo loop with lands zones object
+    let g = Matter.Bodies.rectangle(((lZone.width/2)+lZone.x), ((lZone.height/2)+lZone.y), lZone.width, lZone.height, { isStatic: true });
+    if (me.state.isDebug) {
+      let bw = new PIXI.Graphics();
+      // Rectangle
+      bw.lineStyle(2, 0xFEEB77, 1);
+      bw.drawRect(lZone.x, lZone.y, lZone.width, lZone.height);
+      bw.endFill();
+      me.addChild(bw);
+    }
 
-    // Rectangle
-    bw.lineStyle(2, 0xFEEB77, 1);
-    bw.drawRect(0, 1970, 810, 60);
-    bw.endFill();
-    this.addChild(bw);
-  }
-
-  this.landZones.push(g);
+  me.landZones.push(g);
+  });
+  
 };
 
 Level.prototype.getLandZones = function () {
