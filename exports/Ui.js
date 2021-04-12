@@ -33,6 +33,14 @@ function Ui(data) {
     x: 5,
     y: 80,
   });
+  this.shell = this.createTextField({
+    font: "DeadFontWalking",
+    fontSize: 20,
+    color: "#ffff00",
+    text: this.state.game.shell+"%",
+    x: 5,
+    y: 105,
+  });
 }
 Ui.prototype = Object.create(PIXI.Container.prototype);
 
@@ -41,6 +49,7 @@ Ui.prototype.createTextField = function (params) {
     font: `${params.fontSize}px ${params.font}`,
     tint: params.color.replace("#", "0x"),
   });
+  tf.dirty = true;
   this.addChild(tf);
   tf.x = params.x;
   tf.y = params.y;
@@ -77,6 +86,13 @@ Ui.prototype.update = function () {
     Math.floor(this.state.game.orientation) + " deg",
     getTint(this.state.game.orientation, 30)
   );
+  
+  this.updateTextField(
+    this.shell,
+    (Math.floor(this.state.game.shell) + "%"),
+    ((Math.abs(this.state.game.shell)>= 50)?"#00ff00":"#ff0000").replace("#", "0x")
+  );
+
   function getTint(val, valMax) {
     let tint = ((Math.abs(val)<= valMax)?"#00ff00":"#ff0000").replace("#", "0x")
     return tint

@@ -53,7 +53,8 @@ Level.prototype.loadTerrain = function (levelParams) {
  * initialization
  */
 Level.prototype.init = function () {
-  this.state.log(this.terrain);
+  const me = this;
+  this.state.log('terrain', me.terrain.body);
   this.addLander();
   // todo: gerer les landzones ds les json
   this.addlandZones();
@@ -72,9 +73,22 @@ Level.prototype.init = function () {
  */
 Level.prototype.addCollisions = function () {
   const me = this;
+  Matter.Events.on(me.engine, "collisionActive", function (event) {
+    var pairs = event.pairs;
+    me.state.log("collisionActive",pairs[0]);
+    for (var i = 0, j = pairs.length; i != j; ++i) {
+      var pair = pairs[i];
+      // terrain
+      if (me.terrain.body.parts.includes(pair.bodyA)) {
+        me.damageLander();
+      } else if (me.terrain.body.parts.includes(pair.bodyB)) {
+        me.damageLander();
+      }
+    }
+  })
   Matter.Events.on(me.engine, "collisionStart", function (event) {
     var pairs = event.pairs;
-    me.state.log(pairs[0]);
+    me.state.log("collisionStart",pairs[0]);
     for (var i = 0, j = pairs.length; i != j; ++i) {
       var pair = pairs[i];
 
@@ -107,6 +121,10 @@ Level.prototype.addCollisions = function () {
     }
   });
 };
+Level.prototype.damageLander = function () {
+  this.state.log('DAMAGE')
+  this.state.game.shell -= 0.1;
+}
 /**
  * getBonus
  */

@@ -25,6 +25,7 @@ const State = (function () {
             orientation:0,
             fuelMax:500,
             fuel:500,
+            shell:100,
         }
         this.log = function(...arg){
             if(instance.isDebug){

@@ -1,5 +1,5 @@
 function BonusSprite(type, amount){
-  PIXI.Container.call(this)//, PIXI.Texture.from(`bonus_${type}0000`))
+  PIXI.Container.call(this);
 
   this.graphic = new PIXI.Sprite(PIXI.Texture.from(`bonus_${type}0000`))
   this.graphic.anchor.set(0.5);
