@@ -23,7 +23,10 @@ function Level(stage, engine, data, callBack = null) {
 
   this.stage.addChild(this);
   // TODO: gerer les landzones ds les json
-
+  if(this.data.levels[this.state.game.currentLevel].fuelMax){
+    this.state.game.fuelMax = this.data.levels[this.state.game.currentLevel].fuelMax;
+    this.state.game.fuelCurrent = this.data.levels[this.state.game.currentLevel].fuelMax;
+  }
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
 
@@ -64,7 +67,7 @@ Level.prototype.init = function () {
 };
 
 /**
- * hitTest for landing zones ..see for stars  / bonus / malus here ?
+ * hitTest for landing zones / stars  ..see for  / bonus / malus here ?
  */
 Level.prototype.addCollisions = function () {
   const me = this;
@@ -99,6 +102,11 @@ Level.prototype.addCollisions = function () {
  */
 Level.prototype.getStar = function (star) {
  this.state.log('getStar !!! ', star)
+ if(!star.isCatched){
+   gsap.to(star.body.position,{y:-100,duration:1,ease:"elastic.in(1, 0.5)"})
+   star.isCatched = true;
+ }
+
 }
 /**
  * win
@@ -118,12 +126,13 @@ Level.prototype.win = function () {
  */
 Level.prototype.update = function () {
   
-  this.updateLander()
+  this.updateLander();
+  this.updateStars();
 };
 Level.prototype.updateLander = function(){
   const m = this;
 
-  if (this.state.keyUp && this.state.keyRight && this.state.keyLeft) {
+  if (this.state.keyUp && this.state.keyRight && this.state.keyLeft && (this.state.game.fuelCurrent > 0)) {
     if (this.state.keyUp.isDown) {
       let landerRot = (m.lander.body.angle * 180) / Math.PI;
       let velY =
@@ -147,14 +156,22 @@ Level.prototype.updateLander = function(){
         m.lander.body,
         m.lander.body.angularVelocity + m.data.lander.motor.stabilizersPower
       );
+      this.state.game.fuelCurrent -= (m.data.lander.motor.fuelConsumption/10)
     }
     if (this.state.keyLeft.isDown) {
       Matter.Body.setAngularVelocity(
         m.lander.body,
         m.lander.body.angularVelocity - m.data.lander.motor.stabilizersPower
-      );
+        );
+        this.state.game.fuelCurrent -= (m.data.lander.motor.fuelConsumption/10)
     }
+  } else {
+    this.state.game.fuelCurrent = 0;
+    this.lander.sprite.hideStabilizersLeft();
+    this.lander.sprite.hideStabilizersRight();
+    this.lander.sprite.hideReactor();
   }
+  this.state.game.orientation = ((this.lander.body.angle * 180)/ Math.PI) % 360 ;
   this.state.game.speedX = this.lander.body.velocity.x;
   this.state.game.speedY = this.lander.body.velocity.y;
 
@@ -341,6 +358,15 @@ Level.prototype.getLander = function () {
   return this.lander;
 };
 
+Level.prototype.updateStars = function () {
+  const me = this;
+  this.stars.forEach((star)=>{
+    star.sprite.position = star.body.position;    
+    if (me.state.isDebug) {
+      star.wireFrame.position = star.body.position;
+    }
+  })
+}
 Level.prototype.addStars = function () {
   let aStars = this.data.levels[this.state.game.currentLevel].stars;
   this.state.log(aStars)
@@ -351,10 +377,12 @@ Level.prototype.addStars = function () {
     let s = Matter.Bodies.circle((starInfos.x),(starInfos.y),(starSize/2),{isStatic:true, isSensor:true})
     // wireFrame
     let sw = new PIXI.Graphics();
-      // Rectangle
+      // Circle
       sw.lineStyle(2, 0xFEEB77, 1);
-      sw.drawCircle(starInfos.x, starInfos.y, (starSize/2));
+      sw.drawCircle(0, 0, (starSize/2));
       sw.endFill();
+      sw.position.x = starInfos.x;
+      sw.position.y = starInfos.y; 
     if (me.state.isDebug) {
       me.addChild(sw);
     }
@@ -364,7 +392,7 @@ Level.prototype.addStars = function () {
     sp.x = starInfos.x
     sp.y = starInfos.y
     this.addChild(sp)
-    let star = {body:s,sprite:sp,wireframe:sw}
+    let star = {body:s,sprite:sp,wireFrame:sw}
     me.stars.push(star);
   });
 }
@@ -458,27 +486,33 @@ Level.prototype.addKeysEvents = function () {
   // lander controls
   this.keyLeft.press = () => {
     me.state.log("keyLeft pressed");
+    if(this.state.game.fuelCurrent == 0) return;
     me.lander.sprite.showStabilizersLeft();
   };
   this.keyLeft.release = () => {
     me.state.log("keyLeft Released");
+    if(this.state.game.fuelCurrent == 0) return;
     me.lander.sprite.hideStabilizersLeft();
   };
   this.keyRight.press = () => {
     me.state.log("keyRight pressed");
+    if(this.state.game.fuelCurrent == 0) return;
     me.lander.sprite.showStabilizersRight();
   };
   this.keyRight.release = () => {
     me.state.log("keyRight Released");
+    if(this.state.game.fuelCurrent == 0) return;
     me.lander.sprite.hideStabilizersRight();
   };
 
   this.keyUp.press = () => {
     me.state.log("Up pressed");
+    if(this.state.game.fuelCurrent == 0) return;
     me.lander.sprite.showReactor();
   };
   this.keyUp.release = () => {
     me.state.log("Up Released");
+    if(this.state.game.fuelCurrent == 0) return;
     me.lander.sprite.hideReactor();
   };
 };

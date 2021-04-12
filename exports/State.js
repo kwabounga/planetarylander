@@ -11,7 +11,7 @@ const State = (function () {
         this.height = 600;
         this.isMobile = Tools.isMobile();
         this.isPause = false;
-        this.isDebug = true;
+        this.isDebug = false;
 
         this.keyUp;
         this.keyLeft;
@@ -22,6 +22,7 @@ const State = (function () {
             currentLevel:0,
             speedX:0,
             speedY:0,
+            orientation:0,
             fuelMax:500,
             fuelCurrent:500,
         }
