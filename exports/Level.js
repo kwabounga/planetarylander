@@ -117,6 +117,10 @@ Level.prototype.win = function () {
  *  update / game loop
  */
 Level.prototype.update = function () {
+  
+  this.updateLander()
+};
+Level.prototype.updateLander = function(){
   const m = this;
 
   if (this.state.keyUp && this.state.keyRight && this.state.keyLeft) {
@@ -151,8 +155,8 @@ Level.prototype.update = function () {
       );
     }
   }
-  this.state.game.speedX = m.lander.body.velocity.x;
-  this.state.game.speedY = m.lander.body.velocity.y;
+  this.state.game.speedX = this.lander.body.velocity.x;
+  this.state.game.speedY = this.lander.body.velocity.y;
 
   this.lander.sprite.position = this.lander.body.position;
   this.lander.sprite.rotation = this.lander.body.angle;
@@ -161,8 +165,7 @@ Level.prototype.update = function () {
     this.lander.wireFrame.rotation = this.lander.body.angle;
   }
   this.lander.sprite.update();
-};
-
+}
 /**
  * create, set and add terrain
  * @param {SVG} data svg terrain raw data
