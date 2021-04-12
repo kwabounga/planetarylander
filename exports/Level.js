@@ -25,7 +25,7 @@ function Level(stage, engine, data, callBack = null) {
   // TODO: gerer les landzones ds les json
   if(this.data.levels[this.state.game.currentLevel].fuelMax){
     this.state.game.fuelMax = this.data.levels[this.state.game.currentLevel].fuelMax;
-    this.state.game.fuelCurrent = this.data.levels[this.state.game.currentLevel].fuelMax;
+    this.state.game.fuel = this.data.levels[this.state.game.currentLevel].fuelMax;
   }
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
@@ -58,6 +58,7 @@ Level.prototype.init = function () {
   // todo: gerer les landzones ds les json
   this.addlandZones();
   this.addStars();
+  this.addBonus();
 
   // controls
   this.addKeysEvents();
@@ -94,16 +95,47 @@ Level.prototype.addCollisions = function () {
           me.getStar(star);
         }
       });
+
+      // bonus
+      me.bonus.forEach((b) => {
+        if (pair.bodyA === b.body) {
+          me.getBonus(b);
+        } else if (pair.bodyB === b.body) {
+          me.getBonus(b);
+        }
+      });
     }
   });
 };
+/**
+ * getBonus
+ */
+Level.prototype.getBonus = function (bonus) {
+ this.state.log('getBonus !!! ', bonus)
+ if(!bonus.isCatched){
+   gsap.to(bonus.body.position, {
+     y: -this.y,
+     x: -100,
+     duration: 0.75,
+     ease: "elastic.in(1, 0.75)",
+   });
+   bonus.isCatched = true;
+   this.state.game[bonus.type] += bonus.amount;
+ }
+
+}
 /**
  * getStar
  */
 Level.prototype.getStar = function (star) {
  this.state.log('getStar !!! ', star)
  if(!star.isCatched){
-   gsap.to(star.body.position,{y:-100,duration:1,ease:"elastic.in(1, 0.5)"})
+   gsap.to(star.body.position, {
+     y: -this.y,
+     x: -100,
+     duration: 0.75,
+     ease: "elastic.in(1, 0.75)",
+   });
    star.isCatched = true;
  }
 
@@ -128,11 +160,12 @@ Level.prototype.update = function () {
   
   this.updateLander();
   this.updateStars();
+  this.updateBonus();
 };
 Level.prototype.updateLander = function(){
   const m = this;
 
-  if (this.state.keyUp && this.state.keyRight && this.state.keyLeft && (this.state.game.fuelCurrent > 0)) {
+  if (this.state.keyUp && this.state.keyRight && this.state.keyLeft && (this.state.game.fuel > 0)) {
     if (this.state.keyUp.isDown) {
       let landerRot = (m.lander.body.angle * 180) / Math.PI;
       let velY =
@@ -149,24 +182,24 @@ Level.prototype.updateLander = function(){
         { x: m.lander.body.position.x, y: m.lander.body.position.y },
         { x: velX / 200, y: velY / 200 }
       );
-      this.state.game.fuelCurrent -= m.data.lander.motor.fuelConsumption;
+      this.state.game.fuel -= m.data.lander.motor.fuelConsumption;
     }
     if (this.state.keyRight.isDown) {
       Matter.Body.setAngularVelocity(
         m.lander.body,
         m.lander.body.angularVelocity + m.data.lander.motor.stabilizersPower
       );
-      this.state.game.fuelCurrent -= (m.data.lander.motor.fuelConsumption/10)
+      this.state.game.fuel -= (m.data.lander.motor.fuelConsumption/10)
     }
     if (this.state.keyLeft.isDown) {
       Matter.Body.setAngularVelocity(
         m.lander.body,
         m.lander.body.angularVelocity - m.data.lander.motor.stabilizersPower
         );
-        this.state.game.fuelCurrent -= (m.data.lander.motor.fuelConsumption/10)
+        this.state.game.fuel -= (m.data.lander.motor.fuelConsumption/10)
     }
   } else {
-    this.state.game.fuelCurrent = 0;
+    this.state.game.fuel = 0;
     this.lander.sprite.hideStabilizersLeft();
     this.lander.sprite.hideStabilizersRight();
     this.lander.sprite.hideReactor();
@@ -358,6 +391,18 @@ Level.prototype.getLander = function () {
   return this.lander;
 };
 
+Level.prototype.updateBonus= function () {
+  const me = this;
+  if(this.data.levels[this.state.game.currentLevel].bonus){
+    this.bonus.forEach((b)=>{
+      b.sprite.position = b.body.position;    
+      if (me.state.isDebug) {
+        b.wireFrame.position = b.body.position;
+      }
+    })
+  }
+  
+}
 Level.prototype.updateStars = function () {
   const me = this;
   this.stars.forEach((star)=>{
@@ -366,6 +411,37 @@ Level.prototype.updateStars = function () {
       star.wireFrame.position = star.body.position;
     }
   })
+}
+Level.prototype.addBonus = function () {
+  if(!this.data.levels[this.state.game.currentLevel].bonus){
+    return;
+  }
+  const me = this;
+  let aBonus = this.data.levels[this.state.game.currentLevel].bonus;
+  let bonusSize = 58;
+  aBonus.forEach((bonusInfos) => {
+    // body
+    let b = Matter.Bodies.circle((bonusInfos.x),(bonusInfos.y),(bonusSize/2),{isStatic:true, isSensor:true})
+    // wireFrame
+    let bw = new PIXI.Graphics();
+      // Circle
+      bw.lineStyle(2, 0xFEEB77, 1);
+      bw.drawCircle(0, 0, (bonusSize/2));
+      bw.endFill();
+      bw.position.x = bonusInfos.x;
+      bw.position.y = bonusInfos.y; 
+    if (me.state.isDebug) {
+      me.addChild(bw);
+    }
+    // sprite
+    let bsp = new BonusSprite(bonusInfos.type, bonusInfos.amount)//new PIXI.Sprite(PIXI.Texture.from(`bonus_${bonusInfos.type}0000`))
+    
+    bsp.x = bonusInfos.x
+    bsp.y = bonusInfos.y
+    this.addChild(bsp)
+    let bonus = {body:b,sprite:bsp,wireFrame:bw, type:bonusInfos.type, amount:bonusInfos.amount}
+    me.bonus.push(bonus);
+  });
 }
 Level.prototype.addStars = function () {
   let aStars = this.data.levels[this.state.game.currentLevel].stars;
@@ -396,6 +472,8 @@ Level.prototype.addStars = function () {
     me.stars.push(star);
   });
 }
+
+
 Level.prototype.addlandZones = function () {
   const me = this;
   let lZonesFromJson = this.data.levels[this.state.game.currentLevel].landZones;
@@ -425,17 +503,17 @@ Level.prototype.getLandZones = function () {
  * @returns {Array} all bodies in the level
  */
 Level.prototype.getAllBodiesInThisLevel = function () {
-  // landing zones bodies
-  let lz = this.getLandZones();
-  // lander body
-  let l = this.getLander().body;
-  // terrain body
-  let t = this.terrain.body;
-
-  let stars = this.stars.map((s)=>s.body)
+  
+  let bodies = [
+    this.getLandZones(),
+    this.getLander().body,
+    this.terrain.body,
+    this.stars.map((s)=>s.body),
+    this.bonus.map((b)=>b.body),
+  ]
 
   // return a flatten array of all bodies in the level
-  return lz.concat(l).concat(t).concat(stars).flat();
+  return bodies.flat();
 };
 
 /**
@@ -486,33 +564,33 @@ Level.prototype.addKeysEvents = function () {
   // lander controls
   this.keyLeft.press = () => {
     me.state.log("keyLeft pressed");
-    if(this.state.game.fuelCurrent == 0) return;
+    if(this.state.game.fuel == 0) return;
     me.lander.sprite.showStabilizersLeft();
   };
   this.keyLeft.release = () => {
     me.state.log("keyLeft Released");
-    if(this.state.game.fuelCurrent == 0) return;
+    if(this.state.game.fuel == 0) return;
     me.lander.sprite.hideStabilizersLeft();
   };
   this.keyRight.press = () => {
     me.state.log("keyRight pressed");
-    if(this.state.game.fuelCurrent == 0) return;
+    if(this.state.game.fuel == 0) return;
     me.lander.sprite.showStabilizersRight();
   };
   this.keyRight.release = () => {
     me.state.log("keyRight Released");
-    if(this.state.game.fuelCurrent == 0) return;
+    if(this.state.game.fuel == 0) return;
     me.lander.sprite.hideStabilizersRight();
   };
 
   this.keyUp.press = () => {
     me.state.log("Up pressed");
-    if(this.state.game.fuelCurrent == 0) return;
+    if(this.state.game.fuel == 0) return;
     me.lander.sprite.showReactor();
   };
   this.keyUp.release = () => {
     me.state.log("Up Released");
-    if(this.state.game.fuelCurrent == 0) return;
+    if(this.state.game.fuel == 0) return;
     me.lander.sprite.hideReactor();
   };
 };

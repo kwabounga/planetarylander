@@ -5,7 +5,7 @@ function Ui(data) {
     font: "DeadFontWalking",
     fontSize: 20,
     color: "#ffffff",
-    text: "500/500",
+    text: this.state.game.fuel+"/"+this.state.game.fuelMax,
     x: 5,
     y: 5,
   });
@@ -58,8 +58,8 @@ Ui.prototype.updateTextField = function (tf, text, tint = null) {
 Ui.prototype.update = function () {
   this.updateTextField(
     this.fuel,
-    Math.floor(this.state.game.fuelCurrent) + "/" + this.state.game.fuelMax,
-    ((Math.abs(this.state.game.fuelCurrent)>= 50)?"#00ff00":"#ff0000").replace("#", "0x")
+    Math.floor(this.state.game.fuel) + "/" + this.state.game.fuelMax,
+    ((Math.abs(this.state.game.fuel)>= 50)?"#00ff00":"#ff0000").replace("#", "0x")
   );
   this.updateTextField(
     this.speedX,

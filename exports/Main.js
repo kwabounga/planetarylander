@@ -1,10 +1,13 @@
 function Main(data) {
   this.loader = document.getElementById("loader");
   this.view = document.getElementById("game-canvas");
+  
+  this.data = data;
 
   this.state = State.getInstance();
+  this.state.game.fuelMax = this.data.lander.motor.fuel
+  this.state.game.fuel= this.data.lander.motor.fuel
 
-  this.data = data;
 
   // this.Engine = Matter.Engine;
   // this.World = Matter.World;

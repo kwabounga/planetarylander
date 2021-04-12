@@ -1,5 +1,13 @@
 ﻿{"frames": {
 
+"bonus_fuel0000":
+{
+	"frame": {"x":148,"y":135,"w":51,"h":49},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":49},
+	"sourceSize": {"w":51,"h":49}
+},
 "ingame_star0000":
 {
 	"frame": {"x":83,"y":135,"w":59,"h":58},
@@ -7,6 +15,14 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":59,"h":58},
 	"sourceSize": {"w":59,"h":58}
+},
+"star_particle0000":
+{
+	"frame": {"x":3,"y":214,"w":19,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":18},
+	"sourceSize": {"w":19,"h":18}
 },
 "texture0000":
 {
@@ -26,7 +42,7 @@
 },
 "ui_star0000":
 {
-	"frame": {"x":148,"y":179,"w":38,"h":38},
+	"frame": {"x":83,"y":199,"w":38,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":38},
@@ -34,7 +50,7 @@
 },
 "ui_star_disabled0000":
 {
-	"frame": {"x":148,"y":135,"w":39,"h":38},
+	"frame": {"x":148,"y":190,"w":39,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":39,"h":38},
