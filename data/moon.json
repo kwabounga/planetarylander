@@ -17,7 +17,14 @@
       "friction": 0.1,
       "restitution": 0.1,
       "vertices": [
-        [ { "x":67, "y":81 }, { "x":69, "y":34 }, { "x":46, "y":7 }, { "x":23, "y":7 }, { "x":9, "y":51 }, { "x":9, "y":81 } ]
+        [
+          { "x": 67, "y": 81 },
+          { "x": 69, "y": 34 },
+          { "x": 46, "y": 7 },
+          { "x": 23, "y": 7 },
+          { "x": 9, "y": 51 },
+          { "x": 9, "y": 81 }
+        ]
       ]
     },
     "sprite": {
@@ -33,5 +40,17 @@
   "environment": {
     "gravityScale": 0.0003
   },
-  "levels": [{"terrain":"./assets/levels/svg/level_01.svg","sprite":"./assets/levels/png/level_01.png","centerOfMass":{"x":360,"y":1290}}]
+  "levels": [
+    {
+      "terrain": "./assets/levels/svg/level_01.svg",
+      "sprite": "./assets/levels/png/level_01.png",
+      "centerOfMass": { "x": 360, "y": 1290 },
+      "landZones": [{ "x": 0, "y": 1970, "width": 810, "height": 60 }],
+      "stars": [
+        { "x": 500, "y": 260 },
+        { "x": 200, "y": 660 },
+        { "x": 540, "y": 1040 }
+      ]
+    }
+  ]
 }

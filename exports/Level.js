@@ -54,6 +54,7 @@ Level.prototype.init = function () {
   this.addLander();
   // todo: gerer les landzones ds les json
   this.addlandZones();
+  this.addStars();
 
   // controls
   this.addKeysEvents();
@@ -73,6 +74,7 @@ Level.prototype.addCollisions = function () {
     for (var i = 0, j = pairs.length; i != j; ++i) {
       var pair = pairs[i];
 
+      // landing
       me.landZones.forEach((lZone) => {
         if (pair.bodyA === lZone) {
           me.win();
@@ -80,10 +82,24 @@ Level.prototype.addCollisions = function () {
           me.win();
         }
       });
+
+      // stars
+      me.stars.forEach((star) => {
+        if (pair.bodyA === star.body) {
+          me.getStar(star);
+        } else if (pair.bodyB === star.body) {
+          me.getStar(star);
+        }
+      });
     }
   });
 };
-
+/**
+ * getStar
+ */
+Level.prototype.getStar = function (star) {
+ this.state.log('getStar !!! ', star)
+}
 /**
  * win
  */
@@ -322,9 +338,36 @@ Level.prototype.getLander = function () {
   return this.lander;
 };
 
+Level.prototype.addStars = function () {
+  let aStars = this.data.levels[this.state.game.currentLevel].stars;
+  this.state.log(aStars)
+  let starSize = 58;
+  const me = this;
+  aStars.forEach((starInfos) => {
+    // body
+    let s = Matter.Bodies.circle((starInfos.x),(starInfos.y),(starSize/2),{isStatic:true, isSensor:true})
+    // wireFrame
+    let sw = new PIXI.Graphics();
+      // Rectangle
+      sw.lineStyle(2, 0xFEEB77, 1);
+      sw.drawCircle(starInfos.x, starInfos.y, (starSize/2));
+      sw.endFill();
+    if (me.state.isDebug) {
+      me.addChild(sw);
+    }
+    // sprite
+    let sp = new PIXI.Sprite(PIXI.Texture.from('ingame_star0000'))
+    sp.anchor.set(0.5);
+    sp.x = starInfos.x
+    sp.y = starInfos.y
+    this.addChild(sp)
+    let star = {body:s,sprite:sp,wireframe:sw}
+    me.stars.push(star);
+  });
+}
 Level.prototype.addlandZones = function () {
   const me = this;
-  let lZonesFromJson = [{x:0,y:1970,width:810,height:60}];
+  let lZonesFromJson = this.data.levels[this.state.game.currentLevel].landZones;
   lZonesFromJson.forEach(lZone => {
       //todo loop with lands zones object
     let g = Matter.Bodies.rectangle(((lZone.width/2)+lZone.x), ((lZone.height/2)+lZone.y), lZone.width, lZone.height, { isStatic: true });
@@ -358,8 +401,10 @@ Level.prototype.getAllBodiesInThisLevel = function () {
   // terrain body
   let t = this.terrain.body;
 
+  let stars = this.stars.map((s)=>s.body)
+
   // return a flatten array of all bodies in the level
-  return lz.concat(l).concat(t).flat();
+  return lz.concat(l).concat(t).concat(stars).flat();
 };
 
 /**

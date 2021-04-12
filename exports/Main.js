@@ -51,6 +51,7 @@ Main.prototype.loadSpriteSheet = function () {
   });
   // loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
   loader.add("landersSpriteSheet", "./assets/landers.json");
+  loader.add("uiSpriteSheet", "./assets/ui.json");
   loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
   loader.once("complete", this.spriteSheetLoaded.bind(this));
   loader.load();
