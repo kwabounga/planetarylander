@@ -20,6 +20,8 @@ function Level(stage, engine, data, callBack = null) {
   this.bonus = [];
   this.malus = [];
   this.callBack = callBack;
+  
+  this.landerExploded = null;
 
   this.stage.addChild(this);
   // TODO: gerer les landzones ds les json
@@ -74,6 +76,7 @@ Level.prototype.init = function () {
 Level.prototype.addCollisions = function () {
   const me = this;
   Matter.Events.on(me.engine, "collisionActive", function (event) {
+    if(me.lander.isDie)return;
     var pairs = event.pairs;
     me.state.log("collisionActive",pairs[0]);
     for (var i = 0, j = pairs.length; i != j; ++i) {
@@ -87,6 +90,7 @@ Level.prototype.addCollisions = function () {
     }
   })
   Matter.Events.on(me.engine, "collisionStart", function (event) {
+    if(me.lander.isDie)return;
     var pairs = event.pairs;
     me.state.log("collisionStart",pairs[0]);
     for (var i = 0, j = pairs.length; i != j; ++i) {
@@ -122,20 +126,66 @@ Level.prototype.addCollisions = function () {
   });
 };
 Level.prototype.damageLander = function () {
+  const me = this
   this.state.log('DAMAGE')
   this.state.game.shell -= 0.1;
   if(this.state.game.shell<=90){
     if(this.lander.isDie) return;
-
+      
       this.lander.isDie = true;
-      let textSS = PIXI.Texture.from('landerLunar0000')
-      let dataSS = Tools.SpriteSheetAutoSlicer('lander', 78, 87, 5, 5 , textSS._frame)
-      console.log("dataSS", dataSS);
-      console.log("textSS",textSS);
+      let textSS = PIXI.Texture.from('landerLunar0000');
+      // console.log("textSS",textSS,textSS._frame);
+      let dataSS = Tools.SpriteSheetAutoSlicer('lander', 5, 5 , textSS)
+      // console.log("dataSS", dataSS);
       let data = JSON.parse(dataSS)
-      console.log("dataSS", data);
+      // console.log("dataSS", data);
       let spLander = new PIXI.Spritesheet(textSS.baseTexture, data)
-      console.log("spLander",spLander)
+      // console.log("spLander",spLander)
+      let stackObjSize = {};
+      let sStack = []
+      spLander.parse((result)=>{
+        // console.log(result)
+        
+        let c = new PIXI.Container()
+      Object.keys(data.frames).forEach((key,i) => {
+        if(i==0){
+          stackObjSize.width = data.frames[key].sourceSize.w;
+          stackObjSize.height = data.frames[key].sourceSize.h;
+        }
+        // console.log(key, data.frames[key]);
+        let s = new PIXI.Sprite(result[key])
+        s.anchor.set(0.5)
+        s.position = data.frames[key].original
+        // console.log(s)
+        c.addChild(s)
+        sStack.push(s)  
+      });
+      //  Matter.Composites.stack(xx, yy, columns, rows, columnGap, rowGap, callback) 
+      let xx = me.lander.body.position.x - (me.lander.sprite.width/2) 
+      let yy = me.lander.body.position.y - (me.lander.sprite.height/2) 
+      var stack = Matter.Composites.stack(xx, yy, 5, 5, 0, 0, function(x, y) {
+        return Matter.Bodies.rectangle(x, y, stackObjSize.width, stackObjSize.height);
+      });
+      
+      // me.landerExploded.bodies = stack.bodies;
+      // Matter.Composite.rotate(stack, me.lander.body.angle, {x:xx/2,y:yy/2});
+      Matter.World.add(this.engine.world, stack.bodies);
+      console.log(stack);
+      me.landerExploded = {
+        bodies:stack.bodies,
+        sprites:sStack
+      };
+      console.log(me.landerExploded)
+      // c.position = me.lander.sprite.position;     
+      // c.rotation = me.lander.sprite.rotation;      
+      this.addChild(c)
+
+        
+      })
+      //me.lander.body
+      // Matter.World.remove(this.engine.world, me.lander.body);
+      me.lander.sprite.visible = false
+      
     
   }
 }
@@ -143,6 +193,7 @@ Level.prototype.damageLander = function () {
  * getBonus
  */
 Level.prototype.getBonus = function (bonus) {
+  if(this.lander.isDie)return
  this.state.log('getBonus !!! ', bonus)
  if(!bonus.isCatched){
    gsap.to(bonus.body.position, {
@@ -160,6 +211,7 @@ Level.prototype.getBonus = function (bonus) {
  * getStar
  */
 Level.prototype.getStar = function (star) {
+  if(this.lander.isDie)return
  this.state.log('getStar !!! ', star)
  if(!star.isCatched){
    gsap.to(star.body.position, {
@@ -176,6 +228,7 @@ Level.prototype.getStar = function (star) {
  * win
  */
 Level.prototype.win = function () {
+  if(this.lander.isDie)return
   // TODO: make condition for win or loose before call win
   this.removeKeyEvents();
   this.lander.sprite.showFlag();
@@ -193,7 +246,17 @@ Level.prototype.update = function () {
   this.updateLander();
   this.updateStars();
   this.updateBonus();
+  if(this.landerExploded && this.landerExploded.bodies.length > 0){
+    this.updateStack();
+  }
 };
+Level.prototype.updateStack = function(){
+  const me = this;
+  this.landerExploded.bodies.forEach((b,i)=>{
+    me.landerExploded.sprites[i].rotation = b.angle;
+    me.landerExploded.sprites[i].position = b.position;
+  })
+}
 Level.prototype.updateLander = function(){
   const m = this;
 
@@ -497,8 +560,8 @@ Level.prototype.addStars = function () {
     // sprite
     let sp = new PIXI.Sprite(PIXI.Texture.from('ingame_star0000'))
     sp.anchor.set(0.5);
-    sp.x = starInfos.x
-    sp.y = starInfos.y
+    sp.x = starInfos.x;
+    sp.y = starInfos.y;
     this.addChild(sp)
     let star = {body:s,sprite:sp,wireFrame:sw}
     me.stars.push(star);
