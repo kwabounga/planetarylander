@@ -27,15 +27,23 @@ function Level(stage, engine, data, callBack = null) {
   // TODO: gerer les landzones ds les json
 
   // overwrite settings
-  if (this.data.levels[this.state.game.currentLevel].fuelMax) {
-    this.state.game.fuelMax = this.data.levels[ this.state.game.currentLevel ].fuelMax;
-    this.state.game.fuel = this.data.levels[ this.state.game.currentLevel ].fuelMax;
-  }
+  this.overWriteSettings()
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
 
 Level.prototype = Object.create(PIXI.Container.prototype);
 
+Level.prototype.overWriteSettings = function (levelParams) {
+  // condition sur le fuel
+  if (this.data.levels[this.state.game.currentLevel].fuelMax) {
+    this.state.game.fuelMax = this.data.levels[ this.state.game.currentLevel ].fuelMax;
+    this.state.game.fuel = this.data.levels[ this.state.game.currentLevel ].fuelMax;
+  }
+  // si lander deja endomagé
+  if (this.data.levels[this.state.game.currentLevel].shell) {
+    this.state.game.shell = this.data.levels[ this.state.game.currentLevel ].shell;
+  }
+}
 /**
  * load the current terrain (svg) then init and launch callback if any
  * @param {Object} levelParams from json levels
@@ -140,7 +148,8 @@ Level.prototype.addCollisions = function () {
 Level.prototype.die = function () {
   const me = this;
   this.lander.isDie = true;
-  let textSS = PIXI.Texture.from("landerLunar0000");
+  console.log(this.lander.sprite.params.sprite);
+  let textSS = PIXI.Texture.from(this.lander.sprite.params.sprite);
   // console.log("textSS",textSS,textSS._frame);
   let dataSS = Tools.SpriteSheetAutoSlicer("lander", 5, 5, textSS);
   // console.log("dataSS", dataSS);
@@ -206,7 +215,8 @@ Level.prototype.damageLander = function () {
   const me = this;
   this.state.log("DAMAGE");
   this.state.game.shell -= 0.1;
-  if (this.state.game.shell <= 90) {
+  if (this.state.game.shell <= 0) {
+    this.state.game.shell = 0;
     if (this.lander.isDie) return;
     this.die();
   }
