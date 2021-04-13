@@ -124,6 +124,20 @@ Level.prototype.addCollisions = function () {
 Level.prototype.damageLander = function () {
   this.state.log('DAMAGE')
   this.state.game.shell -= 0.1;
+  if(this.state.game.shell<=90){
+    if(this.lander.isDie) return;
+
+      this.lander.isDie = true;
+      let textSS = PIXI.Texture.from('landerLunar0000')
+      let dataSS = Tools.SpriteSheetAutoSlicer('lander', 78, 87, 5, 5 , textSS._frame)
+      console.log("dataSS", dataSS);
+      console.log("textSS",textSS);
+      let data = JSON.parse(dataSS)
+      console.log("dataSS", data);
+      let spLander = new PIXI.Spritesheet(textSS.baseTexture, data)
+      console.log("spLander",spLander)
+    
+  }
 }
 /**
  * getBonus

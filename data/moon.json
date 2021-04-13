@@ -54,7 +54,7 @@
       "bonus": [
         {"type":"fuel", "x": 250, "y": 900 ,"amount":50}
       ],
-      "fuelMax":250
+      "fuelMax":800
     }
   ]
 }

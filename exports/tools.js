@@ -67,3 +67,34 @@ Tools.ajaxGet = function(url, callback) {
     return world;
   }
   
+  Tools.SpriteSheetAutoSlicer = function (elmName, width, height, columns, rows , origin){
+    let frames = {}
+
+    let sH = Math.floor(height/rows)
+    let sW = Math.floor(width/columns)
+    let i = 0
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        let x = (c * sW) + origin.x
+        let y = (r * sH) + origin.y
+        frames[elmName + '_' + i] = {
+          frame : {x:x,y:y,w:sW,h:sH},
+          rotated: false,
+          trimmed: false,
+          spriteSourceSize : {x:0,y:0,w:sW,h:sH},
+          sourceSize:{w:sW,h:sH}
+        }
+        i++;
+      }      
+    }
+    let meta = {
+      app:"KWA SpriteSheetAutoSlicer",
+      version:"0.1",
+      image:"landers.png",
+      format:"RGBA8888",
+      size: {w:512,h:1024},
+      scale:"1"
+    }
+
+    return JSON.stringify({frames,meta});
+  }

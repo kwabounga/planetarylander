@@ -1,0 +1,20 @@
+﻿{
+  "frames": {
+    "landerEuropa0000": {
+      "frame": { "x": 141, "y": 293, "w": 117, "h": 116 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 117, "h": 116 },
+      "sourceSize": { "w": 117, "h": 116 }
+    }
+	},
+    "meta": {
+      "app": "Kwa Auto Slicer",
+      "version": "0.1",
+      "image": "landers.png",
+      "format": "RGBA8888",
+      "size": { "w": 512, "h": 1024 },
+      "scale": "1"
+    }
+  
+}
