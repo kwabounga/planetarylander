@@ -148,7 +148,7 @@ Tools.ajaxGet = function(url, callback) {
       });
       let width = sizeW.y; //-sizeW.x;
       let height = sizeH.y; //-sizeH.x;
-      console.log("CENTERIZATION:", sizeW, sizeH, width, height);
+      //console.log("CENTERIZATION:", sizeW, sizeH, width, height);
       wireFrame.pivot = { x: width / 2 + sizeW.x, y: height / 2 + sizeH.x };
     }
   

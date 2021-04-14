@@ -429,51 +429,52 @@ Level.prototype.addLander = function () {
   // cf JSON.parse(./data/moon.json) >> "lander" for the parameters
 
   // creation of the physic object and wireframe
-  function PhysicsObject(params) {
-    let box = new LanderBody(params);
-    let wireFrame;
-    // create the box for lander
-    if (params.vertices) {
-      wireFrame = Tools.wireFrameFromVertex(
-        params.x,
-        params.y,
-        params.vertices,
-        true,
-        "#08fff2"
-      );
-    } else {
-      // vertices from rectangle
-      let vertexSet = [
-        { x: params.x, y: params.y },
-        { x: params.width, y: params.y },
-        { x: params.width, y: params.height },
-        { x: params.x, y: params.height },
-        { x: params.x, y: params.y },
-      ];
-      wireFrame = Tools.wireFrameFromVertex(
-        params.x,
-        params.y,
-        vertexSet,
-        true,
-        "#08fff2"
-      );
-    }
-    me.state.log("LANDER BODY", box);
+  // function PhysicsObject(params) {
+  //   let box = new LanderBody(params);
+  //   let wireFrame;
+  //   // create the box for lander
+  //   if (params.vertices) {
+  //     wireFrame = Tools.wireFrameFromVertex(
+  //       params.x,
+  //       params.y,
+  //       params.vertices,
+  //       true,
+  //       "#08fff2"
+  //     );
+  //   } else {
+  //     // vertices from rectangle
+  //     let vertexSet = [
+  //       { x: params.x, y: params.y },
+  //       { x: params.width, y: params.y },
+  //       { x: params.width, y: params.height },
+  //       { x: params.x, y: params.height },
+  //       { x: params.x, y: params.y },
+  //     ];
+  //     wireFrame = Tools.wireFrameFromVertex(
+  //       params.x,
+  //       params.y,
+  //       vertexSet,
+  //       true,
+  //       "#08fff2"
+  //     );
+  //   }
+  //   me.state.log("LANDER BODY", box);
 
-    return { box, wireFrame };
-  }
+  //   return { box, wireFrame };
+  // }
 
-  // Object Lander : sprite + body + wireframe
-  var createLander = function () {
-    let b = new PhysicsObject(me.data.lander.physic);
-    return {
-      sprite: new Lander(me, me.data.lander.sprite),
-      body: b.box,
-      wireFrame: b.wireFrame,
-    };
-  };
+  // // Object Lander : sprite + body + wireframe
+  // var createLander = function () {
+  //   let b = new PhysicsObject(me.data.lander.physic);
+  //   return {
+  //     sprite: new Lander(me, me.data.lander.sprite),
+  //     body: b.box,
+  //     wireFrame: b.wireFrame,
+  //   };
+  // };
 
-  this.lander = createLander();
+  // this.lander = createLander();
+  this.lander = Landers.create(me.data.lander, this);
   this.state.log(this.lander.sprite);
 
   // adding wireframe to renderer if debug
