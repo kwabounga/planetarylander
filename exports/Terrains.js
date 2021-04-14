@@ -6,7 +6,14 @@
  */
 
 var Terrains = Terrains || {};
-
+/**
+ * Terrains.load get the url of the svg ; load it and call Terrains.create 
+ * to generate a terrain
+ * 
+ * @param {Object} levelParams the object level from json
+ * @param {int} currentLevel  the current level ID
+ * @param {function} callBack  return the new terrain
+ */
 Terrains.load = function (levelParams,currentLevel, callBack) {
   if (Tools === undefined) {
     throw new Error('Must have Tools.js')
@@ -17,6 +24,14 @@ Terrains.load = function (levelParams,currentLevel, callBack) {
 
   });
 }
+/**
+ * create, set and add terrain from svg data
+ * 
+ * @param {SVG} data svg terrain raw data
+ * @param {Point} centerOfMass  center of mass position point
+ * @param {int} currentLevel  the current level ID
+ * @param {function} callBack  return the new terrain
+ */
 Terrains.create = function (data, centerOfMass,currentLevel, callBack) {
 
   

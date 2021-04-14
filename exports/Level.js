@@ -327,68 +327,64 @@ Level.prototype.updateLander = function () {
   this.lander.sprite.update();
 };
 // TODO: extract method and create Terrains Factory
-/**
- * create, set and add terrain
- * @param {SVG} data svg terrain raw data
- * @param {Point} centerOfMass  center of mass position point
- */
-Level.prototype.addTerrain = function (data, centerOfMass) {
-  const me = this;
 
-  // // create the physic object + wireframe
-  // function PhysicsObject(data) {
-  //   // parsing svg object
-  //   let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
-  //   var select = function (root, selector) {
-  //     return Array.prototype.slice.call(root.querySelectorAll(selector));
-  //   };
-  //   let paths = select(root, "path");
-  //   // converting svg path to vertices set
-  //   let vertexSets = paths.map(function (path) {
-  //     return Matter.Svg.pathToVertices(path, 5);
-  //   });
-  //   me.state.log("vertexSets:", vertexSets);
+// Level.prototype.addTerrain = function (data, centerOfMass) {
+//   const me = this;
 
-  //   // creation of the physic object
-  //   let terrain = Matter.Bodies.fromVertices(
-  //     centerOfMass.x,
-  //     centerOfMass.y,
-  //     vertexSets,
-  //     {
-  //       isStatic: true,
-  //       render: {
-  //         fillStyle: "#060a19",
-  //         strokeStyle: "#060a19",
-  //         lineWidth: 1,
-  //       },
-  //     },
-  //     false
-  //   );
+//   // // create the physic object + wireframe
+//   // function PhysicsObject(data) {
+//   //   // parsing svg object
+//   //   let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
+//   //   var select = function (root, selector) {
+//   //     return Array.prototype.slice.call(root.querySelectorAll(selector));
+//   //   };
+//   //   let paths = select(root, "path");
+//   //   // converting svg path to vertices set
+//   //   let vertexSets = paths.map(function (path) {
+//   //     return Matter.Svg.pathToVertices(path, 5);
+//   //   });
+//   //   me.state.log("vertexSets:", vertexSets);
 
-  //   // creation of the wireframe object
-  //   let wireFrame = Tools.wireFrameFromVertex(360, 1290, vertexSets);
-  //   return { terrain, wireFrame };
-  // }
-  // // creation of the obejct terrain  sprite + body + wireframe
-  // var createTerrain = function (data) {
-  //   let b = new PhysicsObject(data);
-  //   return {
-  //     sprite: new PIXI.Sprite(
-  //       PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)
-  //     ),
-  //     body: b.terrain,
-  //     wireFrame: b.wireFrame,
-  //   };
-  // };
+//   //   // creation of the physic object
+//   //   let terrain = Matter.Bodies.fromVertices(
+//   //     centerOfMass.x,
+//   //     centerOfMass.y,
+//   //     vertexSets,
+//   //     {
+//   //       isStatic: true,
+//   //       render: {
+//   //         fillStyle: "#060a19",
+//   //         strokeStyle: "#060a19",
+//   //         lineWidth: 1,
+//   //       },
+//   //     },
+//   //     false
+//   //   );
 
-  // me.terrain = createTerrain(data);
-  // this.addChild(me.terrain.sprite);
+//   //   // creation of the wireframe object
+//   //   let wireFrame = Tools.wireFrameFromVertex(360, 1290, vertexSets);
+//   //   return { terrain, wireFrame };
+//   // }
+//   // // creation of the obejct terrain  sprite + body + wireframe
+//   // var createTerrain = function (data) {
+//   //   let b = new PhysicsObject(data);
+//   //   return {
+//   //     sprite: new PIXI.Sprite(
+//   //       PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)
+//   //     ),
+//   //     body: b.terrain,
+//   //     wireFrame: b.wireFrame,
+//   //   };
+//   // };
 
-  // // displaying wireframe on debug
-  // if (me.state.isDebug) {
-  //   this.addChild(me.terrain.wireFrame);
-  // }
-};
+//   // me.terrain = createTerrain(data);
+//   // this.addChild(me.terrain.sprite);
+
+//   // // displaying wireframe on debug
+//   // if (me.state.isDebug) {
+//   //   this.addChild(me.terrain.wireFrame);
+//   // }
+// };
 
 
 

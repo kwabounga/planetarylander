@@ -65,38 +65,53 @@ Landers.create = function (landerData, level) {
 /**
  * Generate the exploded version of the current lander 
  * @param {Lander} lander the current instance of the lander in game 
+ * @param {int} level the current level ID
+ * @param {function} callBack return the exploded lander {bodies, sprites}
  */
 Landers.explode = function (lander, level, callBack) {
-  let textSS = PIXI.Texture.from(lander.sprite.params.sprite);
-  // console.log("textSS",textSS,textSS._frame);
-  let dataSS = Tools.SpriteSheetAutoSlicer("lander", 5, 5, textSS);
-  // console.log("dataSS", dataSS);
-  let data = JSON.parse(dataSS);
-  // console.log("dataSS", data);
-  let spLander = new PIXI.Spritesheet(textSS.baseTexture, data);
-  // console.log("spLander",spLander)
-  let stackObjSize = {};
-  let sStack = [];
-  spLander.parse((result) => {
-    // console.log(result)
 
+  // get the Texture from the current lander
+  let textSS = PIXI.Texture.from(lander.sprite.params.sprite);
+  
+  // generate a new atlas and parse it
+  let dataSS = Tools.SpriteSheetAutoSlicer("lander", 5, 5, textSS);
+  let data = JSON.parse(dataSS);
+  
+  // create the new sprite sheet from the texture and the atlas
+  let spLander = new PIXI.Spritesheet(textSS.baseTexture, data);
+  
+  // stack Object size from the sliced lander 
+  let stackObjSize = {};
+  // sheet stack references
+  let sStack = [];
+
+  // parse the sprite sheet (generate all sprites references)
+  spLander.parse((result) => {
+    // SPRITES PART //
+    // create a new container for all parts of the sliced lander
     let c = new PIXI.Container();
+
+    // create lander parts sprites
+    // and add them to the container
     Object.keys(data.frames).forEach((key, i) => {
       if (i == 0) {
+        // reference the size
         stackObjSize.width = data.frames[key].sourceSize.w;
         stackObjSize.height = data.frames[key].sourceSize.h;
       }
-      // console.log(key, data.frames[key]);
+      // create the sprite and place it in the container
       let s = new PIXI.Sprite(result[key]);
       s.anchor.set(0.5);
       s.position = data.frames[key].original;
-      // console.log(s)
       c.addChild(s);
       sStack.push(s);
     });
     
+    // BODIES PART //
+    // get the position of the stack
     let xx = level.lander.body.position.x - level.lander.sprite.width / 2;
     let yy = level.lander.body.position.y - level.lander.sprite.height / 2;
+    // create the Matter stack ann place it
     var stack = Matter.Composites.stack(xx, yy, 5, 5, 0, 0, function (x, y) {
       let b = Matter.Bodies.rectangle(
         x,
@@ -104,19 +119,19 @@ Landers.explode = function (lander, level, callBack) {
         stackObjSize.width,
         stackObjSize.height
       );
+      // apply Angular Velocity to each parts for create explosion
       Matter.Body.setAngularVelocity(b, Math.random() * 2 - 1);
       return b;
     });
 
-    
+    // rotate the complete stack according to the lander rotation
     Matter.Composite.rotate(stack, level.lander.body.angle, {x:level.lander.body.position.x ,y:level.lander.body.position.y});
+    // add the bodies to the engine
     Matter.World.add(level.engine.world, stack.bodies);
-    console.log(stack);
+    // console.log(stack);
     
     
-    console.log(level.landerExploded);
-    // c.position = level.lander.sprite.position;
-    // c.rotation = level.lander.sprite.rotation;
+    // add the container in the level
     level.addChild(c);
 
     // returning the object after parsing
