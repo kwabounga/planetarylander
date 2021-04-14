@@ -81,6 +81,8 @@ Level.prototype.init = function () {
   this.addCollisions();
 };
 
+
+// TODO : extract check methodes and check if the collided second object is the lander
 /**
  * hitTest for landing zones / stars  ..see for  / bonus / malus here ?
  */
@@ -147,6 +149,9 @@ Level.prototype.addCollisions = function () {
     }
   });
 };
+/**
+ * die
+ */
 Level.prototype.die = function () {
   const me = this;
   this.lander.isDie = true;
@@ -160,6 +165,9 @@ Level.prototype.die = function () {
     me.lander.body.isSensor = true;
   })
 };
+/**
+ * add some damages to  the lander
+ */
 Level.prototype.damageLander = function () {
   const me = this;
   this.state.log("DAMAGE");
@@ -203,6 +211,9 @@ Level.prototype.getStar = function (star) {
     star.isCatched = true;
   }
 };
+/**
+ * game over
+ */
 Level.prototype.gameover = function () {
   console.log("GAME OVER");
   this.removeKeyEvents();
@@ -302,6 +313,7 @@ Level.prototype.updateLander = function () {
   }
   this.lander.sprite.update();
 };
+// TODO: extract method and create Terrains Factory
 /**
  * create, set and add terrain
  * @param {SVG} data svg terrain raw data

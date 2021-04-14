@@ -63,7 +63,7 @@ Landers.create = function (landerData, level) {
 
 
 /**
- * Generate the exploded version 
+ * Generate the exploded version of the current lander 
  * @param {Lander} lander the current instance of the lander in game 
  */
 Landers.explode = function (lander, level, callBack) {

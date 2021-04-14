@@ -67,6 +67,14 @@ Tools.ajaxGet = function(url, callback) {
     return world;
   }
   
+  /**
+   * 
+   * @param {string} elmName the name of the lander sprite
+   * @param {int} columns how many columns
+   * @param {int} rows how many rows
+   * @param {PIXI.Texture} origin the original Texture
+   * @returns {JSON} the new sprite sheet in json format
+   */
   Tools.SpriteSheetAutoSlicer = function (elmName, columns, rows , origin){
     let frames = {}
 

@@ -4,7 +4,7 @@ function BonusSprite(type, amount){
   this.graphic = new PIXI.Sprite(PIXI.Texture.from(`bonus_${type}0000`))
   this.graphic.anchor.set(0.5);
   this.addChild(this.graphic);
-  let tAmount = (amount + "")
+  let tAmount = (amount + ""); // cast to string
   this.tfAmount = this.showAmount({
     font: "DeadFontWalking",
     fontSize: 20,
