@@ -65,9 +65,11 @@ Level.prototype.loadTerrain = function (levelParams) {
  */
 Level.prototype.init = function () {
   const me = this;
+
+  // bodies and assets
   this.state.log("terrain", me.terrain.body);
   this.addLander();
-  // todo: gerer les landzones ds les json
+  
   this.addlandZones();
   this.addStars();
   this.addBonus();
@@ -415,6 +417,8 @@ Level.prototype.addTerrain = function (data, centerOfMass) {
   }
 };
 
+
+// TODO: put this in tools
 /**
  *
  * @param {number} x  position x
