@@ -101,3 +101,56 @@ Tools.ajaxGet = function(url, callback) {
     
     return JSON.stringify({frames,meta});
   }
+
+/**
+ * create an wireframed object for debugging Matter's bodies in Pixi's renderer
+ * 
+ * @param {number} x  position x
+ * @param {number} y  position y
+ * @param {Array} vertexSets set of vertices
+ * @param {boolean} centered for set pivot point to the center of the object
+ * @param {hexadecimal} color the color of wireframe lines
+ * @returns {PIXI.Graphics} wireframe object
+ */
+  Tools.wireFrameFromVertex = function (
+    x,
+    y,
+    vertexSets,
+    centered = false,
+    color = "#86f11c"
+  ) {
+    // recuperation d'un array de vertices
+    let vSet = vertexSets.flat();
+  
+    // dessin des contours
+    var wireFrame = new PIXI.Graphics();
+    wireFrame.lineStyle(1, color.replace("#", "0x"), 1);
+    wireFrame.moveTo(vSet[0].x, vSet[0].y);
+    vSet.forEach((v) => {
+      wireFrame.lineTo(v.x, v.y);
+    });
+    wireFrame.lineTo(vSet[0].x, vSet[0].y);
+    wireFrame.lineTo(vSet[1].x, vSet[1].y);
+    wireFrame.endFill();
+  
+    // replacement pour les landers
+    if (centered) {
+      let sizeW = { x: Infinity, y: -Infinity };
+      let sizeH = { x: Infinity, y: -Infinity };
+  
+      vSet.map((v) => {
+        // width
+        sizeW.x = Math.min(sizeW.x, v.x);
+        sizeW.y = Math.max(sizeW.y, v.x);
+        // height
+        sizeH.x = Math.min(sizeH.x, v.y);
+        sizeH.y = Math.max(sizeH.y, v.y);
+      });
+      let width = sizeW.y; //-sizeW.x;
+      let height = sizeH.y; //-sizeH.x;
+      console.log("CENTERIZATION:", sizeW, sizeH, width, height);
+      wireFrame.pivot = { x: width / 2 + sizeW.x, y: height / 2 + sizeH.x };
+    }
+  
+    return wireFrame;
+  };

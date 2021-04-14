@@ -393,7 +393,7 @@ Level.prototype.addTerrain = function (data, centerOfMass) {
     );
 
     // creation of the wireframe object
-    let wireFrame = me.wireFrameFromVertex(360, 1290, vertexSets);
+    let wireFrame = Tools.wireFrameFromVertex(360, 1290, vertexSets);
     return { terrain, wireFrame };
   }
   // creation of the obejct terrain  sprite + body + wireframe
@@ -418,58 +418,6 @@ Level.prototype.addTerrain = function (data, centerOfMass) {
 };
 
 
-// TODO: put this in tools
-/**
- *
- * @param {number} x  position x
- * @param {number} y  position y
- * @param {Array} vertexSets set of vertices
- * @param {boolean} centered for set pivot point to the center of the object
- * @param {hexadecimal} color the color of wireframe lines
- * @returns {PIXI.Graphics} wireframe object
- */
-Level.prototype.wireFrameFromVertex = function (
-  x,
-  y,
-  vertexSets,
-  centered = false,
-  color = "#86f11c"
-) {
-  // recuperation d'un array de vertices
-  let vSet = vertexSets.flat();
-
-  // dessin des contours
-  var wireFrame = new PIXI.Graphics();
-  wireFrame.lineStyle(1, color.replace("#", "0x"), 1);
-  wireFrame.moveTo(vSet[0].x, vSet[0].y);
-  vSet.forEach((v) => {
-    wireFrame.lineTo(v.x, v.y);
-  });
-  wireFrame.lineTo(vSet[0].x, vSet[0].y);
-  wireFrame.lineTo(vSet[1].x, vSet[1].y);
-  wireFrame.endFill();
-
-  // replacement pour les landers
-  if (centered) {
-    let sizeW = { x: Infinity, y: -Infinity };
-    let sizeH = { x: Infinity, y: -Infinity };
-
-    vSet.map((v) => {
-      // width
-      sizeW.x = Math.min(sizeW.x, v.x);
-      sizeW.y = Math.max(sizeW.y, v.x);
-      // height
-      sizeH.x = Math.min(sizeH.x, v.y);
-      sizeH.y = Math.max(sizeH.y, v.y);
-    });
-    let width = sizeW.y; //-sizeW.x;
-    let height = sizeH.y; //-sizeH.x;
-    this.state.log("CENTERIZATION:", sizeW, sizeH, width, height);
-    wireFrame.pivot = { x: width / 2 + sizeW.x, y: height / 2 + sizeH.x };
-  }
-
-  return wireFrame;
-};
 
 /**
  * create, set and add the lander
@@ -486,7 +434,7 @@ Level.prototype.addLander = function () {
     let wireFrame;
     // create the box for lander
     if (params.vertices) {
-      wireFrame = me.wireFrameFromVertex(
+      wireFrame = Tools.wireFrameFromVertex(
         params.x,
         params.y,
         params.vertices,
@@ -502,7 +450,7 @@ Level.prototype.addLander = function () {
         { x: params.x, y: params.height },
         { x: params.x, y: params.y },
       ];
-      wireFrame = me.wireFrameFromVertex(
+      wireFrame = Tools.wireFrameFromVertex(
         params.x,
         params.y,
         vertexSet,
