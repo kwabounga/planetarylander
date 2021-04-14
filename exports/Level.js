@@ -150,68 +150,15 @@ Level.prototype.addCollisions = function () {
 Level.prototype.die = function () {
   const me = this;
   this.lander.isDie = true;
-  console.log(this.lander.sprite.params.sprite);
-  let textSS = PIXI.Texture.from(this.lander.sprite.params.sprite);
-  // console.log("textSS",textSS,textSS._frame);
-  let dataSS = Tools.SpriteSheetAutoSlicer("lander", 5, 5, textSS);
-  // console.log("dataSS", dataSS);
-  let data = JSON.parse(dataSS);
-  // console.log("dataSS", data);
-  let spLander = new PIXI.Spritesheet(textSS.baseTexture, data);
-  // console.log("spLander",spLander)
-  let stackObjSize = {};
-  let sStack = [];
-  spLander.parse((result) => {
-    // console.log(result)
+  console.log(this.lander.sprite.params.sprite);  
 
-    let c = new PIXI.Container();
-    Object.keys(data.frames).forEach((key, i) => {
-      if (i == 0) {
-        stackObjSize.width = data.frames[key].sourceSize.w;
-        stackObjSize.height = data.frames[key].sourceSize.h;
-      }
-      // console.log(key, data.frames[key]);
-      let s = new PIXI.Sprite(result[key]);
-      s.anchor.set(0.5);
-      s.position = data.frames[key].original;
-      // console.log(s)
-      c.addChild(s);
-      sStack.push(s);
-    });
-    //  Matter.Composites.stack(xx, yy, columns, rows, columnGap, rowGap, callback)
-    let xx = me.lander.body.position.x - me.lander.sprite.width / 2;
-    let yy = me.lander.body.position.y - me.lander.sprite.height / 2;
-    var stack = Matter.Composites.stack(xx, yy, 5, 5, 0, 0, function (x, y) {
-      let b = Matter.Bodies.rectangle(
-        x,
-        y,
-        stackObjSize.width,
-        stackObjSize.height
-      );
-      Matter.Body.setAngularVelocity(b, Math.random() * 2 - 1);
-      return b;
-    });
+  Landers.explode(me.lander, me, (lExp)=>{
+    me.landerExploded = lExp;
 
-    // me.landerExploded.bodies = stack.bodies;
-    Matter.Composite.rotate(stack, me.lander.body.angle, {x:me.lander.body.position.x ,y:me.lander.body.position.y});
-    Matter.World.add(this.engine.world, stack.bodies);
-    console.log(stack);
-    me.landerExploded = {
-      bodies: stack.bodies,
-      sprites: sStack,
-    };
-    // stack.bodies.forEach((b)=>{
-    //   Matter.Body.setAngularVelocity(b, (Math.random()*2)-1)
-    // })
-    console.log(me.landerExploded);
-    // c.position = me.lander.sprite.position;
-    // c.rotation = me.lander.sprite.rotation;
-    this.addChild(c);
-  });
-  //me.lander.body
-  // Matter.World.remove(this.engine.world, me.lander.body);
-  me.lander.sprite.visible = false;
-  me.lander.body.isSensor = true
+    // TODO : change the collider id for lander and terrain see for have multiples collider ID for terrain
+    me.lander.sprite.visible = false;
+    me.lander.body.isSensor = true;
+  })
 };
 Level.prototype.damageLander = function () {
   const me = this;
@@ -426,54 +373,6 @@ Level.prototype.addLander = function () {
   this.state.log("ADD LANDER");
   const me = this;
 
-  // cf JSON.parse(./data/moon.json) >> "lander" for the parameters
-
-  // creation of the physic object and wireframe
-  // function PhysicsObject(params) {
-  //   let box = new LanderBody(params);
-  //   let wireFrame;
-  //   // create the box for lander
-  //   if (params.vertices) {
-  //     wireFrame = Tools.wireFrameFromVertex(
-  //       params.x,
-  //       params.y,
-  //       params.vertices,
-  //       true,
-  //       "#08fff2"
-  //     );
-  //   } else {
-  //     // vertices from rectangle
-  //     let vertexSet = [
-  //       { x: params.x, y: params.y },
-  //       { x: params.width, y: params.y },
-  //       { x: params.width, y: params.height },
-  //       { x: params.x, y: params.height },
-  //       { x: params.x, y: params.y },
-  //     ];
-  //     wireFrame = Tools.wireFrameFromVertex(
-  //       params.x,
-  //       params.y,
-  //       vertexSet,
-  //       true,
-  //       "#08fff2"
-  //     );
-  //   }
-  //   me.state.log("LANDER BODY", box);
-
-  //   return { box, wireFrame };
-  // }
-
-  // // Object Lander : sprite + body + wireframe
-  // var createLander = function () {
-  //   let b = new PhysicsObject(me.data.lander.physic);
-  //   return {
-  //     sprite: new Lander(me, me.data.lander.sprite),
-  //     body: b.box,
-  //     wireFrame: b.wireFrame,
-  //   };
-  // };
-
-  // this.lander = createLander();
   this.lander = Landers.create(me.data.lander, this);
   this.state.log(this.lander.sprite);
 
