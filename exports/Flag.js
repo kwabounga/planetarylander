@@ -18,4 +18,4 @@ Flag.prototype.getAnimationLoop = function(from,to) {
         }
         return textures;
 }
-// /!\ ne pas créer de function update pour les AnimatedSprite /!\
+// /!\ don't create update function for AnimatedSprite  it will overwrite the original /!\

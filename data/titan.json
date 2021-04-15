@@ -2,17 +2,19 @@
   "lander": {
     "motor": {
       "shell": 100,
-      "reactorPower": 600,
+      "reactorPower": 25,
+      "reactorPowerMax": 1500,
       "stabilizersPower": 0.0025,
       "fuel": 500,
-      "fuelConsumption": 0.2
+      "fuelConsumption": 0.2,
+      "speedMax":25
     },
     "physic": {
       "x": 400,
       "y": 0,
       "width": 82,
       "height": 68,
-      "density": 0.2,
+      "density": 0.4,
       "frictionAir": 0.08,
       "friction": 0.01,
       "restitution": 0.9,

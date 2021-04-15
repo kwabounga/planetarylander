@@ -73,12 +73,12 @@ Ui.prototype.update = function () {
   this.updateTextField(
     this.speedX,
     "vX: " + Math.floor(this.state.game.speedX * 25) + " m/s",
-    getTint((this.state.game.speedX * 25), 40)
+    getTint((this.state.game.speedX * 25), this.state.game.speedMax)
   );
   this.updateTextField(
     this.speedY,
     "vY: " + Math.floor(this.state.game.speedY * 25) + " m/s",
-    getTint((this.state.game.speedY * 25), 40)
+    getTint((this.state.game.speedY * 25), this.state.game.speedMax)
   );
   
   this.updateTextField(

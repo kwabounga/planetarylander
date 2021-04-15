@@ -26,6 +26,7 @@ const State = (function () {
             fuelMax:500,
             fuel:500,
             shell:100,
+            power:0
         }
         this.log = function(...arg){
             if(instance.isDebug){

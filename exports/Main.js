@@ -1,24 +1,31 @@
+/**
+ * Main Object
+ *
+ * @param {Object} data  from json's world
+ */
 function Main(data) {
+  // get doms Elements
   this.loader = document.getElementById("loader");
   this.view = document.getElementById("game-canvas");
-  
+
+  // get data js object (from json)
   this.data = data;
 
+  // get state (singleton)
   this.state = State.getInstance();
-  this.state.game.fuelMax = this.data.lander.motor.fuel
-  this.state.game.fuel= this.data.lander.motor.fuel
 
+  // overwrite world vars in states
+  this.state.game.speedMax = this.data.lander.motor.speedMax;
+  this.state.game.fuelMax = this.data.lander.motor.fuel;
+  this.state.game.fuel = this.data.lander.motor.fuel;
 
-  // this.Engine = Matter.Engine;
-  // this.World = Matter.World;
-  // this.Bodies = Matter.Bodies;
-  // this.Mouse = Matter.Mouse;
-  // this.Events = Matter.Events;
-  // this.MouseConstraint = Matter.MouseConstraint;
+  // TODO: loading from a db some game state ??
 
+  // Matter initialization
   this.engine = Matter.Engine.create();
   this.bodies = [];
 
+  // PIXI Initialization
   this.stage = new PIXI.Container();
   this.renderer = PIXI.autoDetectRenderer(800, 600, {
     backgroundColor: "#3a3a41".replace("#", "0x"),
@@ -27,22 +34,27 @@ function Main(data) {
     view: this.view,
   });
 
-  // this.lander;
+  
   this.level;
-
+  this.menu;
+  this.loopID;
+  
+  // launch the assets loading
   this.loadSpriteSheet();
 
-  this.loopID;
 }
 
 Main.prototype.showCanvas = function () {
   this.view.style = "";
   this.loader.style = "display: none;";
 };
+
 Main.prototype.showLoader = function () {
   this.view.style = "display: none;";
   this.loader.style = "";
 };
+
+
 /**
  * sprite sheet loader
  */
@@ -50,7 +62,8 @@ Main.prototype.loadSpriteSheet = function () {
   this.state.log("LOAD");
   var loader = PIXI.loader;
   this.data.levels.forEach((lvl, lvlID) => {
-    loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
+    // loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
+    loader.add(`terrain${lvlID}`, lvl.sprite);
   });
   // loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
   loader.add("landersSpriteSheet", "./assets/landers.json");
@@ -64,13 +77,26 @@ Main.prototype.spriteSheetLoaded = function () {
   this.state.log("LOADED");
   const me = this;
 
+
+  // FOR DEBUG ONLY
+  // TODO: Access to the Menu then loading levels etc.
+
+
   // creation du niveau et ajout des elements dans le moteur
-  this.level = new Level(this.stage, this.engine, this.data, () => {
-    me.level.getAllBodiesInThisLevel().forEach((b) => {
-      me.bodies.push(b);
-    });
-    me.initAfterLoadingTerrain();
-  });
+  // this.level = new Level(this.stage, this.engine, this.data, () => {
+  //   me.level.getAllBodiesInThisLevel().forEach((b) => {
+  //     me.bodies.push(b);
+  //   });
+  //   me.initAfterLoadingTerrain();
+  // });
+  this.menu = new Menu(this.stage)
+  Matter.World.add(this.engine.world, this.menu.bodies);
+  
+  this.showCanvas();
+  this.addMouseConstraint();
+  console.log('BODIES',this.menu.bodies)
+  this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
+
 };
 
 Main.prototype.initAfterLoadingTerrain = function () {
@@ -88,11 +114,20 @@ Main.prototype.initAfterLoadingTerrain = function () {
   // run the engine
   this.loopID = requestAnimationFrame(this.update.bind(this));
 };
+
+
+/**
+ * 
+ * @returns {PIXI.Container} the game infos  on screen HUD (Heads-Up Display) or ATH (Affichage Tête Haute)
+ */
 Main.prototype.createUi = function () {
   let ui = new Ui(this.data);
   this.stage.addChild(ui);
   return ui;
 };
+
+
+
 // only for test
 Main.prototype.addMouseConstraint = function () {
   // add mouse control
@@ -111,12 +146,18 @@ Main.prototype.addMouseConstraint = function () {
   this.renderer.mouse = mouse;
 };
 
+Main.prototype.updateMenu = function () {
+  this.menu.update()
+  Matter.Engine.update(this.engine);
+  this.renderer.render(this.stage);
+  this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
+}
 Main.prototype.update = function () {
   if (!this.state.isPause) {
     // using pixi loop for Matter Engine updating
-    Matter.Engine.update(this.engine);
     this.level.update();
-    this.updateViewLevel(this.level)
+    Matter.Engine.update(this.engine);
+    this.updateViewLevel(this.level);
     if (!this.level.isGameOver) {
       this.ui.update();
     }
@@ -128,10 +169,9 @@ Main.prototype.update = function () {
   // re-looping
   this.loopID = requestAnimationFrame(this.update.bind(this));
 };
-Main.prototype.updateViewLevel = function(lvl){
-  let target = lvl.getLander().body
-  let newPos = (300-target.position.y); /// 300 (height of canvas /2) 
+Main.prototype.updateViewLevel = function (lvl) {
+  let target = lvl.getLander().body;
+  let newPos = 300 - target.position.y; /// 300 (height of canvas /2)
   // this.state.log(newPos);
-  lvl.y = Math.min(0,Math.max(newPos,-1400)) // 2000 (size of the level) - 600 (height of canvas)
-
-}
+  lvl.y = Math.min(0, Math.max(newPos, -1400)); // 2000 (size of the level) - 600 (height of canvas)
+};

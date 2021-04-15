@@ -125,19 +125,9 @@ Level.prototype.addCollisions = function () {
       // landing
       me.landZones.forEach((lZone) => {
         if (pair.bodyA === lZone && pair.bodyB === me.lander.body) {
-          if (me.lander.isDie){
-            me.gameover()
-          }else {
-            me.win();
-
-          };
+          me.end();
         } else if (pair.bodyB === lZone && pair.bodyA === me.lander.body) {
-          if (me.lander.isDie){
-            me.gameover()
-          }else {
-            me.win();
-
-          };
+          me.end();
         }
       });
 
@@ -227,11 +217,12 @@ Level.prototype.getStar = function (star) {
 /**
  * game over
  */
-Level.prototype.gameover = function () {
+Level.prototype.gameOver = function () {
   console.log("GAME OVER");
   this.removeKeyEvents();
   this.isGameOver = true;
   this.state.isPause = true;
+  // see here to cancelAnimationFrame on game over 
 }
 /**
  * win
@@ -248,6 +239,20 @@ Level.prototype.win = function () {
   console.log("WIN");
 };
 
+
+Level.prototype.end = function () {
+  // const me = this;
+  if (this.lander.isDie){
+    //this.gameOver() // dans l'update
+  }else {
+    if (Math.abs(this.state.game.speedY * 25) > this.state.game.speedMax || Math.abs(this.state.game.speedX * 25) > this.state.game.speedMax){
+      this.state.game.shell = 0;
+      this.damageLander()
+    }else {
+      this.win();
+    }
+  };
+}
 /**
  *  update / game loop
  */
@@ -258,7 +263,13 @@ Level.prototype.update = function () {
   if (this.landerExploded && this.landerExploded.bodies.length > 0) {
     this.updateStack();
   }
+  // if(this.lander.isDie){
+  //   this.forceUpdateUI()
+  // }
 };
+// Level.prototype.forceUpdateUI = function () {
+  
+// }
 Level.prototype.updateStack = function () {
   const me = this;
   this.landerExploded.bodies.forEach((b, i) => {
@@ -268,7 +279,10 @@ Level.prototype.updateStack = function () {
 };
 Level.prototype.updateLander = function () {
   const m = this;
-
+  if (m.lander.isDie && m.lander.body.position.y >= m.terrain.sprite.height + 600){
+    console.log(m.lander.body)
+    m.gameOver();
+  }
   if (
     this.state.keyUp &&
     this.state.keyRight &&
@@ -276,12 +290,14 @@ Level.prototype.updateLander = function () {
     this.state.game.fuel > 0
   ) {
     if (this.state.keyUp.isDown) {
+      this.state.game.power += m.data.lander.motor.reactorPower;
+      this.state.game.power = Math.min(this.state.game.power, m.data.lander.motor.reactorPowerMax)
       let landerRot = (m.lander.body.angle * 180) / Math.PI;
       let velY =
-        -m.data.lander.motor.reactorPower *
+        -this.state.game.power *
         Math.cos((landerRot * Math.PI) / 180);
       let velX =
-        -m.data.lander.motor.reactorPower *
+        -this.state.game.power *
         Math.sin((landerRot * Math.PI) / 180) *
         -1;
       m.state.log(landerRot, velY, velX);
@@ -292,6 +308,8 @@ Level.prototype.updateLander = function () {
         { x: velX / 200, y: velY / 200 }
       );
       this.state.game.fuel -= m.data.lander.motor.fuelConsumption;
+    } else {
+      this.state.game.power  = 0
     }
     if (this.state.keyRight.isDown) {
       Matter.Body.setAngularVelocity(
@@ -326,67 +344,6 @@ Level.prototype.updateLander = function () {
   }
   this.lander.sprite.update();
 };
-// TODO: extract method and create Terrains Factory
-
-// Level.prototype.addTerrain = function (data, centerOfMass) {
-//   const me = this;
-
-//   // // create the physic object + wireframe
-//   // function PhysicsObject(data) {
-//   //   // parsing svg object
-//   //   let root = new window.DOMParser().parseFromString(data, "image/svg+xml");
-//   //   var select = function (root, selector) {
-//   //     return Array.prototype.slice.call(root.querySelectorAll(selector));
-//   //   };
-//   //   let paths = select(root, "path");
-//   //   // converting svg path to vertices set
-//   //   let vertexSets = paths.map(function (path) {
-//   //     return Matter.Svg.pathToVertices(path, 5);
-//   //   });
-//   //   me.state.log("vertexSets:", vertexSets);
-
-//   //   // creation of the physic object
-//   //   let terrain = Matter.Bodies.fromVertices(
-//   //     centerOfMass.x,
-//   //     centerOfMass.y,
-//   //     vertexSets,
-//   //     {
-//   //       isStatic: true,
-//   //       render: {
-//   //         fillStyle: "#060a19",
-//   //         strokeStyle: "#060a19",
-//   //         lineWidth: 1,
-//   //       },
-//   //     },
-//   //     false
-//   //   );
-
-//   //   // creation of the wireframe object
-//   //   let wireFrame = Tools.wireFrameFromVertex(360, 1290, vertexSets);
-//   //   return { terrain, wireFrame };
-//   // }
-//   // // creation of the obejct terrain  sprite + body + wireframe
-//   // var createTerrain = function (data) {
-//   //   let b = new PhysicsObject(data);
-//   //   return {
-//   //     sprite: new PIXI.Sprite(
-//   //       PIXI.Texture.from(`terrain${me.state.game.currentLevel}`)
-//   //     ),
-//   //     body: b.terrain,
-//   //     wireFrame: b.wireFrame,
-//   //   };
-//   // };
-
-//   // me.terrain = createTerrain(data);
-//   // this.addChild(me.terrain.sprite);
-
-//   // // displaying wireframe on debug
-//   // if (me.state.isDebug) {
-//   //   this.addChild(me.terrain.wireFrame);
-//   // }
-// };
-
-
 
 /**
  * create, set and add the lander
@@ -394,7 +351,6 @@ Level.prototype.updateLander = function () {
 Level.prototype.addLander = function () {
   this.state.log("ADD LANDER");
   const me = this;
-
   this.lander = Landers.create(me.data.lander, this);
   this.state.log(this.lander.sprite);
 

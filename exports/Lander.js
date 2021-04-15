@@ -48,7 +48,7 @@ Lander.prototype.addFlag = function (params) {
   f.visible = false;
   this.flag = f;
 };
-// réacteur
+// reactor
 Lander.prototype.addReactor = function (params) {
   let r = new Reactor(params);
   r.x = params.x;
@@ -56,7 +56,7 @@ Lander.prototype.addReactor = function (params) {
   this.addChild(r);
   this.reactor = r;
 };
-// stabilisateurs
+// stabilizers
 Lander.prototype.addStabilizers = function (params) {
   params.forEach((stab) => {
     let s = new Stabilizer(stab);
