@@ -1,11 +1,13 @@
-function Menu(stage) {
+function Menu(stage,engine) {
+
   PIXI.Container.call(this);
   this.state = State.getInstance();
-
+  this.engine = engine;
   this.bodies = [];
   this.sprites = [];
   this.bg;
-  this.showMenu(0);
+  // TODO GET WORLD ID IN OTHER WAY
+  this.showMenu(this.state.menuData.worlds.indexOf(Tools.getHash()));
   stage.addChild(this)
 }
 
@@ -13,7 +15,7 @@ Menu.prototype = Object.create(PIXI.Container.prototype)
 
 Menu.prototype.showMenu = function (worldID = 0) {
   const me = this
-  me.bg = new MenuBg(Tools.getHash());
+  me.bg = new MenuBg(this.state.menuData.worlds[worldID]);
   me.addChild(me.bg)
   for (let i = 0; i < 10; i++) {
     let position = this.getPosition(i)
@@ -27,11 +29,11 @@ Menu.prototype.showMenu = function (worldID = 0) {
     this.sprites.push(button);
     this.addChild(button);
     this.bodies.push(button.body);
-    button.emitter.on('out',me.launchLevel.bind(this))
+    button.emitter.on('out',me.launchLevel.bind(this));
     
   }
   
-  
+  Matter.World.add(me.engine.world, me.bodies);
 };
 
 

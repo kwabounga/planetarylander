@@ -19,10 +19,10 @@ MenuBg.prototype.displayElements = function(world) {
       s.scale = spriteInfos.scale;
     }
     if(spriteInfos.filter){
-      switch (spriteInfos.filter) {
+      switch (spriteInfos.filter.type) {
         case 'blur':
           default:
-          let f = new PIXI.filters.BlurFilter(10,3,3);
+          let f = new PIXI.filters.BlurFilter(spriteInfos.filter.size,3,3);
           // f.blendMode = PIXI.BLEND_MODES.HARD_LIGHT;
           f.autoFit = true;
           s.filters = [f];      

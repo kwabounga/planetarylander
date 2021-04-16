@@ -89,15 +89,23 @@ Main.prototype.spriteSheetLoaded = function () {
   //   });
   //   me.initAfterLoadingTerrain();
   // });
-  this.menu = new Menu(this.stage)
-  Matter.World.add(this.engine.world, this.menu.bodies);
+  this.addMenu()
+
+};
+
+Main.prototype.addMenu = function () {
+  this.menu = new Menu(this.stage, this.engine)
+ 
   
   this.showCanvas();
   this.addMouseConstraint();
   console.log('BODIES',this.menu.bodies)
   this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
+}
 
-};
+Main.prototype.removeMenu = function () {
+
+}
 
 Main.prototype.initAfterLoadingTerrain = function () {
   this.state.log("initAfterLoadingTerrain");
