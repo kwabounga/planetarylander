@@ -2,7 +2,7 @@
 
 "bonus_fuel0000":
 {
-	"frame": {"x":460,"y":559,"w":51,"h":49},
+	"frame": {"x":460,"y":633,"w":51,"h":49},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":49},
@@ -34,7 +34,7 @@
 },
 "ingame_star0000":
 {
-	"frame": {"x":401,"y":559,"w":59,"h":58},
+	"frame": {"x":401,"y":633,"w":59,"h":58},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":59,"h":58},
@@ -66,7 +66,7 @@
 },
 "ovni0000":
 {
-	"frame": {"x":401,"y":617,"w":62,"h":30},
+	"frame": {"x":394,"y":691,"w":62,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":30},
@@ -74,7 +74,7 @@
 },
 "rocket0000":
 {
-	"frame": {"x":401,"y":499,"w":62,"h":60},
+	"frame": {"x":401,"y":573,"w":62,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":60},
@@ -122,13 +122,21 @@
 },
 "ui_button0000":
 {
-	"frame": {"x":412,"y":426,"w":74,"h":73},
+	"frame": {"x":401,"y":500,"w":74,"h":73},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":73},
 	"sourceSize": {"w":74,"h":73}
 },
 "ui_buttonOver0000":
+{
+	"frame": {"x":412,"y":426,"w":74,"h":74},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
+	"sourceSize": {"w":74,"h":74}
+},
+"ui_button_nb0000":
 {
 	"frame": {"x":412,"y":352,"w":74,"h":74},
 	"rotated": false,
@@ -138,7 +146,7 @@
 },
 "ui_star0000":
 {
-	"frame": {"x":463,"y":608,"w":38,"h":38},
+	"frame": {"x":460,"y":682,"w":38,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":38},
@@ -146,7 +154,7 @@
 },
 "ui_star_disabled0000":
 {
-	"frame": {"x":463,"y":499,"w":39,"h":38},
+	"frame": {"x":463,"y":573,"w":39,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":39,"h":38},

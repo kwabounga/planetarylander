@@ -6,6 +6,16 @@ function Menu(stage,engine) {
   this.bodies = [];
   this.sprites = [];
   this.bg;
+  let txt = this.state.menuData.bg[Tools.getHash()].title
+  this.title = Tools.customText({
+    font: "DeadFontWalking",
+    fontSize: 50,
+    color: "#fffafa",
+    text: txt,
+    x: Math.ceil(-((txt.length)*25)/2) + 400,
+    y: 50,
+  })
+  this.addChild(this.title);
   // TODO GET WORLD ID IN OTHER WAY
   this.showMenu(this.state.menuData.worlds.indexOf(Tools.getHash()));
   stage.addChild(this)
@@ -13,6 +23,9 @@ function Menu(stage,engine) {
 
 Menu.prototype = Object.create(PIXI.Container.prototype)
 
+Menu.prototype.displayTitle = function (worldID = 0) {
+
+}
 Menu.prototype.showMenu = function (worldID = 0) {
   const me = this
   me.bg = new MenuBg(this.state.menuData.worlds[worldID]);

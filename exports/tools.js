@@ -162,3 +162,14 @@ Tools.ajaxGet = function(url, callback) {
   
     return wireFrame;
   };
+
+
+  Tools.customText = function(params) {
+    let tf = new PIXI.extras.BitmapText(params.text, {
+      font: `${params.fontSize}px ${params.font}`,
+      tint: params.color.replace("#", "0x"),
+    });
+    tf.x = params.x;
+    tf.y = params.y;
+    return tf;
+  }

@@ -1,12 +1,15 @@
 function ButtonSprite(levelID) {
-  PIXI.Sprite.call(this,PIXI.Texture.from("ui_button0000"))
-  this.over = new PIXI.Sprite(PIXI.Texture.from("ui_buttonOver0000"))
-  this.over.anchor.set(0.5);
-  this.addChild(this.over);
+  PIXI.Sprite.call(this,PIXI.Texture.from("ui_button_nb0000"));
+  this.state = State.getInstance();
+
+  // this.over = new PIXI.Sprite(PIXI.Texture.from("ui_buttonOver0000"));
+  // this.over.anchor.set(0.5);
+  
+  // this.addChild(this.over);
   this.outed();
 
   let txt = levelID+"";
-  this.text = this.addText({
+  this.text = Tools.customText({
     font: "DeadFontWalking",
     fontSize: 30,
     color: "#fffafa",
@@ -20,19 +23,12 @@ function ButtonSprite(levelID) {
 }
 ButtonSprite.prototype = Object.create(PIXI.Sprite.prototype)
 
-ButtonSprite.prototype.addText = function(params) {
-  let tf = new PIXI.extras.BitmapText(params.text, {
-    font: `${params.fontSize}px ${params.font}`,
-    tint: params.color.replace("#", "0x"),
-  });
-  tf.x = params.x;
-  tf.y = params.y;
-  return tf;
-}
 
 ButtonSprite.prototype.overed = function() {
-  this.over.visible = true;
+  this.tint = this.state.menuData.bg[Tools.getHash()].tintOver.replace("#", "0x")
+  // this.over.visible = true;
 }
 ButtonSprite.prototype.outed = function() {
-  this.over.visible = false;
+  this.tint = this.state.menuData.bg[Tools.getHash()].tint.replace("#", "0x")
+  // this.over.visible = false;
 }
