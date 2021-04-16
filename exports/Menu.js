@@ -1,9 +1,10 @@
 function Menu(stage) {
   PIXI.Container.call(this);
+  this.state = State.getInstance();
 
   this.bodies = [];
   this.sprites = [];
-
+  this.bg;
   this.showMenu(0);
   stage.addChild(this)
 }
@@ -11,6 +12,9 @@ function Menu(stage) {
 Menu.prototype = Object.create(PIXI.Container.prototype)
 
 Menu.prototype.showMenu = function (worldID = 0) {
+  const me = this
+  me.bg = new MenuBg(Tools.getHash());
+  me.addChild(me.bg)
   for (let i = 0; i < 10; i++) {
     let position = this.getPosition(i)
     let button = new Button(i,position);
@@ -23,6 +27,7 @@ Menu.prototype.showMenu = function (worldID = 0) {
     this.sprites.push(button);
     this.addChild(button);
     this.bodies.push(button.body);
+    button.emitter.on('out',me.launchLevel.bind(this))
     
   }
   
@@ -31,6 +36,15 @@ Menu.prototype.showMenu = function (worldID = 0) {
 
 
 
+Menu.prototype.launchLevel = function (context) {
+  const me = this;
+  console.log(context)
+  me.sprites.forEach((b)=>{
+    b.comeOut()
+  })
+  gsap.to(me.bg.position,{x:(me.bg.position.x+800),duration:1,delay:.5, ease:'power4.in'})
+
+}
 Menu.prototype.getPosition = function (index) {
   let margin = 50;
   let spaceLeft = { w: (800 - margin * 2)/5, h: (600 - margin * 2)/3 };

@@ -1,5 +1,10 @@
 function ButtonSprite(levelID) {
   PIXI.Sprite.call(this,PIXI.Texture.from("ui_button0000"))
+  this.over = new PIXI.Sprite(PIXI.Texture.from("ui_buttonOver0000"))
+  this.over.anchor.set(0.5);
+  this.addChild(this.over);
+  this.outed();
+
   let txt = levelID+"";
   this.text = this.addText({
     font: "DeadFontWalking",
@@ -23,4 +28,11 @@ ButtonSprite.prototype.addText = function(params) {
   tf.x = params.x;
   tf.y = params.y;
   return tf;
+}
+
+ButtonSprite.prototype.overed = function() {
+  this.over.visible = true;
+}
+ButtonSprite.prototype.outed = function() {
+  this.over.visible = false;
 }

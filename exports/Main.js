@@ -28,7 +28,7 @@ function Main(data) {
   // PIXI Initialization
   this.stage = new PIXI.Container();
   this.renderer = PIXI.autoDetectRenderer(800, 600, {
-    backgroundColor: "#3a3a41".replace("#", "0x"),
+    backgroundColor: "#00000c".replace("#", "0x"),
     antialias: true,
     resolution: window.devicePixelRatio,
     view: this.view,

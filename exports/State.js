@@ -17,7 +17,7 @@ const State = (function () {
         this.keyLeft;
         this.keyRight;
         this.keySpace;
-        
+        this.menuData = undefined;
         this.game = {
             currentLevel:0,
             speedX:0,
@@ -45,6 +45,7 @@ const State = (function () {
             keyRight: this.keyRight,            
             keySpace: this.keySpace,            
             game: this.game,            
+            menuData: this.menuData,            
             log: this.log,            
         };
     }

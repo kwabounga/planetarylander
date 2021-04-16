@@ -1,25 +1,48 @@
 function Button(index,position) {
   PIXI.Container.call(this)
   // this.anchor.set(0.5)
-  this.group = index;
+  this.index = index;
   this.pos = position;
+  const me = this;
+  this.hiddenPos = {x:this.pos.x-800, y:this.pos.y};
   this.bt = new ButtonSprite(index+1)//new PIXI.Sprite(PIXI.Texture.from("ui_button0000"))
+  this.bt.on('click', (this.emit.bind(this)))
+  this.bt.on('mouseover', ()=>{
+    me.bt.overed()
+  })
+  this.bt.on('mouseout', ()=>{
+    me.bt.outed()
+  })
   this.bt.anchor.set(0.5);
   this.addChild(this.bt);
   this.body = this.addPhysic(position)
   // this.body.position = {x:position.y+400,x:position.y+300}
-  console.log(this.body)
+  // console.log(this.body)
   this.starsSprites = this.createStars(this.body)
 
-  gsap.from(this.getBtPhysic().position,{x:(this.pos.x-800),duration:2, delay: ((index+1)*0.2), ease:'elastic.out(1, 0.5)'})
-
+  // gsap.to(this.getBtPhysic().position,{x:(this.pos.x),duration:2, delay: ((index+1)*0.15), ease:'elastic.out(1, 0.5)'})
+  this.comeIn()
+  this.emitter = new PIXI.utils.EventEmitter();
+  this.emitterContext = {id:this.index}
 }
 Button.prototype = Object.create(PIXI.Container.prototype);
 
+Button.prototype.comeIn = function(){
+  const me = this;
+  gsap.to(me.getBtPhysic().position,{x:(this.pos.x),duration:2, delay: ((me.index+1)*0.15), ease:'elastic.out(1, 0.5)'})
+}
+Button.prototype.emit = function(){
+  this.emitter.emit('out',this.emitterContext )
+}
+
+Button.prototype.comeOut = function(){
+  const me = this;
+  gsap.to(me.getBtPhysic().position,{x:(this.pos.x+800),duration:1/*, delay: ((me.index+1)*0.15)*/, ease:'elastic.in(1, 0.75)'})
+}
 Button.prototype.addPhysic = function() {
   let comp = Matter.Composite.create();
   //comp.position = {x:this.pos.y+800,y:this.pos.y+600}
-  let anchor = Matter.Bodies.circle(this.pos.x,this.pos.y,5,{isStatic:true,label:'button',collisionFilter: { group: this.group }});
+  let anchor = Matter.Bodies.circle(this.hiddenPos.x,this.pos.y,5,{isStatic:true,label:'button',collisionFilter: { group: this.index }});
 //   let constraint = Matter.Constraint.create({
 //     pointA: { x: 0, y: 0 },
 //     bodyB: anchor,
@@ -27,9 +50,9 @@ Button.prototype.addPhysic = function() {
 // });
   Matter.Composite.add(comp, [anchor]);
   // Matter.Composite.add(comp, [anchor,constraint]);
-  let star1 = Matter.Bodies.polygon(this.pos.x-30,this.pos.y+40,5,15,{label:'star1',restitution:0,collisionFilter: { group: this.group }});
-  let star2 = Matter.Bodies.polygon(this.pos.x,this.pos.y+50,5,15,{label:'star2',restitution:0,collisionFilter: { group: this.group }});
-  let star3 = Matter.Bodies.polygon(this.pos.x+30,this.pos.y+40,5,15,{label:'star3',restitution:0,collisionFilter: { group: this.group }});
+  let star1 = Matter.Bodies.polygon(this.hiddenPos.x-30,this.pos.y+40,5,20,{label:'star1',density:10,restitution:0,collisionFilter: { group: this.index }});
+  let star2 = Matter.Bodies.polygon(this.hiddenPos.x,this.pos.y+50,5,20,{label:'star2',density:10,restitution:0,collisionFilter: { group: this.index }});
+  let star3 = Matter.Bodies.polygon(this.hiddenPos.x+30,this.pos.y+40,5,20,{label:'star3',density:10,restitution:0,collisionFilter: { group: this.index }});
   let constraint1 = this.createConstraint(anchor,star1);
   let constraint2 = this.createConstraint(anchor,star2);
   let constraint3 = this.createConstraint(anchor,star3);
@@ -53,7 +76,7 @@ Button.prototype.createStars = function(body) {
   let starsSprite = []
   let regEx = new RegExp('star')
   let starsB = body.bodies.filter(b => regEx.test(b.label))
-  console.log(starsB)
+  // console.log(starsB)
   starsB.forEach(star => {
     let sSprite = new PIXI.Sprite( PIXI.Texture.from("ui_star0000"))
     starsSprite.push(sSprite)

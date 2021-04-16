@@ -49,6 +49,7 @@
     <script src="./exports/Terrains.js"></script>
     <script src="./exports/ButtonSprite.js"></script>
     <script src="./exports/Button.js"></script>
+    <script src="./exports/MenuBg.js"></script>
     <script src="./exports/Menu.js"></script>
     <script src="./exports/Main.js"></script>
 
@@ -59,13 +60,18 @@
             let s = State.getInstance();
             // s.height = Tools.availableSize.height();
             // s.width = Tools.availableSize.width();   
-
-            // FOR DEBUG ONLY
-            // TODO: Access to the Menu then loading levels etc.         
-            Tools.ajaxGet(`./data/${Tools.getHash()}.json`, (data) => {
+            Tools.ajaxGet(`./data/main.json`, (mdata) => {
+              let mData = JSON.parse(mdata);
+              s.menuData = mData.menu;
+              console.log(s)
+              Tools.ajaxGet(`./data/${Tools.getHash()}.json`, (data) => {
               let d = JSON.parse(data);
               let main = new Main(d);
             });
+            });
+            // FOR DEBUG ONLY
+            // TODO: Access to the Menu then loading levels etc.         
+            
             
         }
 
