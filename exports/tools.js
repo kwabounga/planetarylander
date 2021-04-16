@@ -164,12 +164,18 @@ Tools.ajaxGet = function(url, callback) {
   };
 
 
-  Tools.customText = function(params) {
+  Tools.customText = function(params, center = false) {
     let tf = new PIXI.extras.BitmapText(params.text, {
       font: `${params.fontSize}px ${params.font}`,
       tint: params.color.replace("#", "0x"),
     });
-    tf.x = params.x;
+    if(center) {
+      tf.align = 'center';
+      tf.x = params.x - (tf.width/2) ;
+    }else{
+
+      tf.x = params.x;
+    }
     tf.y = params.y;
     return tf;
   }

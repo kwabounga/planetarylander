@@ -5,7 +5,7 @@
     "worlds": ["moon", "mars", "europa", "titan"],
     "bg": {
       "moon": {
-        "title": "Moon",
+        "title": "@Shoot for the moon.\nyou might get there.@ - B.Aldrin",
         "tint": "#b3a698",
         "tintOver": "#d5b18a",
         "sprites": [
@@ -30,7 +30,7 @@
         ]
       },
       "mars": {
-        "title": "Mars",
+        "title": "@I would like to die on Mars.\nJust not on impact@ - E.Musk",
         "tint": "#ff6347",
         "tintOver": "#fba596",
         "sprites": [
@@ -81,7 +81,7 @@
         ]
       },
       "titan": {
-        "title": "Titan",
+        "title": "@The weather on Titan\nis a bit chilly@ - S.Jacobs",
         "tint": "#ff8c00",
         "tintOver": "#fbb867",
         "sprites": [

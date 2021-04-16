@@ -6,15 +6,15 @@ function Menu(stage,engine) {
   this.bodies = [];
   this.sprites = [];
   this.bg;
-  let txt = this.state.menuData.bg[Tools.getHash()].title
+  let txt = this.state.menuData.bg[Tools.getHash()].title.replace(/@/g,'"');
   this.title = Tools.customText({
     font: "DeadFontWalking",
     fontSize: 50,
     color: "#fffafa",
     text: txt,
-    x: Math.ceil(-((txt.length)*25)/2) + 400,
-    y: 50,
-  })
+    x: 400,
+    y: 40,
+  },true)
   this.addChild(this.title);
   // TODO GET WORLD ID IN OTHER WAY
   this.showMenu(this.state.menuData.worlds.indexOf(Tools.getHash()));
