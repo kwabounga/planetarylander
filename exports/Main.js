@@ -5,9 +5,11 @@
  */
 function Main(data) {
   // get doms Elements
-  this.loader = document.getElementById("loader");
+  this.loaderDomElmt = document.getElementById("loader");
   this.view = document.getElementById("game-canvas");
-
+  
+  // sprites loader
+  this.loader = PIXI.loader
   // get data js object (from json)
   this.data = data;
 
@@ -46,12 +48,12 @@ function Main(data) {
 
 Main.prototype.showCanvas = function () {
   this.view.style = "";
-  this.loader.style = "display: none;";
+  this.loaderDomElmt.style = "display: none;";
 };
 
 Main.prototype.showLoader = function () {
   this.view.style = "display: none;";
-  this.loader.style = "";
+  this.loaderDomElmt.style = "";
 };
 
 
@@ -59,18 +61,19 @@ Main.prototype.showLoader = function () {
  * sprite sheet loader
  */
 Main.prototype.loadSpriteSheet = function () {
+  const me = this;
   this.state.log("LOAD");
-  var loader = PIXI.loader;
+  // var loader = PIXI.loader;
   this.data.levels.forEach((lvl, lvlID) => {
     // loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
-    loader.add(`terrain${lvlID}`, lvl.sprite);
+    me.loader.add(`terrain${lvlID}`, lvl.sprite);
   });
   // loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
-  loader.add("landersSpriteSheet", "./assets/landers.json");
-  loader.add("uiSpriteSheet", "./assets/ui.json");
-  loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
-  loader.once("complete", this.spriteSheetLoaded.bind(this));
-  loader.load();
+  this.loader.add("landersSpriteSheet", "./assets/landers.json");
+  this.loader.add("uiSpriteSheet", "./assets/ui.json");
+  this.loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
+  this.loader.once("complete", this.spriteSheetLoaded.bind(this));
+  this.loader.load();
 };
 
 Main.prototype.spriteSheetLoaded = function () {
@@ -83,19 +86,25 @@ Main.prototype.spriteSheetLoaded = function () {
 
 
   // creation du niveau et ajout des elements dans le moteur
-  // this.level = new Level(this.stage, this.engine, this.data, () => {
-  //   me.level.getAllBodiesInThisLevel().forEach((b) => {
-  //     me.bodies.push(b);
-  //   });
-  //   me.initAfterLoadingTerrain();
-  // });
+  
   this.addMenu()
 
 };
 
+Main.prototype.initLevel = function (context) {
+  const me = this;
+  this.removeMenu();
+  this.state.game.currentLevel = context.id;
+  this.level = new Level(this.stage, this.engine, this.data, () => {
+    me.level.getAllBodiesInThisLevel().forEach((b) => {
+      me.bodies.push(b);
+    });
+    me.initAfterLoadingTerrain();
+  });
+}
 Main.prototype.addMenu = function () {
   this.menu = new Menu(this.stage, this.engine)
- 
+ this.menu.emitter.on('start',this.initLevel.bind(this))
   
   this.showCanvas();
   this.addMouseConstraint();
@@ -104,7 +113,10 @@ Main.prototype.addMenu = function () {
 }
 
 Main.prototype.removeMenu = function () {
-
+  cancelAnimationFrame(this.loopID);
+  this.stage.removeChild(this.menu)
+  this.menu = null;
+  Matter.World.clear(this.engine.world)
 }
 
 Main.prototype.initAfterLoadingTerrain = function () {
@@ -183,3 +195,15 @@ Main.prototype.updateViewLevel = function (lvl) {
   // this.state.log(newPos);
   lvl.y = Math.min(0, Math.max(newPos, -1400)); // 2000 (size of the level) - 600 (height of canvas)
 };
+
+
+Main.prototype.loadWorldData = function(worldId) {
+  const me = this;
+  //let wID = this.state.game.currentWorld;
+  let wName = this.menuData.worlds[worldId]
+  Tools.ajaxGet(`./data/${wName}.json`, (data) => {
+    let d = JSON.parse(data);
+    me.data = d;
+
+  });
+}

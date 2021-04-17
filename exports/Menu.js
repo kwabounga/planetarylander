@@ -3,6 +3,8 @@ function Menu(stage,engine) {
   PIXI.Container.call(this);
   this.state = State.getInstance();
   this.engine = engine;
+  this.emitter = new PIXI.utils.EventEmitter();
+  
   this.bodies = [];
   this.sprites = [];
   this.bg;
@@ -54,11 +56,16 @@ Menu.prototype.showMenu = function (worldID = 0) {
 Menu.prototype.launchLevel = function (context) {
   const me = this;
   console.log(context)
+
   me.sprites.forEach((b)=>{
     b.comeOut()
   })
-  gsap.to(me.bg.position,{x:(me.bg.position.x+800),duration:1,delay:.5, ease:'power4.in'})
+  gsap.to(me.bg.position,{x:(me.bg.position.x+800),duration:1,delay:.5, ease:'power4.in',onComplete:me.quitToLevel.bind(me), onCompleteParams:[context]})
 
+}
+Menu.prototype.quitToLevel = function (context) {
+ console.log('quitToLevel', context);
+ this.emitter.emit('start',context)
 }
 Menu.prototype.getPosition = function (index) {
   let margin = 50;

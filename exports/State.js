@@ -19,7 +19,8 @@ const State = (function () {
         this.keySpace;
         this.menuData = undefined;
         this.game = {
-            currentLevel:0,
+            currentWorld:0, 
+            currentLevel:0, 
             speedX:0,
             speedY:0,
             orientation:0,
