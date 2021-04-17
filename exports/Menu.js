@@ -21,15 +21,15 @@ function Menu(stage,engine) {
   this.title = Tools.customText({
     font: "DeadFontWalking",
     fontSize: 50,
-    color: "#fffafa",
+    color: this.state.menuData.bg[Tools.getHash()].tint,
     text: txtTitle,
     x: 400,
     y: 540,
   },true)
-  this.addChild(this.quote);
-  this.addChild(this.title);
   // TODO GET WORLD ID IN OTHER WAY
   this.showMenu(this.state.menuData.worlds.indexOf(Tools.getHash()));
+  this.addChild(this.quote);
+  this.addChild(this.title);
   stage.addChild(this)
 }
 
