@@ -32,7 +32,7 @@ function Main(data) {
   this.renderer = PIXI.autoDetectRenderer(800, 600, {
     backgroundColor: "#00000c".replace("#", "0x"),
     antialias: true,
-    resolution: window.devicePixelRatio,
+    // resolution: window.devicePixelRatio,
     view: this.view,
   });
 

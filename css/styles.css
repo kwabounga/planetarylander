@@ -52,7 +52,7 @@ body {
   #game-canvas {
   
     background-color: #1a0d02;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-self: center;
 }
