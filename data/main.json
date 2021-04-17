@@ -5,7 +5,8 @@
     "worlds": ["moon", "mars", "europa", "titan"],
     "bg": {
       "moon": {
-        "title": "@Shoot for the moon.\nyou might get there.@ - B.Aldrin",
+        "title": "Moon",
+        "quote": "@Shoot for the moon.\nyou might get there.@ - B.Aldrin",
         "tint": "#b3a698",
         "tintOver": "#d5b18a",
         "sprites": [
@@ -30,7 +31,8 @@
         ]
       },
       "mars": {
-        "title": "@I would like to die on Mars.\nJust not on impact@ - E.Musk",
+        "title": "Mars",
+        "quote": "@I would like to die on Mars.\nJust not on impact@ - E.Musk",
         "tint": "#ff6347",
         "tintOver": "#fba596",
         "sprites": [
@@ -56,6 +58,7 @@
       },
       "europa": {
         "title": "Europa",
+        "quote": "@Gravity is a habit\nthat is hard to shake off@ - T.Pratchett",
         "tint": "#6099ff",
         "tintOver": "#9abdfb",
         "sprites": [
@@ -81,7 +84,8 @@
         ]
       },
       "titan": {
-        "title": "@The weather on Titan\nis a bit chilly@ - S.Jacobs",
+        "title": "Titan",
+        "quote": "@The weather on Titan\nis a bit chilly@ - S.Jacobs",
         "tint": "#ff8c00",
         "tintOver": "#fbb867",
         "sprites": [

@@ -8,15 +8,25 @@ function Menu(stage,engine) {
   this.bodies = [];
   this.sprites = [];
   this.bg;
-  let txt = this.state.menuData.bg[Tools.getHash()].title.replace(/@/g,'"');
-  this.title = Tools.customText({
+  let txt = this.state.menuData.bg[Tools.getHash()].quote.replace(/@/g,'"');
+  this.quote = Tools.customText({
     font: "DeadFontWalking",
-    fontSize: 50,
+    fontSize: 40,
     color: "#fffafa",
     text: txt,
     x: 400,
     y: 40,
   },true)
+  let txtTitle = this.state.menuData.bg[Tools.getHash()].title.replace(/@/g,'"');
+  this.title = Tools.customText({
+    font: "DeadFontWalking",
+    fontSize: 50,
+    color: "#fffafa",
+    text: txtTitle,
+    x: 400,
+    y: 540,
+  },true)
+  this.addChild(this.quote);
   this.addChild(this.title);
   // TODO GET WORLD ID IN OTHER WAY
   this.showMenu(this.state.menuData.worlds.indexOf(Tools.getHash()));
