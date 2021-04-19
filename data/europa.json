@@ -56,7 +56,14 @@
       "bonus": [
         {"type":"fuel", "x": 250, "y": 900 ,"amount":100}
       ],
-      "shell":20
+      "shell":20,
+      "rules":{
+        "type":"gravity_change",
+        "params":{
+          "from":{"y":1,"delay":0,"duration":0.5,"repeat":-1,"yoyo":true},
+          "to":{"y":-0.2,"delay":8,"duration":5,"repeat":-1,"yoyo":true}
+        }
+      }
     }
   ]
 }

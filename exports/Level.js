@@ -24,6 +24,9 @@ function Level(stage, engine, data, callBack = null) {
   this.landerExploded = null;
 
   this.stage.addChild(this);
+
+  this.tweenRule;
+
   // TODO: gerer les landzones ds les json
 
   // overwrite settings
@@ -92,6 +95,7 @@ Level.prototype.init = function () {
 
   // collisions
   this.addCollisions();
+  this.applyRules()
 };
 
 
@@ -252,6 +256,22 @@ Level.prototype.end = function () {
       this.win();
     }
   };
+}
+
+Main.prototype.applyRules = function () {
+  console.log(this.engine.world.gravity)
+  if(this.data.levels[this.state.game.currentLevel].rules){
+    switch (this.data.levels[this.state.game.currentLevel].rules.type) {
+      case "gravity_change":
+        console.log('GRAVITY_CHANGE');
+        let params = this.data.levels[this.state.game.currentLevel].rules.params;
+        this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+        break;
+
+      default:
+        break;
+    }
+  }
 }
 /**
  *  update / game loop

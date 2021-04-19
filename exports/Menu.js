@@ -11,7 +11,7 @@ function Menu(stage,engine) {
   let txt = this.state.menuData.bg[Tools.getHash()].quote.replace(/@/g,'"');
   this.quote = Tools.customText({
     font: "DeadFontWalking",
-    fontSize: 40,
+    fontSize: 30,
     color: "#fffafa",
     text: txt,
     x: 400,

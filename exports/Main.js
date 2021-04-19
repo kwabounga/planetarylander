@@ -40,7 +40,6 @@ function Main(data) {
   this.level;
   this.menu;
   this.loopID;
-  
   // launch the assets loading
   this.loadSpriteSheet();
 
@@ -131,9 +130,12 @@ Main.prototype.initAfterLoadingTerrain = function () {
   // loader to game swapper
   this.showCanvas();
   this.addMouseConstraint();
+
+  // this.applyRules();
   // run the engine
   this.loopID = requestAnimationFrame(this.update.bind(this));
 };
+
 
 
 /**
