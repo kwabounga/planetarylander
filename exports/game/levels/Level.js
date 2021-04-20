@@ -258,7 +258,7 @@ Level.prototype.end = function () {
   };
 }
 
-Main.prototype.applyRules = function () {
+Level.prototype.applyRules = function () {
   console.log(this.engine.world.gravity)
   if(this.data.levels[this.state.game.currentLevel].rules){
     switch (this.data.levels[this.state.game.currentLevel].rules.type) {
@@ -274,7 +274,7 @@ Main.prototype.applyRules = function () {
   }
 }
 /**
- *  update / game loop
+ * update / game loop
  */
 Level.prototype.update = function () {
   this.updateLander();
