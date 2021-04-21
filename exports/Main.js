@@ -78,7 +78,23 @@ Main.prototype.loadSpriteSheet = function () {
 Main.prototype.spriteSheetLoaded = function () {
   this.state.log("LOADED");
   const me = this;
+  console.log(me.loader);
 
+  Tools.overwritePixiTexture('terrain0', "./assets/levels/png/level_02.png", ()=>{
+    console.log(me.loader);
+  })
+  // console.log(this.loader);
+  // delete PIXI.loader.resources['terrain0']; /// its work!
+  // console.log(this.loader);
+  
+  // this.data.levels.forEach((lvl, lvlID) => {
+  //   // loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
+  //   me.loader.add(`terrain${lvlID}`, lvl.sprite);
+  // });
+  // this.loader.once("complete", ()=>{
+    
+  // });
+  // this.loader.load();
 
   // FOR DEBUG ONLY
   // TODO: Access to the Menu then loading levels etc.

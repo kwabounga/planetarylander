@@ -217,8 +217,6 @@ Tools.ajaxGet = function(url, callback) {
        * @param {string} json the url of the json to load
        */
       this.add = function (jsName, json){
-        console.log('add');
-        console.log(jsName, json);
         lInst.toLoad.push([jsName, json])
       }
       /**
@@ -319,4 +317,10 @@ Tools.ajaxGet = function(url, callback) {
   // Tools.dataLoader.load()
 
 
+  Tools.overwritePixiTexture = function(textureName, url, callBack){
+    let loader = PIXI.loader;
+    delete loader.resources[textureName];
+    loader.add(textureName, url);
+    loader.once("complete", callBack);
+  }
   
