@@ -78,11 +78,11 @@ Main.prototype.loadSpriteSheet = function () {
 Main.prototype.spriteSheetLoaded = function () {
   this.state.log("LOADED");
   const me = this;
-  console.log(me.loader);
+  // console.log(me.loader);
 
-  Tools.overwritePixiTexture('terrain0', "./assets/levels/png/level_02.png", ()=>{
-    console.log(me.loader);
-  })
+  // Tools.overwritePixiTexture('terrain0', "./assets/levels/png/level_02.png", ()=>{
+  //   console.log(me.loader);
+  // })
   // console.log(this.loader);
   // delete PIXI.loader.resources['terrain0']; /// its work!
   // console.log(this.loader);
