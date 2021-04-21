@@ -65,13 +65,24 @@
               s.menuData = mData.menu;
               console.log(s)
               Tools.ajaxGet(`./data/${Tools.getHash()}.json`, (data) => {
-              let d = JSON.parse(data);
-              let main = new Main(d);
-            });
+                let d = JSON.parse(data);
+                let main = new Main(d);
+              });
             });
             // FOR DEBUG ONLY
-            // TODO: Access to the Menu then loading levels etc.         
+            // TODO: Access to the Menu then loading levels etc.  
             
+            // console.log(Tools.dataLoader.data);
+            Tools.dataLoader.add('main','./data/main.json');
+            // Tools.dataLoader.add('moon','./data/moon.json');
+            // // Tools.dataLoader.add('error','./data/thisfiledoesnotexist.json'); // error not found here
+            Tools.dataLoader.once((data)=>{
+              console.log(data); // get the data
+              console.log(Tools.dataLoader.data); // access direct to the data
+              Tools.dataLoader.clean() // clean up 
+              console.log(Tools.dataLoader.data); // empty data
+            })
+            Tools.dataLoader.load()
             
         }
 

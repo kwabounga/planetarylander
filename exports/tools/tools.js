@@ -179,3 +179,144 @@ Tools.ajaxGet = function(url, callback) {
     tf.y = params.y;
     return tf;
   }
+  
+/**
+ * Tools.dataLoader : mimic the PIXI loader for json data
+ * @method add   - register json to load and this name
+ * @method once  - register callBack
+ * @method load  - start loading
+ * @method clean - clean up the Loader
+ */
+  Tools.dataLoader = (function(){
+    var lInst;
+    /**
+     * create the Loader object instance
+     * @returns loader instance
+     */
+    function createInstance (){
+      this.toLoad = [];
+      this.data = {};
+      this.lID = 0;
+      this.xhr = new XMLHttpRequest();
+      this.callBack = null;
+
+      /**
+       * clean up the Loader
+       * @method 
+       */
+      this.clean = function (){
+        lInst.xhr = new XMLHttpRequest();
+        lInst.toLoad = [];
+        lInst.data = {};
+        lInst.lID = 0;
+        lInst.callBack = null;
+      }
+      /**
+       * 
+       * @param {string} jsName the access name of the object 
+       * @param {string} json the url of the json to load
+       */
+      this.add = function (jsName, json){
+        console.log('add');
+        console.log(jsName, json);
+        lInst.toLoad.push([jsName, json])
+      }
+      /**
+       * Use to register the callBack
+       * @param {function} callBack the callBack to call when all the json are loaded
+       */
+      this.once = function (callBack){
+        lInst.callback = callBack;
+      }
+      /**
+       * Start the loading
+       */
+      this.load = function (){
+
+        if(lInst.toLoad.length == 0){
+          console.warn('Must add files with Tools.dataLoader.add(name, jsonUri) method before start loading');
+          return;
+        }
+        if(!lInst.callback){
+          console.warn('Must register callBack with Tools.dataLoader.once(callBack) method before start loading');
+          return;
+        }
+      
+        /**
+         * load the next json
+         */
+        function loadNext(){
+          lInst.xhr.open('GET', lInst.toLoad[lInst.lID][1])
+          lInst.xhr.send(null)
+        }
+        /**
+         * Go to the next load, or call the registered callBack
+         */
+        function next(){
+          if(lInst.lID < lInst.toLoad.length - 1 ){
+            lInst.lID ++;
+            loadNext()
+          } else {
+            if(lInst.callback)
+              lInst.callback(lInst.data);
+          } 
+        }
+
+        // error listener
+        lInst.xhr.addEventListener("error", function () {
+          lInst.data[lInst.toLoad[lInst.lID][0]] = {error: `something wrong with ${lInst.toLoad[lInst.lID][1]}`}
+            next();
+        });
+        // load listener
+        lInst.xhr.addEventListener("load", function () {
+          // file does not exist
+          if (lInst.xhr.status === 404) {
+            lInst.data[lInst.toLoad[lInst.lID][0]] = {error: `ERROR: ${lInst.toLoad[lInst.lID][1]} 404 (Not Found)`}
+            next();
+         }
+         // file load complete
+          if (lInst.xhr.status >= 200 && lInst.xhr.status < 400) {            
+            lInst.data[lInst.toLoad[lInst.lID][0]] = JSON.parse(lInst.xhr.responseText) 
+            next();            
+          } 
+          
+        })
+        // start loading
+        loadNext();
+      }
+      // public object returned
+      return {
+        xhr: this.xhr,
+        lID: this.lID,
+        data: this.data,
+        toLoad: this.toLoad,
+        callBack: this.callBack,
+        add: this.add,
+        once: this.once,
+        load: this.load,
+        clean: this.clean
+      }
+    }
+
+    // auto executed singleton pattern
+    return (function () {
+        if (!lInst) {
+          lInst = createInstance();
+        }
+        return lInst;
+    })()
+  })();
+
+
+  // utilisation :
+
+  // Tools.dataLoader.add('main','./data/main.json');
+  // Tools.dataLoader.add('moon','./data/moon.json');
+  // Tools.dataLoader.add('error','./data/thisfiledoesnotexist.json'); // error not found here
+  // Tools.dataLoader.once((data)=>{
+  //   console.log(data);
+  // })
+  // Tools.dataLoader.load()
+
+
+  
