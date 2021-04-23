@@ -1,2 +1,2 @@
-# maxi
+#Planetary Lander
 matter + pixi
