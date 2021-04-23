@@ -41,6 +41,17 @@ function Ui(data) {
     x: 5,
     y: 105,
   });
+
+  // using new display text system
+  this.screenInfos = Tools.customText({
+    font: "DeadFontWalking",
+    fontSize: 40,
+    color: "#fffafa",
+    text: "Get Ready",
+    x: 400,
+    y: 40,
+  },true);
+  this.addChild(this.screenInfos);
 }
 Ui.prototype = Object.create(PIXI.Container.prototype);
 
@@ -57,10 +68,13 @@ Ui.prototype.createTextField = function (params) {
 };
 
 
-Ui.prototype.updateTextField = function (tf, text, tint = null) {
+Ui.prototype.updateTextField = function (tf, text, tint = null, centered = false) {
   tf.text = text;
   if(tint && tf._font.tint != tint){
     tf._font.tint  = tint;
+  }
+  if(centered){
+    tf.x = 400 - (tf.width/2)
   }
 };
 
@@ -98,3 +112,5 @@ Ui.prototype.update = function () {
     return tint
   }
 };
+
+

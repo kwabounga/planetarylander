@@ -149,10 +149,51 @@ Main.prototype.initAfterLoadingTerrain = function () {
 
   // this.applyRules();
   // run the engine
-  this.loopID = requestAnimationFrame(this.update.bind(this));
+  // this.loopID = requestAnimationFrame(this.update.bind(this));
+  // this.state.isPause = true
+  this.startSequency(()=>{
+    // this.state.isPause = false
+    this.loopID = requestAnimationFrame(this.update.bind(this));
+  })
 };
 
-
+Main.prototype.startSequency = function(callBack){
+  const me = this;
+  let seqInfos = [
+    {text:'Get ready', time:3, color:"#c7ff8f"},
+    {text:'3', time:1, color:"#ff8f8f"},
+    {text:'2', time:1, color:"#ffd88f"},
+    {text:'1', time:1, color:"#c7ff8f"},
+    {text:'let\'s Go', time:1, color:"#ffffff"}
+    
+  ];
+  let delay = 0;
+  seqInfos.forEach((sInfos)=>{
+      setTimeout(() => {
+        // this.state.isPause = false
+        me.ui.updateTextField(
+          me.ui.screenInfos,
+          sInfos.text,
+          sInfos.color.replace("#", "0x"),
+          true
+        );
+        console.log(sInfos.text)
+        me.renderer.render(me.stage);
+        // this.state.isPause = true
+      }, delay * 1000);
+      delay += sInfos.time;
+      // pixi render the container
+      
+  })
+  setTimeout(() => {
+    me.ui.updateTextField(
+      me.ui.screenInfos,
+      '',
+      "#7fff00".replace("#", "0x")
+    );
+    callBack();
+  }, (delay + 1) * 1000);
+}
 
 /**
  * 
@@ -193,16 +234,16 @@ Main.prototype.updateMenu = function () {
 Main.prototype.update = function () {
   if (!this.state.isPause) {
     // using pixi loop for Matter Engine updating
-    this.level.update();
     Matter.Engine.update(this.engine);
+    this.level.update();
     this.updateViewLevel(this.level);
     if (!this.level.isGameOver) {
       this.ui.update();
     }
-
     // pixi render the container
     this.renderer.render(this.stage);
   }
+  
 
   // re-looping
   this.loopID = requestAnimationFrame(this.update.bind(this));
