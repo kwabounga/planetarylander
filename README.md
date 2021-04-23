@@ -52,5 +52,9 @@ for now only the first levels of each world are available
 - [x] swap / overLoad Texture
 - [x] start sequency ( 3, 2, 1, Go)
 - [x] Pause
+- [ ] switch between the worlds from the menu
+- [ ] back to the menu from the game (pause exit)
+- [ ] add progression and lock levels accordingly
+- [ ] add a login system and save the progression in bdd
 - [ ] todo todo
 
