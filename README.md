@@ -43,6 +43,7 @@ for now only the first levels of each world are available
 - [x] Debugging : wireframe for Matter shape in pixi
 - [x] Menu with matter
 - [x] Menu description in json
+- [x] Menu stars like balls !
 - [x] Accessing level from menu
 - [x] Rules : europa gravity
 - [ ] Rules : mars  wind
