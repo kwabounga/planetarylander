@@ -1,5 +1,7 @@
-# Planetary Lander
+# Planetary Lander ![icon](https://kwabounga.fr/planetarylander/favicon.png) 
 **/!\ work in progress /!\\** 
+
+[demo](https://kwabounga.fr/planetarylander/)  
 
 Test for MatterJs and PixiJs
 
