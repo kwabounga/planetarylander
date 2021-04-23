@@ -13,7 +13,7 @@ MenuBg.prototype.displayElements = function(world) {
     s.anchor.set(.5)
     s.position = spriteInfos.position
     if(spriteInfos.tint){
-      s.tint = spriteInfos.tint.replace('#','0x');
+      s.tint = Tools.pixiColor(spriteInfos.tint);
     }
     if(spriteInfos.scale){
       s.scale = spriteInfos.scale;

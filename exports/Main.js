@@ -30,7 +30,7 @@ function Main(data) {
   // PIXI Initialization
   this.stage = new PIXI.Container();
   this.renderer = PIXI.autoDetectRenderer(800, 600, {
-    backgroundColor: "#00000c".replace("#", "0x"),
+    backgroundColor: Tools.pixiColor("#00000c"),
     antialias: true,
     // resolution: window.devicePixelRatio,
     view: this.view,
@@ -179,7 +179,7 @@ Main.prototype.startSequency = function(callBack){
         me.ui.updateTextField(
           me.ui.screenInfos,
           sInfos.text,
-          sInfos.color.replace("#", "0x"),
+          Tools.pixiColor(sInfos.color),
           true
         );
         console.log(sInfos.text)
@@ -194,7 +194,7 @@ Main.prototype.startSequency = function(callBack){
     me.ui.updateTextField(
       me.ui.screenInfos,
       '',
-      "#7fff00".replace("#", "0x")
+      Tools.pixiColor("#7fff00")
     );
     callBack();
   }, (delay + 1) * 1000);

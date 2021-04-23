@@ -25,10 +25,10 @@ ButtonSprite.prototype = Object.create(PIXI.Sprite.prototype)
 
 
 ButtonSprite.prototype.overed = function() {
-  this.tint = this.state.menuData.bg[Tools.getHash()].tintOver.replace("#", "0x")
+  this.tint = Tools.pixiColor(this.state.menuData.bg[Tools.getHash()].tintOver)
   // this.over.visible = true;
 }
 ButtonSprite.prototype.outed = function() {
-  this.tint = this.state.menuData.bg[Tools.getHash()].tint.replace("#", "0x")
+  this.tint = Tools.pixiColor(this.state.menuData.bg[Tools.getHash()].tint)
   // this.over.visible = false;
 }

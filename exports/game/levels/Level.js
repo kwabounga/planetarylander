@@ -566,7 +566,7 @@ Level.prototype.addKeysEvents = function () {
       me.ui.updateTextField(
         me.ui.screenInfos,
         '',
-        "#ffc0c0".replace("#", "0x"),
+        Tools.pixiColor("#ffc0c0"),
         true
         );
         me.state.isPause = false;
@@ -575,7 +575,7 @@ Level.prototype.addKeysEvents = function () {
       me.ui.updateTextField(
         me.ui.screenInfos,
         'Pause',
-        "#ffc0c0".replace("#", "0x"),
+        Tools.pixiColor("#ffc0c0"),
         true
         );
         setTimeout(()=>{me.state.isPause = true;},20)

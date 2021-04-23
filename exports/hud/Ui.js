@@ -58,7 +58,7 @@ Ui.prototype = Object.create(PIXI.Container.prototype);
 Ui.prototype.createTextField = function (params) {
   let tf = new PIXI.extras.BitmapText(params.text, {
     font: `${params.fontSize}px ${params.font}`,
-    tint: params.color.replace("#", "0x"),
+    tint: Tools.pixiColor(params.color),
   });
   tf.dirty = true;
   this.addChild(tf);
@@ -82,7 +82,7 @@ Ui.prototype.update = function () {
   this.updateTextField(
     this.fuel,
     Math.floor(this.state.game.fuel) + "/" + this.state.game.fuelMax,
-    ((Math.abs(this.state.game.fuel)>= 50)?"#00ff00":"#ff0000").replace("#", "0x")
+    Tools.pixiColor((Math.abs(this.state.game.fuel)>= 50)?"#00ff00":"#ff0000")
   );
   this.updateTextField(
     this.speedX,
@@ -104,11 +104,11 @@ Ui.prototype.update = function () {
   this.updateTextField(
     this.shell,
     (Math.floor(this.state.game.shell) + "%"),
-    ((Math.abs(this.state.game.shell)>= 50)?"#00ff00":"#ff0000").replace("#", "0x")
+    Tools.pixiColor((Math.abs(this.state.game.shell)>= 50)?"#00ff00":"#ff0000")
   );
 
   function getTint(val, valMax) {
-    let tint = ((Math.abs(val)<= valMax)?"#00ff00":"#ff0000").replace("#", "0x")
+    let tint = Tools.pixiColor((Math.abs(val)<= valMax)?"#00ff00":"#ff0000")
     return tint
   }
 };
