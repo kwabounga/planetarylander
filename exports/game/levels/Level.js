@@ -178,7 +178,8 @@ Level.prototype.die = function () {
 Level.prototype.damageLander = function () {
   const me = this;
   this.state.log("DAMAGE");
-  this.state.game.shell -= 0.1;
+  let damage = Math.abs((this.state.game.speedX + this.state.game.speedY) / 2 );
+  this.state.game.shell -= damage;//0.1;
   if (this.state.game.shell <= 0) {
     this.state.game.shell = 0;
     if (this.lander.isDie) return;
