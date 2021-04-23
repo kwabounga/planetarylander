@@ -117,10 +117,15 @@ Landers.explode = function (lander, level, callBack) {
         x,
         y,
         stackObjSize.width,
-        stackObjSize.height
+        stackObjSize.height,
+        {
+          restitution: Tools.randomBetween(0.1,0.5)
+        }
       );
       // apply Angular Velocity to each parts for create explosion
+      Matter.Body.setMass(b, Tools.randomBetween(2,5));
       Matter.Body.setAngularVelocity(b, Math.random() * 2 - 1);
+      console.log(b);
       return b;
     });
 
