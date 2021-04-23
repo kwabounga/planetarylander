@@ -109,13 +109,17 @@ Main.prototype.spriteSheetLoaded = function () {
 Main.prototype.initLevel = function (context) {
   const me = this;
   this.removeMenu();
+  this.ui = this.createUi();
   this.state.game.currentLevel = context.id;
-  this.level = new Level(this.stage, this.engine, this.data, () => {
+
+  this.level = new Level(this, () => {
     me.level.getAllBodiesInThisLevel().forEach((b) => {
       me.bodies.push(b);
     });
     me.initAfterLoadingTerrain();
   });
+
+  this.stage.addChild( this.ui);
 }
 Main.prototype.addMenu = function () {
   this.menu = new Menu(this.stage, this.engine)
@@ -136,7 +140,7 @@ Main.prototype.removeMenu = function () {
 
 Main.prototype.initAfterLoadingTerrain = function () {
   this.state.log("initAfterLoadingTerrain");
-  this.ui = this.createUi();
+  
 
   this.engine.world.gravity.scale = this.data.environment.gravityScale;
 
@@ -153,6 +157,7 @@ Main.prototype.initAfterLoadingTerrain = function () {
   // this.state.isPause = true
   this.startSequency(()=>{
     // this.state.isPause = false
+    this.level.addKeysEvents();
     this.loopID = requestAnimationFrame(this.update.bind(this));
   })
 };
@@ -201,7 +206,7 @@ Main.prototype.startSequency = function(callBack){
  */
 Main.prototype.createUi = function () {
   let ui = new Ui(this.data);
-  this.stage.addChild(ui);
+  
   return ui;
 };
 
@@ -232,6 +237,7 @@ Main.prototype.updateMenu = function () {
   this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
 }
 Main.prototype.update = function () {
+  
   if (!this.state.isPause) {
     // using pixi loop for Matter Engine updating
     Matter.Engine.update(this.engine);

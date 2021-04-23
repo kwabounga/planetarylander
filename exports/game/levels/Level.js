@@ -5,11 +5,12 @@
  * @param {Object} data from json
  * @param {Function} callBack [optional]
  */
-function Level(stage, engine, data, callBack = null) {
+function Level(main, callBack = null) {
   PIXI.Container.call(this);
-  this.engine = engine;
-  this.stage = stage;
-  this.data = data;
+  this.ui = main.ui;
+  this.engine = main.engine;
+  this.stage = main.stage;
+  this.data = main.data;
   this.isGameOver = false;
   this.state = State.getInstance();
 
@@ -91,7 +92,7 @@ Level.prototype.init = function () {
   this.addBonus();
 
   // controls
-  this.addKeysEvents();
+  // this.addKeysEvents();
 
   // collisions
   this.addCollisions();
@@ -561,11 +562,24 @@ Level.prototype.addKeysEvents = function () {
   this.keySpace.press = () => {
     // console.log("SPACE Released");
     if (me.state.isPause) {
-      me.state.isPause = false;
       me.state.log("EXIT PAUSE");
+      me.ui.updateTextField(
+        me.ui.screenInfos,
+        '',
+        "#ffc0c0".replace("#", "0x"),
+        true
+        );
+        me.state.isPause = false;
     } else {
-      me.state.isPause = true;
       me.state.log("ENTER PAUSE");
+      me.ui.updateTextField(
+        me.ui.screenInfos,
+        'Pause',
+        "#ffc0c0".replace("#", "0x"),
+        true
+        );
+        setTimeout(()=>{me.state.isPause = true;},20)
+        
     }
   };
 
