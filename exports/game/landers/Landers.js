@@ -3,7 +3,7 @@
  * 
  * Provide a factory to generate landers object {bodies; wireframe; sprite}
  * And the exploded version of the lander when it die {bodies, sprite}
- * 
+ * @static
  */
 
 var Landers = Landers || {};
@@ -43,7 +43,6 @@ Landers.create = function (landerData, level) {
         "#08fff2"
       );
     }
-    //console.log("LANDER BODY", box);
 
     return { box, wireFrame };
   }

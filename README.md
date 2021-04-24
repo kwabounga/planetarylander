@@ -51,9 +51,9 @@ for now only the first levels of each world are available
 - [x] Menu with matter
 - [x] Menu description in json
 - [x] Menu stars like balls !
-- [x] Accessing level from menu
-- [x] Rules : europa gravity
-- [ ] Rules : mars  wind
+- [x] Accessing level from [menu](./exports/menu/Menu.js#launchLevel) with event 
+- [x] Rules : europa [gravity](./exports/game/levels/Level.js#gravityRule)
+- [ ] Rules : mars  [dust devils](./exports/game/levels/Level.js#dustDevils)
 - [ ] Rules : titan jets
 - [x] Data loader 
 - [x] swap / overLoad Texture

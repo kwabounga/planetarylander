@@ -1,3 +1,8 @@
+/**
+ * Create the matter physic bodie for the lander from the json params
+ * @param {object} params the lander params 
+ * @returns the Matter.Body object
+ */
 function LanderBody (params) {
     this.box;
   // create the box for lander
@@ -8,7 +13,6 @@ if(params.vertices){
       params.vertices,
       {
         rot: 0,
-
         density: params.density,
         frictionAir: params.frictionAir,
         friction: params.friction,
@@ -28,7 +32,6 @@ if(params.vertices){
       params.height,
       {
         rot: 0,
-
         density: params.density,
         frictionAir: params.frictionAir,
         friction: params.friction,

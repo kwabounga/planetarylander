@@ -254,12 +254,16 @@ Level.prototype.end = function () {
     }
   };
 }
-
+/**
+ * #gravityRule
+ * #dustDevils
+ */
 Level.prototype.applyRules = function () {
   console.log(this.engine.world.gravity)
   if(this.data.levels[this.state.game.currentLevel].rules){
     switch (this.data.levels[this.state.game.currentLevel].rules.type) {
       case "gravity_change":
+        // #gravityRule
         console.log('GRAVITY_CHANGE');
         let params = this.data.levels[this.state.game.currentLevel].rules.params;
         this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);

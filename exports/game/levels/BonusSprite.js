@@ -1,3 +1,7 @@
+/**
+ * Create a bonus
+ * @class PIXI.Container
+ */
 function BonusSprite(type, amount){
   PIXI.Container.call(this);
 
@@ -18,6 +22,9 @@ function BonusSprite(type, amount){
   this.addChild(this.tfAmount);
   State.getInstance().log(this);
 }
+/**
+ * proto
+ */
 BonusSprite.prototype = Object.create(PIXI.Container.prototype)
 
 

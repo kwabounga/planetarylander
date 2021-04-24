@@ -1,5 +1,9 @@
+/**
+ * Create the Stabilizers animated Sprite 
+ * @param {object} params the lander object parameters from json
+ * @class PIXI.extras.AnimatedSprite
+ */
 function Stabilizer(params){
-    
     this.params = params;
     PIXI.extras.AnimatedSprite.call(this, this.getAnimationLoop(1,8));
     
@@ -7,12 +11,20 @@ function Stabilizer(params){
     this.ticker = PIXI.ticker.shared;
 	this.ticker.speed = 0.25;
     this.gotoAndPlay(0);
-    // this.textures
     this.visible = false;
     console.log(this);
 }
+/**
+ * proto
+ */
 Stabilizer.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);
 
+/**
+ * mini texture  Factory for reactor animation
+ * @param {int} from the starting animation key frame id
+ * @param {int} to the ending animation key frame id 
+ * @returns an array of textures for this animation
+ */
 Stabilizer.prototype.getAnimationLoop = function(from,to) {
     
     const textures = [];

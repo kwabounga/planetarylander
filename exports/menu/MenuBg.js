@@ -1,3 +1,9 @@
+
+/**
+ * Create the background of the menu
+ * @param {int} world the world Id 
+ * @class PIXI.Container
+ */
 function MenuBg (world) {
   PIXI.Container.call(this)
   this.state = State.getInstance();
@@ -5,7 +11,15 @@ function MenuBg (world) {
 
   this.displayElements(world);
 }
+/**
+ * proto
+ */
 MenuBg.prototype = Object.create(PIXI.Container.prototype)
+
+/**
+ * create and display background sprites from the state data
+ * @param {int} world the world id 
+ */
 MenuBg.prototype.displayElements = function(world) {
   const me = this
   this.state.menuData.bg[world].sprites.forEach(spriteInfos => {
@@ -23,7 +37,6 @@ MenuBg.prototype.displayElements = function(world) {
         case 'blur':
           default:
           let f = new PIXI.filters.BlurFilter(spriteInfos.filter.size,3,3);
-          // f.blendMode = PIXI.BLEND_MODES.HARD_LIGHT;
           f.autoFit = true;
           s.filters = [f];      
           break;

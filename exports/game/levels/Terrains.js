@@ -2,7 +2,7 @@
  * #TerrainsFactory
  * 
  * Provide a factory to generate terrain object {bodies; wireframe; sprite}
- * 
+ * @static
  */
 
 var Terrains = Terrains || {};

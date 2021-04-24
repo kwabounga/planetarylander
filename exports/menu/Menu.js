@@ -1,3 +1,10 @@
+/**
+ * Create the Menu
+ * @param {PIXI.Container} stage the PIXI stage
+ * @param {Matter.Engine} engine the MatterJs engine
+ * 
+ * @class PIXI.Container
+ */
 function Menu(stage,engine) {
 
   PIXI.Container.call(this);
@@ -32,12 +39,17 @@ function Menu(stage,engine) {
   this.addChild(this.title);
   stage.addChild(this)
 }
-
+/**
+ * proto
+ */
 Menu.prototype = Object.create(PIXI.Container.prototype)
 
-Menu.prototype.displayTitle = function (worldID = 0) {
-
-}
+/**
+ * Menu construction
+ * Set The Bg and create the buttons
+ * Create Matter bodies
+ * @param {int} worldID the worldId to display
+ */
 Menu.prototype.showMenu = function (worldID = 0) {
   const me = this
   me.bg = new MenuBg(this.state.menuData.worlds[worldID]);
@@ -45,12 +57,6 @@ Menu.prototype.showMenu = function (worldID = 0) {
   for (let i = 0; i < 10; i++) {
     let position = this.getPosition(i)
     let button = new Button(i,position);
-    //button.position = position
-    // if(i==0) {button.position = {x:400,y:50}}
-    // if(i==1) {button.position = {x:400,y:400}}
-    // if(i==2) {button.position = {x:400,y:400}}
-    
-    //this.bodies.push(button.body);
     this.sprites.push(button);
     this.addChild(button);
     this.bodies.push(button.body);
@@ -62,7 +68,11 @@ Menu.prototype.showMenu = function (worldID = 0) {
 };
 
 
-
+/**
+ * #launchLevel
+ * launch the menu quit-animation, then emit the start event  with context {id:theLevelIdToStart}
+ * @param {object} context the object context 
+ */
 Menu.prototype.launchLevel = function (context) {
   const me = this;
   console.log(context)
@@ -73,10 +83,21 @@ Menu.prototype.launchLevel = function (context) {
   gsap.to(me.bg.position,{x:(me.bg.position.x+800),duration:1,delay:.5, ease:'power4.in',onComplete:me.quitToLevel.bind(me), onCompleteParams:[context]})
 
 }
+
+/**
+ * 
+ * @param {object} context the context for the start event {id:theLevelIdTOStart}
+ */
 Menu.prototype.quitToLevel = function (context) {
  console.log('quitToLevel', context);
  this.emitter.emit('start',context)
 }
+
+/**
+ * Get the position of the button
+ * @param {int} index the id of the button
+ * @returns {Point} the {x,y} position of the button
+ */
 Menu.prototype.getPosition = function (index) {
   let margin = 50;
   let spaceLeft = { w: (800 - margin * 2)/5, h: (600 - margin * 2)/3 };
@@ -86,6 +107,10 @@ Menu.prototype.getPosition = function (index) {
   return {x:(spaceLeft.w-(margin/2))+(c*spaceLeft.w ), y:(r*spaceLeft.h ) +(margin/2) }
 }
 
+
+/**
+ * Display refreshing loop
+ */
 Menu.prototype.update = function(){
   this.sprites.forEach((s)=>{
     s.update()

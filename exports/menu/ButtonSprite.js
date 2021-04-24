@@ -1,11 +1,12 @@
+/**
+ * Create a button to display in the menu
+ * @param {int} levelID the level id
+ * @class PIXI.Sprite
+ */
 function ButtonSprite(levelID) {
   PIXI.Sprite.call(this,PIXI.Texture.from("ui_button_nb0000"));
   this.state = State.getInstance();
 
-  // this.over = new PIXI.Sprite(PIXI.Texture.from("ui_buttonOver0000"));
-  // this.over.anchor.set(0.5);
-  
-  // this.addChild(this.over);
   this.outed();
 
   let txt = levelID+"";
@@ -21,14 +22,20 @@ function ButtonSprite(levelID) {
   this.interactive = true;
   this.buttonMode= true;
 }
+/**
+ * proto
+ */
 ButtonSprite.prototype = Object.create(PIXI.Sprite.prototype)
 
-
+/**
+ * mouseover button state
+ */
 ButtonSprite.prototype.overed = function() {
   this.tint = Tools.pixiColor(this.state.menuData.bg[Tools.getHash()].tintOver)
-  // this.over.visible = true;
 }
+/**
+ * mouseout button state
+ */
 ButtonSprite.prototype.outed = function() {
   this.tint = Tools.pixiColor(this.state.menuData.bg[Tools.getHash()].tint)
-  // this.over.visible = false;
 }

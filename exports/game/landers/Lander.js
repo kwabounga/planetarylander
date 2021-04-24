@@ -1,9 +1,14 @@
+/**
+ * Create a lander
+ * @param {PIXI.Container} stage the PIXI stage
+ * @param {object} params the lander params
+ * @class PIXI.extras.AnimatedSprite 
+ */
 function Lander(stage, params) {
   this.params = params;
   PIXI.extras.AnimatedSprite.call(this, [
     PIXI.Texture.EMPTY
   ]);
-  //   this.anchor.set(0.5);
   this.stabilizers = [];
   this.reactor;
   this.shell;
@@ -13,30 +18,31 @@ function Lander(stage, params) {
   this.addReactor(this.params.reactor);
   this.addShell(this.params.sprite);
   this.addFlag(this.params.flag);
-  //   this.loop = true;
+
   this.gotoAndPlay(0);
   stage.addChild(this);
-  // console.log('lander:',this);
-  // const me = this;
-  // this.interactive = true;
-  //   this.on('click', ()=>{
-  //     console.log('click');
-  //     // this.showFlag()
-
-  //     })
 }
+/**
+ * proto
+ */
 Lander.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);
 
-// drapeau win
+/**
+ * Create the shell sprite
+ * and apply shell params
+ * @param {string} sprite the sprite name 
+ */
 Lander.prototype.addShell = function (sprite) {
   let s = new PIXI.Sprite(PIXI.Texture.from(sprite));
   this.addChild(s);
   s.anchor.set(0.5);
-
-  // console.log('addShell',s);
-  // this.sprites.push(s)
   this.shell = s;
 };
+/**
+ * Create the flag sprite
+ * and apply flag params
+ * @param {object} params the sprite parameters from json
+ */
 Lander.prototype.addFlag = function (params) {
   let f = new Flag(params);
   f.x = params.x;
@@ -48,7 +54,11 @@ Lander.prototype.addFlag = function (params) {
   f.visible = false;
   this.flag = f;
 };
-// reactor
+/**
+ * Create the reactor sprite
+ * and apply reactor params
+ * @param {object} params the sprite parameters from json 
+ */
 Lander.prototype.addReactor = function (params) {
   let r = new Reactor(params);
   r.x = params.x;
@@ -56,7 +66,12 @@ Lander.prototype.addReactor = function (params) {
   this.addChild(r);
   this.reactor = r;
 };
-// stabilizers
+
+/**
+ * Create the stabilizers sprite
+ * and apply stabilizers params
+ * @param {object} parshowams the sprite parameters from json 
+ */ 
 Lander.prototype.addStabilizers = function (params) {
   params.forEach((stab) => {
     let s = new Stabilizer(stab);
@@ -70,33 +85,53 @@ Lander.prototype.addStabilizers = function (params) {
   });
 };
 
-// update
+/**
+ * the refresh loop
+ */
 Lander.prototype.update = function () {
-  // ici gerer le state
+  // useless ??
 };
 
-// flag Ok
+/**
+ * hide flag
+ */
 Lander.prototype.hideFlag = function () {
   this.flag.visible = false;
 };
+/**
+ * show flag
+ */
 Lander.prototype.showFlag = function () {
   this.flag.visible = true;
 };
-// Reactor Ok
+
+/**
+ * hide reactor sprite
+ */
 Lander.prototype.hideReactor = function () {
   this.reactor.visible = false;
 };
+/**
+ * show reactor sprite
+ */
 Lander.prototype.showReactor = function () {
   this.reactor.visible = true;
 };
 
-// Stabilizers Ok
+
+/**
+ * hide right Stabilizers sprite
+ */
 Lander.prototype.hideStabilizersRight = function () {
   for (let s = 0; s < this.stabilizers.length / 2; s++) {
     const stab = this.stabilizers[s];
     stab.visible = false;
   }
 };
+
+/**
+ * show right Stabilizers sprite
+ */
 Lander.prototype.showStabilizersRight = function () {
   for (let s = 0; s < this.stabilizers.length / 2; s++) {
     const stab = this.stabilizers[s];
@@ -104,12 +139,20 @@ Lander.prototype.showStabilizersRight = function () {
   }
 };
 
+
+/**
+ * hide left Stabilizers sprite
+ */
 Lander.prototype.hideStabilizersLeft = function () {
   for (let s = this.stabilizers.length / 2; s < this.stabilizers.length; s++) {
     const stab = this.stabilizers[s];
     stab.visible = false;
   }
 };
+
+/**
+ * show left Stabilizers sprite
+ */
 Lander.prototype.showStabilizersLeft = function () {
   for (let s = this.stabilizers.length / 2; s < this.stabilizers.length; s++) {
     const stab = this.stabilizers[s];

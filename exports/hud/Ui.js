@@ -1,5 +1,6 @@
 /**
- * HUD
+ * Create the HUD the values are syncronized on States Singleton object
+ * so the refresh is automatic
  */
 function Ui() {
   PIXI.Container.call(this);
@@ -112,7 +113,7 @@ Ui.prototype.update = function () {
 
   function getTint(val, valMax) {
     let tint = Tools.pixiColor((Math.abs(val)<= valMax)?"#00ff00":"#ff0000")
-    return tint
+    return tint;
   }
 };
 
