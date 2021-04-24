@@ -31,21 +31,27 @@ function Level(main, callBack = null) {
   // TODO: gerer les landzones ds les json
 
   // overwrite settings
-  this.overWriteSettings()
+  this.overWriteSettings(this.data.levels[this.state.game.currentLevel])
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
-
+/**
+ * Proto
+ */
 Level.prototype = Object.create(PIXI.Container.prototype);
 
+/**
+ * Set the params of the current level
+ * @param {object} levelParams 
+ */
 Level.prototype.overWriteSettings = function (levelParams) {
   // condition sur le fuel
-  if (this.data.levels[this.state.game.currentLevel].fuelMax) {
-    this.state.game.fuelMax = this.data.levels[ this.state.game.currentLevel ].fuelMax;
-    this.state.game.fuel = this.data.levels[ this.state.game.currentLevel ].fuelMax;
+  if (levelParams.fuelMax) {
+    this.state.game.fuelMax = levelParams.fuelMax;
+    this.state.game.fuel = levelParams.fuelMax;
   }
-  // si lander deja endomagé
-  if (this.data.levels[this.state.game.currentLevel].shell) {
-    this.state.game.shell = this.data.levels[ this.state.game.currentLevel ].shell;
+  // si lander déjà endommagé
+  if (levelParams.shell) {
+    this.state.game.shell = levelParams.shell;
   }
 }
 /**
@@ -54,15 +60,7 @@ Level.prototype.overWriteSettings = function (levelParams) {
  */
 Level.prototype.loadTerrain = function (levelParams) {
   const me = this;
-  // Tools.ajaxGet(levelParams.terrain, (data) => {
-  //   // let d = JSON.parse(data);
-  //   me.addTerrain(data, levelParams.centerOfMass);
-  //   if (me.callBack) {
-  //     me.init();
-  //     me.callBack();
-  //   }
-  // });
-  Terrains.load(levelParams,me.state.game.currentLevel, (terrain) => {
+    Terrains.load(levelParams,me.state.game.currentLevel, (terrain) => {
     me.terrain = terrain;
     this.addChild(me.terrain.sprite);
 
@@ -91,16 +89,13 @@ Level.prototype.init = function () {
   this.addStars();
   this.addBonus();
 
-  // controls
-  // this.addKeysEvents();
-
   // collisions
   this.addCollisions();
   this.applyRules()
 };
 
 
-// TODO : extract check methodes and check if the collided second object is the lander
+// TODO : extract check methods and check if the collided second object is the lander
 /**
  * hitTest for landing zones / stars  ..see for  / bonus / malus here ?
  */
@@ -167,7 +162,6 @@ Level.prototype.die = function () {
 
   Landers.explode(me.lander, me, (lExp)=>{
     me.landerExploded = lExp;
-
     // TODO : change the collider id for lander and terrain see for have multiples collider ID for terrain
     me.lander.sprite.visible = false;
     me.lander.body.isSensor = true;

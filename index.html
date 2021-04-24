@@ -57,9 +57,7 @@
         function init(){
 
 
-            let s = State.getInstance();
-            // s.height = Tools.availableSize.height();
-            // s.width = Tools.availableSize.width();   
+            let s = State.getInstance(); 
             Tools.ajaxGet(`./data/main.json`, (mdata) => {
               let mData = JSON.parse(mdata);
               s.menuData = mData.menu;
@@ -70,19 +68,19 @@
               });
             });
             // FOR DEBUG ONLY
-            // TODO: Access to the Menu then loading levels etc.  
+            // TODO: swap level / reload terrain  
             
             // console.log(Tools.dataLoader.data);
-            Tools.dataLoader.add('main','./data/main.json');
-            // Tools.dataLoader.add('moon','./data/moon.json');
-            // // Tools.dataLoader.add('error','./data/thisfiledoesnotexist.json'); // error not found here
-            Tools.dataLoader.once((data)=>{
-              console.log(data); // get the data
-              console.log(Tools.dataLoader.data); // access direct to the data
-              Tools.dataLoader.clean() // clean up 
-              console.log(Tools.dataLoader.data); // empty data
-            })
-            Tools.dataLoader.load()
+            // Tools.dataLoader.add('main','./data/main.json');
+            // // Tools.dataLoader.add('moon','./data/moon.json');
+            // // // Tools.dataLoader.add('error','./data/thisfiledoesnotexist.json'); // error not found here
+            // Tools.dataLoader.once((data)=>{
+            //   console.log(data); // get the data
+            //   console.log(Tools.dataLoader.data); // access direct to the data
+            //   Tools.dataLoader.clean() // clean up 
+            //   console.log(Tools.dataLoader.data); // empty data
+            // })
+            // Tools.dataLoader.load()
             
         }
 

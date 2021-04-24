@@ -1,4 +1,7 @@
-function Ui(data) {
+/**
+ * HUD
+ */
+function Ui() {
   PIXI.Container.call(this);
   this.state = State.getInstance();
   this.fuel = this.createTextField({
@@ -13,7 +16,7 @@ function Ui(data) {
     font: "DeadFontWalking",
     fontSize: 20,
     color: "#ffff00",
-    text: "vX: 25 m/s",
+    text: "vX: 0 m/s",
     x: 5,
     y: 30,
   });
@@ -21,7 +24,7 @@ function Ui(data) {
     font: "DeadFontWalking",
     fontSize: 20,
     color: "#ffff00",
-    text: "vY: 25 m/s",
+    text: "vY: 0 m/s",
     x: 5,
     y: 55,
   });

@@ -35,7 +35,6 @@ function Main(data) {
     // resolution: window.devicePixelRatio,
     view: this.view,
   });
-
   
   this.level;
   this.menu;
@@ -45,11 +44,17 @@ function Main(data) {
 
 }
 
+/**
+ * Display the canvas ; hide the loader
+ */
 Main.prototype.showCanvas = function () {
   this.view.style = "";
   this.loaderDomElmt.style = "display: none;";
 };
 
+/**
+ * Display the loader ; hide the canvas
+ */
 Main.prototype.showLoader = function () {
   this.view.style = "display: none;";
   this.loaderDomElmt.style = "";
@@ -62,12 +67,13 @@ Main.prototype.showLoader = function () {
 Main.prototype.loadSpriteSheet = function () {
   const me = this;
   this.state.log("LOAD");
-  // var loader = PIXI.loader;
+  
+  // TODO: load only the current terrain 
   this.data.levels.forEach((lvl, lvlID) => {
     // loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
     me.loader.add(`terrain${lvlID}`, lvl.sprite);
   });
-  // loader.add("terrain", this.data.levels[this.state.game.currentLevel].sprite);
+  
   this.loader.add("landersSpriteSheet", "./assets/landers.json");
   this.loader.add("uiSpriteSheet", "./assets/ui.json");
   this.loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");
@@ -75,11 +81,16 @@ Main.prototype.loadSpriteSheet = function () {
   this.loader.load();
 };
 
+/**
+ * callback after loading sprite sheet
+ */
 Main.prototype.spriteSheetLoaded = function () {
   this.state.log("LOADED");
   const me = this;
-  // console.log(me.loader);
+  
 
+  // FOR DEBUG ONLY
+  // HERE the overwriting texture system for load next terrain
   // Tools.overwritePixiTexture('terrain0', "./assets/levels/png/level_02.png", ()=>{
   //   console.log(me.loader);
   // })
@@ -96,16 +107,16 @@ Main.prototype.spriteSheetLoaded = function () {
   // });
   // this.loader.load();
 
-  // FOR DEBUG ONLY
-  // TODO: Access to the Menu then loading levels etc.
-
-
-  // creation du niveau et ajout des elements dans le moteur
   
+    
+  // Access to the Menu
   this.addMenu()
 
 };
-
+/**
+ * level initialization
+ * @param {object} context the level context
+ */
 Main.prototype.initLevel = function (context) {
   const me = this;
   this.removeMenu();
@@ -121,9 +132,13 @@ Main.prototype.initLevel = function (context) {
 
   this.stage.addChild( this.ui);
 }
+
+/**
+ * add and show the Menu
+ */
 Main.prototype.addMenu = function () {
   this.menu = new Menu(this.stage, this.engine)
- this.menu.emitter.on('start',this.initLevel.bind(this))
+  this.menu.emitter.on('start',this.initLevel.bind(this))
   
   this.showCanvas();
   this.addMouseConstraint();
@@ -131,6 +146,9 @@ Main.prototype.addMenu = function () {
   this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
 }
 
+/**
+ * remove and hide the Menu
+ */
 Main.prototype.removeMenu = function () {
   cancelAnimationFrame(this.loopID);
   this.stage.removeChild(this.menu)
@@ -138,9 +156,12 @@ Main.prototype.removeMenu = function () {
   Matter.World.clear(this.engine.world)
 }
 
+/**
+ * callBack after loading the terrain
+ * terrain initialization
+ */
 Main.prototype.initAfterLoadingTerrain = function () {
-  this.state.log("initAfterLoadingTerrain");
-  
+  this.state.log("initAfterLoadingTerrain");  
 
   this.engine.world.gravity.scale = this.data.environment.gravityScale;
 
@@ -151,17 +172,18 @@ Main.prototype.initAfterLoadingTerrain = function () {
   this.showCanvas();
   this.addMouseConstraint();
 
-  // this.applyRules();
-  // run the engine
-  // this.loopID = requestAnimationFrame(this.update.bind(this));
-  // this.state.isPause = true
+  // launch the  start sequency
+  // then run the engine
   this.startSequency(()=>{
-    // this.state.isPause = false
     this.level.addKeysEvents();
     this.loopID = requestAnimationFrame(this.update.bind(this));
   })
 };
 
+/**
+ * 
+ * @param {function} callBack callback after starting sequency
+ */
 Main.prototype.startSequency = function(callBack){
   const me = this;
   let seqInfos = [
@@ -175,7 +197,6 @@ Main.prototype.startSequency = function(callBack){
   let delay = 0;
   seqInfos.forEach((sInfos)=>{
       setTimeout(() => {
-        // this.state.isPause = false
         me.ui.updateTextField(
           me.ui.screenInfos,
           sInfos.text,
@@ -184,11 +205,8 @@ Main.prototype.startSequency = function(callBack){
         );
         console.log(sInfos.text)
         me.renderer.render(me.stage);
-        // this.state.isPause = true
       }, delay * 1000);
-      delay += sInfos.time;
-      // pixi render the container
-      
+      delay += sInfos.time;    
   })
   setTimeout(() => {
     me.ui.updateTextField(
@@ -205,16 +223,18 @@ Main.prototype.startSequency = function(callBack){
  * @returns {PIXI.Container} the game infos  on screen HUD (Heads-Up Display) or ATH (Affichage Tête Haute)
  */
 Main.prototype.createUi = function () {
-  let ui = new Ui(this.data);
-  
+  let ui = new Ui(this.data);  
   return ui;
 };
 
 
 
-// only for test
+/**
+ * Debug only 
+ * Mouse constraint 
+ */
 Main.prototype.addMouseConstraint = function () {
-  // add mouse control
+  // add mouse controls
   var mouse = Matter.Mouse.create(this.renderer.view),
     mouseConstraint = Matter.MouseConstraint.create(this.engine, {
       mouse: mouse,
@@ -230,12 +250,19 @@ Main.prototype.addMouseConstraint = function () {
   this.renderer.mouse = mouse;
 };
 
+/**
+ * loop for updating menu display
+ */
 Main.prototype.updateMenu = function () {
   this.menu.update()
   Matter.Engine.update(this.engine);
   this.renderer.render(this.stage);
   this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
 }
+
+/**
+ * main loop 
+ */
 Main.prototype.update = function () {
   
   if (!this.state.isPause) {
@@ -250,21 +277,26 @@ Main.prototype.update = function () {
     this.renderer.render(this.stage);
   }
   
-
   // re-looping
   this.loopID = requestAnimationFrame(this.update.bind(this));
 };
+
+/**
+ * Updates the view of the level relative to the position of the lander
+ * @param {Level} lvl the current level
+ */
 Main.prototype.updateViewLevel = function (lvl) {
   let target = lvl.getLander().body;
   let newPos = 300 - target.position.y; /// 300 (height of canvas /2)
-  // this.state.log(newPos);
   lvl.y = Math.min(0, Math.max(newPos, -1400)); // 2000 (size of the level) - 600 (height of canvas)
 };
 
-
+/**
+ * load the json world data
+ * @param {int} worldId the world id
+ */
 Main.prototype.loadWorldData = function(worldId) {
   const me = this;
-  //let wID = this.state.game.currentWorld;
   let wName = this.menuData.worlds[worldId]
   Tools.ajaxGet(`./data/${wName}.json`, (data) => {
     let d = JSON.parse(data);
