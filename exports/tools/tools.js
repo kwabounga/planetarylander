@@ -128,6 +128,7 @@ Tools.SpriteSheetAutoSlicer = function (elmName, columns, rows, origin) {
 };
 
 /**
+ * #wireFrameFromVertex
  * create an wireframed object for debugging Matter's bodies in Pixi's renderer
  *
  * @param {number} x  position x

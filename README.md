@@ -36,13 +36,18 @@ for now only the first levels of each world are available
 ### Checklist:
 - [x] worlds description in json format
 - [x] landers description in json
-- [x] levels description in json
-- [x] bonus (fuel)
+- [x] levels description in json  
+ cf:  [moon.json](./data/moon.json); 
+      [mars.json](./data/mars.json); 
+      [europa.json](./data/europa.json); 
+      [titan.json](./data/titan.json)
+- [x] [bonus](./exports/game/levels/BonusSprite.js) ([fuel](./data/mars.json))
 - [ ] more bonus
-- [x] damages
-- [x] lander explosion
-- [x] Terrains; Levels; and landers Factories
-- [x] Debugging : wireframe for Matter shape in pixi
+- [x] [damages](./exports/game/levels/Level.js#damageLander)
+- [x] SpriteSheetAutoSlicer !! for explosion
+- [x] [lander](./exports/game/levels/Level.js#die) [explosion](./exports/game/landers/Landers.js#explosion)
+- [x] [Terrains](./exports/game/levels/Terrains.js#TerrainsFactory); Levels; and [landers](./exports/game/landers/Landers.js#LandersFactory) Factories
+- [x] Debugging : [wireframe](./exports/tools/tools.js#wireFrameFromVertex) for Matter shape in pixi
 - [x] Menu with matter
 - [x] Menu description in json
 - [x] Menu stars like balls !

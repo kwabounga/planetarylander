@@ -1,5 +1,5 @@
 /**
- * Landers
+ * #LandersFactory
  * 
  * Provide a factory to generate landers object {bodies; wireframe; sprite}
  * And the exploded version of the lander when it die {bodies, sprite}
@@ -63,6 +63,7 @@ Landers.create = function (landerData, level) {
 
 
 /**
+ * #explosion
  * Generate the exploded version of the current lander 
  * @param {Lander} lander the current instance of the lander in game 
  * @param {int} level the current level ID

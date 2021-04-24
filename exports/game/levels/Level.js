@@ -153,7 +153,7 @@ Level.prototype.addCollisions = function () {
   });
 };
 /**
- * die
+ * #die
  */
 Level.prototype.die = function () {
   const me = this;
@@ -168,6 +168,7 @@ Level.prototype.die = function () {
   })
 };
 /**
+ * #damageLander
  * add some damages to  the lander
  */
 Level.prototype.damageLander = function () {
