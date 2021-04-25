@@ -63,5 +63,6 @@ for now only the first levels of each world are available
 - [ ] back to the menu from the game (pause exit)
 - [ ] add progression and lock levels accordingly
 - [ ] add a login system and save the progression in bdd
-- [ ] todo todo
+- [ ] see for minification of js classes
+
 
