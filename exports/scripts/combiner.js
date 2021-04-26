@@ -1,7 +1,7 @@
 console.log("// COMBINER // \n");
 const path = require("path");
-const data = require("./files.json");
 const npm = require("../../package.json");
+const data = npm.combiner;
 const fs = require("fs");
 let fullFile = "";
 
