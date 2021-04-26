@@ -3,16 +3,12 @@
 
 [demo](https://kwabounga.fr/planetarylander/)  
 
-Test for MatterJs and PixiJs
-
-
-
-
-
-
+Test for MatterJs and PixiJs  
+____
 
 ## Description:
-it is a variation of the atari lunar lander in arcade mode
+it's a variation of the atari lunar lander in arcade mode
+____
 
 ## Controls:
 
@@ -31,7 +27,7 @@ direction:
 </table>
 
 pause: <kbd>space</kbd>
-
+____
 
 ## Progress
 
@@ -62,7 +58,7 @@ Using [http-server](https://www.npmjs.com/package/http-server) to run it locally
   > http-server
   Starting up http-server, serving ./
   Available on:
-    http://192.168.1.90:8080
+    http://192.168.1.XX:8080
     http://127.0.0.1:8080
   Hit CTRL-C to stop the server
   ```
@@ -70,15 +66,20 @@ Using [http-server](https://www.npmjs.com/package/http-server) to run it locally
  then open a browser window
 
  ### For the moment; access the different worlds with:  
- http://192.168.1.90:8080#moon  
- http://192.168.1.90:8080#mars  
- http://192.168.1.90:8080#europa  
- http://192.168.1.90:8080#titan  
+ http://127.0.0.1:8080#moon  
+ http://127.0.0.1:8080#mars  
+ http://127.0.0.1:8080#europa  
+ http://127.0.0.1:8080#titan  
+
+> http://x.x.x.x:8080/index_dev.html#moon  
+for dev version (files no minified)  
+> http://x.x.x.x:8080/index.html#moon  
+for prod version (minified)  
 
 
 for now only the first levels of each world are available
-
-### Checklist:
+____
+### Checklist / TODO:
 - [x] worlds description in json format
 - [x] landers description in json
 - [x] levels description in json  
@@ -92,7 +93,7 @@ for now only the first levels of each world are available
 - [x] SpriteSheetAutoSlicer !! for explosion
 - [x] [lander](./exports/game/levels/Level.js#die) [explosion](./exports/game/landers/Landers.js#explosion)
 - [x] [Terrains](./exports/game/levels/Terrains.js#TerrainsFactory); Levels; and [landers](./exports/game/landers/Landers.js#LandersFactory) Factories
-- [x] Debugging : [wireframe](./exports/tools/tools.js#wireFrameFromVertex) for Matter shape in Pixi
+- [x] Debugging : [wireframe](./exports/tools/tools.js#wireFrameFromVertex) for Matter shapes in Pixi
 - [x] Menu with matter
 - [x] Menu description in json
 - [x] Menu stars like balls !
@@ -106,10 +107,12 @@ for now only the first levels of each world are available
 - [x] Pause
 - [ ] switch between the worlds from the menu
 - [ ] back to the menu from the game (pause exit)
+- [ ] confirm modal
 - [ ] add progression and lock levels accordingly
 - [ ] add a login system and save the progression in bdd
-- [x] js classes combine using my own system
+- [x] [clean up](./exports/scripts/clean.js) production files
+- [x] [combine](./exports/scripts/combiner.js) js classes using my own system
 - [x] js classes minification using google-closure-compiler system
-- [x] build script : clean / combine and minify 
+- [x] [build script](./package.json) : clean / combine and minify 
 - [x] show loading animation between unload menu and getStarted
 

@@ -14,8 +14,8 @@ function Level(main, callBack = null) {
   this.isGameOver = false;
   this.state = State.getInstance();
 
-  this.lander;
-  this.terrain;
+  this.lander = null;
+  this.terrain = null;
   this.landZones = [];
   this.stars = [];
   this.bonus = [];
@@ -26,7 +26,7 @@ function Level(main, callBack = null) {
 
   this.stage.addChild(this);
 
-  this.tweenRule;
+  this.tweenRule = null;
 
   // TODO: gerer les landzones ds les json
 

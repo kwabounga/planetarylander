@@ -10,9 +10,9 @@ function Lander(stage, params) {
     PIXI.Texture.EMPTY
   ]);
   this.stabilizers = [];
-  this.reactor;
-  this.shell;
-  this.flag;
+  this.reactor = null;
+  this.shell = null;
+  this.flag = null;
 
   this.addStabilizers(this.params.stabilizers);
   this.addReactor(this.params.reactor);

@@ -9,7 +9,7 @@ function Main(data) {
   this.view = document.getElementById("game-canvas");
   
   // sprites loader
-  this.loader = PIXI.loader
+  this.loader = PIXI.loader;
   // get data js object (from json)
   this.data = data;
 
@@ -36,9 +36,9 @@ function Main(data) {
     view: this.view,
   });
   
-  this.level;
-  this.menu;
-  this.loopID;
+  this.level = null;
+  this.menu = null;
+  this.loopID = null;
   // launch the assets loading
   this.loadSpriteSheet();
 

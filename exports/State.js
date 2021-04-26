@@ -13,10 +13,10 @@ const State = (function () {
         this.isPause = false;
         this.isDebug = false;
 
-        this.keyUp;
-        this.keyLeft;
-        this.keyRight;
-        this.keySpace;
+        this.keyUp = null;
+        this.keyLeft = null;
+        this.keyRight = null;
+        this.keySpace = null;
         this.menuData = undefined;
         this.game = {
             currentWorld:0, 

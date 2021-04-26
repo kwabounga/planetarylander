@@ -14,7 +14,7 @@ function Menu(stage,engine) {
   
   this.bodies = [];
   this.sprites = [];
-  this.bg;
+  this.bg = null;
   let txt = this.state.menuData.bg[Tools.getHash()].quote.replace(/@/g,'"');
   this.quote = Tools.customText({
     font: "DeadFontWalking",

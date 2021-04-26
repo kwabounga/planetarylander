@@ -4,7 +4,7 @@
  * @returns the Matter.Body object
  */
 function LanderBody (params) {
-    this.box;
+    this.box = null;
   // create the box for lander
 if(params.vertices){
     this.box = Matter.Bodies.fromVertices(
