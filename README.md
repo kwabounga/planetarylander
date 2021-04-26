@@ -5,10 +5,54 @@
 
 Test for MatterJs and PixiJs
 
+
+
+
+
+
+
 ## Description:
 it is a variation of the atari lunar lander in arcade mode
 
+## Controls:
 
+direction:  
+<table style="border:none">
+  <tr>
+    <td colspan="3" align="center">
+      <kbd>up</kbd>  
+    </td>
+  </tr>
+  <tr>
+    <td> <kbd>left</kbd> </td>
+    <td>  </td>
+    <td> <kbd>right</kbd> </td>
+  </tr>
+</table>
+
+pause: <kbd>space</kbd>
+
+
+## Progress
+
+
+### optimise project for production
+``` shell
+> clean up old build files
+npm run clean
+
+> combine js files
+npm run combine
+
+> minify js files
+npm run minify
+
+> clean & combine & minify
+npm run build
+```
+
+
+### local
 Using [http-server](https://www.npmjs.com/package/http-server) to run it locally:  
   
 
@@ -22,6 +66,7 @@ Using [http-server](https://www.npmjs.com/package/http-server) to run it locally
     http://127.0.0.1:8080
   Hit CTRL-C to stop the server
   ```
+
  then open a browser window
 
  ### For the moment; access the different worlds with:  
@@ -47,7 +92,7 @@ for now only the first levels of each world are available
 - [x] SpriteSheetAutoSlicer !! for explosion
 - [x] [lander](./exports/game/levels/Level.js#die) [explosion](./exports/game/landers/Landers.js#explosion)
 - [x] [Terrains](./exports/game/levels/Terrains.js#TerrainsFactory); Levels; and [landers](./exports/game/landers/Landers.js#LandersFactory) Factories
-- [x] Debugging : [wireframe](./exports/tools/tools.js#wireFrameFromVertex) for Matter shape in pixi
+- [x] Debugging : [wireframe](./exports/tools/tools.js#wireFrameFromVertex) for Matter shape in Pixi
 - [x] Menu with matter
 - [x] Menu description in json
 - [x] Menu stars like balls !
@@ -57,12 +102,12 @@ for now only the first levels of each world are available
 - [ ] Rules : titan jets
 - [x] Data loader 
 - [x] swap / overLoad Texture
-- [x] start sequency ( 3, 2, 1, Go)
+- [x] start sequency (3, 2, 1, Go)
 - [x] Pause
 - [ ] switch between the worlds from the menu
 - [ ] back to the menu from the game (pause exit)
 - [ ] add progression and lock levels accordingly
 - [ ] add a login system and save the progression in bdd
 - [ ] see for minification of js classes
-
+- [ ] 
 

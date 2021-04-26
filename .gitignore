@@ -111,3 +111,6 @@ assets/lander_europe.png
 assets/lander_mars.png
 assets/lander_moon.png
 assets/lander_titan.png
+
+/node_modules
+/bin/*

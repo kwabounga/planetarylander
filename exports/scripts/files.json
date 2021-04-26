@@ -1,0 +1,23 @@
+{
+  "name":"planetary-lander",
+  "files":[
+    "../State.js",
+    "../tools/tools.js",
+    "../tools/Keyboard.js",
+    "../hud/Ui.js",
+    "../game/levels/Level.js",
+    "../game/landers/Flag.js",
+    "../game/landers/Stabilizer.js",
+    "../game/landers/Reactor.js",
+    "../game/landers/LanderBody.js",
+    "../game/levels/BonusSprite.js",
+    "../game/landers/Lander.js",
+    "../game/landers/Landers.js",
+    "../game/levels/Terrains.js",
+    "../menu/ButtonSprite.js",
+    "../menu/Button.js",
+    "../menu/MenuBg.js",
+    "../menu/Menu.js",
+    "../Main.js"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "maxi",
+  "version": "1.0.0",
+  "description": "game like Atari's LunarLander in arcade mode",
+  "title": "Planetary Lander",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "clean": "node ./exports/scripts/clean.js",
+    "combine": "node ./exports/scripts/combiner.js",
+    "minify": "npx google-closure-compiler --js=./bin/planetary-lander.js --js_output_file=./bin/planetary-lander.min.js",
+    "build":"npm run combine && npm run minify && echo 'combined and minified'",
+    "build-clean":"npm run clean && npm run combine && npm run minify && echo 'combined and minified'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwabounga/maxi.git"
+  },
+  "author": "Jean-Yves Chaillou @ kwa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kwabounga/maxi/issues"
+  },
+  "homepage": "https://github.com/kwabounga/maxi#readme",
+  "dependencies": {
+    "google-closure-compiler": "^20210406.0.0"
+  }
+}
