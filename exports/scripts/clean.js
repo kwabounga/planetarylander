@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 
+// check for bin directory existence : create or clean it
 const bin = path.join(__dirname, "../../bin/");
 if (fs.existsSync(bin)){
   console.log(`${bin} exist, clean it up ...`);
@@ -8,7 +9,6 @@ if (fs.existsSync(bin)){
   console.log('... done');
 } else{
   console.log(`${bin} does not yet exist, create it ...`);
-  
 }
 fs.mkdirSync(bin)
 console.log('... done');

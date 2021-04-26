@@ -5,56 +5,76 @@ const npm = require("../../package.json");
 const fs = require("fs");
 let fullFile = "";
 
+/**
+ * Code Previewer
+ * @param {String} txt full code
+ * @param {int} size size in chara for the preview
+ * @returns {String} the previewed code > "some code [...] end of code"
+ */
 const prev = function (txt, size = 300) {
   let s = txt.length;
-  return txt.slice(0, size) + "\n[...]\n" + txt.slice(s - size, s - 1);
+  return (
+    txt.slice(0, Math.floor(size / 2)) +
+    "...\n[...]\n..." +
+    txt.slice(s - Math.floor(size / 2), s - 1)
+  );
 };
-const formatInfos = function() {
+/**
+ * Comment Header construction based on package.json infos
+ * @returns {String} the Global Comment Header
+ */
+const formatInfos = function () {
   let i = `
   /**
    * ${npm.title.toUpperCase()}
    * 
-   * @author ${npm.author}
-   * @description ${npm.description}
-   * @version ${npm.version}
-   * @license ${npm.license}
-   * 
-   * @see ${npm.homepage}
+   * @author ${npm.author} 
+   * @description ${npm.description} 
+   * @version ${npm.version} 
+   * @see ${npm.homepage} 
+   * ${npm.license} 
    * 
    */
   
   `;
-  return i
-}
+  return i;
+};
+// add Header
 fullFile += formatInfos();
+
+// load all sources
 console.log("// LOADING SOURCE FILES:");
 data.files.forEach((file) => {
-  let fileUrl = path.join(__dirname, file)
-  let fParts = file.split('/');
-  let fileName = fParts[fParts.length-1]
+  // get the current file url
+  let fileUrl = path.join(__dirname, file);
+  let fParts = file.split("/");
+  let fileName = fParts[fParts.length - 1];
   console.log(fileUrl);
-  fullFile += `\n// ${fileName} \n`
+  fullFile += `\n/* [${fileName}] ... begin */\n`;
+  // get the content of the file
   let s = fs.readFileSync(fileUrl, { encoding: "utf-8" });
+  // add the content to the fullCode
   fullFile += s;
+  fullFile += `\n/* ... end [${fileName}] */\n`;
   fullFile += "\n/* added by combiner */\n";
 });
-
+// show preview in console
 console.log("\nDATA PREV");
 console.log(prev(fullFile));
+
+// construction of the path and name of the combined js file
 const binDir = path.join(__dirname, "../../bin/");
-
-
 let nfp = path.join(binDir, `${data.name}.js`);
 
-if (!fs.existsSync(binDir)){
+// create the destination folder if no exist
+if (!fs.existsSync(binDir)) {
   console.log(`${binDir} not exist create it ...`);
   fs.mkdirSync(binDir);
-  console.log('... done');
+  console.log("... done");
 }
-console.log('save source in the new file ...');
+// saving the combined file
+console.log("save source in the new file ...");
 fs.writeFile(nfp, fullFile, () => {
-  console.log('... done\n');
+  console.log("... done\n");
   console.log("your file is saved to ", nfp);
 });
-
-
