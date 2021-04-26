@@ -45,13 +45,16 @@ ____
 
 # clean & combine & minify
 > npm run build
+
+# clean & combine & start http-server
+> npm run dev
 ```
 
 
 ### local
 Using [http-server](https://www.npmjs.com/package/http-server) to run it locally:  
   
-
+*http-server*
   ```shell 
   > npm install http-server -g
   > cd /path/to/planetarylander/
@@ -63,17 +66,31 @@ Using [http-server](https://www.npmjs.com/package/http-server) to run it locally
   Hit CTRL-C to stop the server
   ```
 
+*run dev command*
+  ```shell 
+  # need http-server
+  > npm run dev
+  # it will clean up, combine files then run `http-server`
+  Starting up http-server, serving ./
+  Available on:
+    http://192.168.1.XX:8080
+    http://127.0.0.1:8080
+  Hit CTRL-C to stop the server
+  ```
  then open a browser window
 
- ### For the moment; access the different worlds with:  
- http://127.0.0.1:8080#moon  
- http://127.0.0.1:8080#mars  
- http://127.0.0.1:8080#europa  
- http://127.0.0.1:8080#titan  
+ ### For the moment; access the different worlds using hash in url:  
+ `#moon`  
+ `#mars`  
+ `#europa`  
+ `#titan`  
 
-> http://x.x.x.x:8080/index_dev.html#moon  
+> http://localhost:8080/index_dev.html#moon  
 for dev version (files no minified)  
-> http://x.x.x.x:8080/index.html#moon  
+
+> http://localhost:8080/index.html#moon  
+> or  
+> http://localhost:8080/#moon  
 for prod version (minified)  
 
 
@@ -99,7 +116,7 @@ ____
 - [x] Menu stars like balls !
 - [x] Accessing level from [menu](./exports/menu/Menu.js#launchLevel) with event 
 - [x] Rules : europa [gravity](./exports/game/levels/Level.js#gravityRule)
-- [ ] Rules : mars  [dust devils](./exports/game/levels/Level.js#dustDevils)
+- [ ] Rules : mars [dust devils](./exports/game/levels/Level.js#dustDevils)
 - [ ] Rules : titan jets
 - [x] Data loader 
 - [x] swap / overLoad Texture

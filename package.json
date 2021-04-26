@@ -7,36 +7,37 @@
   "directories": {
     "lib": "lib"
   },
-  "combiner":{
-    "name":"planetary-lander",
-    "files":[
-      "../State.js",
-      "../tools/tools.js",
-      "../tools/Keyboard.js",
-      "../hud/Ui.js",
-      "../game/levels/Level.js",
-      "../game/landers/Flag.js",
-      "../game/landers/Stabilizer.js",
-      "../game/landers/Reactor.js",
-      "../game/landers/LanderBody.js",
-      "../game/levels/BonusSprite.js",
-      "../game/landers/Lander.js",
-      "../game/landers/Landers.js",
-      "../game/levels/Terrains.js",
-      "../menu/ButtonSprite.js",
-      "../menu/Button.js",
-      "../menu/MenuBg.js",
-      "../menu/Menu.js",
-      "../Main.js"
+  "combiner": {
+    "name": "planetary-lander",
+    "files": [
+      "../front/State.js",
+      "../front/tools/tools.js",
+      "../front/tools/Keyboard.js",
+      "../front/hud/Ui.js",
+      "../front/game/levels/Level.js",
+      "../front/game/landers/Flag.js",
+      "../front/game/landers/Stabilizer.js",
+      "../front/game/landers/Reactor.js",
+      "../front/game/landers/LanderBody.js",
+      "../front/game/levels/BonusSprite.js",
+      "../front/game/landers/Lander.js",
+      "../front/game/landers/Landers.js",
+      "../front/game/levels/Terrains.js",
+      "../front/menu/ButtonSprite.js",
+      "../front/menu/Button.js",
+      "../front/menu/MenuBg.js",
+      "../front/menu/Menu.js",
+      "../front/Main.js"
     ]
   },
   "scripts": {
     "clean": "node ./exports/scripts/clean.js",
     "combine": "node ./exports/scripts/combiner.js",
     "minify": "npx google-closure-compiler --js=./bin/%npm_package_combiner_name%.js --js_output_file=./bin/%npm_package_combiner_name%.min.js",
-    "build":"npm run clean && npm run combine && npm run minify && echo 'combined and minified'",
-    "dev":"npm run clean && npm run combine && http-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run clean && npm run combine && npm run minify && echo 'combined and minified'",
+    "dev": "npm run clean && npm run combine && http-server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bdd-con": "node ./exports/server/connection.js"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,10 @@
   },
   "homepage": "https://github.com/kwabounga/maxi#readme",
   "dependencies": {
-    "google-closure-compiler": "^20210406.0.0"
+    "dotenv": "^8.2.0",
+    "google-closure-compiler": "^20210406.0.0",
+    "knex": "^0.95.4",
+    "mysql": "^2.18.1",
+    "object-hash": "^2.1.1"
   }
 }
