@@ -118,6 +118,7 @@ Main.prototype.spriteSheetLoaded = function () {
  * @param {object} context the level context
  */
 Main.prototype.initLevel = function (context) {
+  this.showLoader()
   const me = this;
   this.removeMenu();
   this.ui = this.createUi();
@@ -140,9 +141,9 @@ Main.prototype.addMenu = function () {
   this.menu = new Menu(this.stage, this.engine)
   this.menu.emitter.on('start',this.initLevel.bind(this))
   
-  this.showCanvas();
   this.addMouseConstraint();
   console.log('BODIES',this.menu.bodies)
+  this.showCanvas();
   this.loopID = requestAnimationFrame(this.updateMenu.bind(this));
 }
 
@@ -151,7 +152,7 @@ Main.prototype.addMenu = function () {
  */
 Main.prototype.removeMenu = function () {
   cancelAnimationFrame(this.loopID);
-  this.stage.removeChild(this.menu)
+  this.stage.removeChild(this.menu);
   this.menu = null;
   Matter.World.clear(this.engine.world)
 }
@@ -178,6 +179,7 @@ Main.prototype.initAfterLoadingTerrain = function () {
     this.level.addKeysEvents();
     this.loopID = requestAnimationFrame(this.update.bind(this));
   })
+  this.showCanvas()
 };
 
 /**

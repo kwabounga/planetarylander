@@ -38,17 +38,17 @@ pause: <kbd>space</kbd>
 
 ### optimise project for production
 ``` shell
-> clean up old build files
-npm run clean
+# clean up old build files
+> npm run clean
 
-> combine js files
-npm run combine
+# combine js files
+> npm run combine
 
-> minify js files
-npm run minify
+# minify js files
+> npm run minify
 
-> clean & combine & minify
-npm run build
+# clean & combine & minify
+> npm run build
 ```
 
 
@@ -108,6 +108,8 @@ for now only the first levels of each world are available
 - [ ] back to the menu from the game (pause exit)
 - [ ] add progression and lock levels accordingly
 - [ ] add a login system and save the progression in bdd
-- [ ] see for minification of js classes
-- [ ] 
+- [x] js classes combine using my own system
+- [x] js classes minification using google-closure-compiler system
+- [x] build script : clean / combine and minify 
+- [x] show loading animation between unload menu and getStarted
 
