@@ -32,6 +32,7 @@ const formatInfos = function () {
    * @description ${npm.description} 
    * @version ${npm.version} 
    * @see ${npm.homepage} 
+   * @last_update ${(new Date()).toUTCString()}
    * ${npm.license} 
    * 
    */
