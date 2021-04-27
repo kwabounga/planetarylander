@@ -43,7 +43,7 @@ app.post('/connect',(req,res, next)=>{
   .then((rep)=>{
     res.json({login:rep.login, progress:rep.progress})
   }).catch((err)=>{
-    res.json({response:err})
+    res.json(err)
   })
   
 })
