@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 // check for bin directory existence : create or clean it
-const bin = path.join(__dirname, "../../bin/");
+const bin = path.join(__dirname, "../../public/bin/");
 if (fs.existsSync(bin)){
   console.log(`${bin} exist, clean it up ...`);
   fs.rmdirSync(bin, {recursive: true});

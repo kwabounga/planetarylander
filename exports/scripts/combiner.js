@@ -64,7 +64,7 @@ console.log("\nDATA PREV");
 console.log(prev(fullFile));
 
 // construction of the path and name of the combined js file
-const binDir = path.join(__dirname, "../../bin/");
+const binDir = path.join(__dirname, "../../public/bin/");
 let nfp = path.join(binDir, `${data.name}.js`);
 
 // create the destination folder if no exist
