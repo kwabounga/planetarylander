@@ -46,31 +46,31 @@ ____
 # clean & combine & minify
 > npm run build
 
-# clean & combine & start http-server
+# clean & combine & start local server
 > npm run dev
 ```
 
+### on server 
 
+Must have a `.env` file on root containts:
+
+```env
+ENVIRONMENT=dev
+PORT=1234
+
+BDD_PASS=bddpassword
+BDD_USER=userpass
+BDD_NAME=bddName
+BDD_HOST=bddHost
+
+ ```
 ### local
-Using [http-server](https://www.npmjs.com/package/http-server) to run it locally:  
-  
-*http-server*
-  ```shell 
-  > npm install http-server -g
-  > cd /path/to/planetarylander/
-  > http-server
-  Starting up http-server, serving ./
-  Available on:
-    http://192.168.1.XX:8080
-    http://127.0.0.1:8080
-  Hit CTRL-C to stop the server
-  ```
-
+Using express server  and ejs
 *run dev command*
   ```shell 
   # need http-server
   > npm run dev
-  # it will clean up, combine files then run `http-server`
+  # it will clean up, combine files then run `node server.js`
   Starting up http-server, serving ./
   Available on:
     http://192.168.1.XX:8080
@@ -132,4 +132,13 @@ ____
 - [x] js classes minification using google-closure-compiler system
 - [x] [build script](./package.json) : clean / combine and minify 
 - [x] show loading animation between unload menu and getStarted
+- [ ] do a 'create bdd script'
+- [x] express to serve static files et get post req
+- [x] ejs for the render
+- [x] knex for the mysql connection
+- [x] knex request for connection / delete / updateing and register
+- [x] front to back communication for connection
+- [ ] front to back communication for registrer
+- [ ] front to back communication for update progress
+- [ ] 
 
