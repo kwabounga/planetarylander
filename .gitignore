@@ -114,6 +114,6 @@ assets/lander_titan.png
 
 /node_modules
 /bin/*
-/public/bin/*
+
 
 .env
