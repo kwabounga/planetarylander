@@ -18,6 +18,10 @@ const State = (function () {
         this.keyRight = null;
         this.keySpace = null;
         this.menuData = undefined;
+        this.user = {
+            login:'anon',
+            progress:{}
+        }
         this.game = {
             currentWorld:0, 
             currentLevel:0, 
@@ -46,6 +50,7 @@ const State = (function () {
             keyRight: this.keyRight,            
             keySpace: this.keySpace,            
             game: this.game,            
+            user: this.user,            
             menuData: this.menuData,            
             log: this.log,            
         };

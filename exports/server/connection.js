@@ -1,6 +1,6 @@
 
 require('dotenv').config();
-var hash = require('object-hash');
+// var hash = require('object-hash');
 // console.log(process.env.BDD_NAME,process.env.BDD_PASS,process.env.BDD_USER,process.env.BDD_HOST,);
 
 
@@ -96,13 +96,13 @@ const connection = function(login, password) {
 
   })
 }
-connection('test','1234')
-.then((rep)=>{
-  console.log('you are logged! ', rep, JSON.parse(rep.progress));
-})
-.catch((err)=>{
-  console.log(err.error);
-})
+// connection('test','1234')
+// .then((rep)=>{
+//   console.log('you are logged! ', rep, JSON.parse(rep.progress));
+// })
+// .catch((err)=>{
+//   console.log(err.error);
+// })
 
 
 //UPDATING PROGRESSION OK

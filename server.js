@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { log } = require('console');
+
 const express = require('express');
 const http = require('http');
 const app = express();
@@ -41,7 +41,7 @@ app.post('/connect',(req,res, next)=>{
   let password = connectInfos.password;
   con.connection(login,password)
   .then((rep)=>{
-    res.json({response:'ok'})
+    res.json({login:rep.login, progress:rep.progress})
   }).catch((err)=>{
     res.json({response:err})
   })
