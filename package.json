@@ -34,7 +34,7 @@
     "clean": "node ./exports/scripts/clean.js",
     "combine": "node ./exports/scripts/combiner.js",
     "minify": "npx google-closure-compiler --js=./public/bin/%npm_package_combiner_name%.js --js_output_file=./public/bin/%npm_package_combiner_name%.min.js",
-    "build": "npm run clean && npm run combine && npm run minify && echo 'combined and minified'",
+    "builder": "npm run clean && npm run combine && npm run minify && echo 'combined and minified'",
     "dev": "npm run clean && npm run combine && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "bdd-con": "node ./exports/server/connection.js"

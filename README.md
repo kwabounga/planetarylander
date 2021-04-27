@@ -133,12 +133,19 @@ ____
 - [x] [build script](./package.json) : clean / combine and minify 
 - [x] show loading animation between unload menu and getStarted
 - [ ] do a 'create bdd script'
-- [x] express to serve static files et get post req
-- [x] ejs for the render
-- [x] knex for the mysql connection
-- [x] knex request for connection / delete / updateing and register
+- [x] [express](https://www.npmjs.com/package/express) to serve static files et get post req
+- [x] [ejs](https://www.npmjs.com/package/ejs) for the render
+- [x] [knex](https://knexjs.org/) for the mysql connection
+- [x] knex request for connection / delete / updating and register
 - [x] front to back communication for connection
 - [ ] front to back communication for registrer
 - [ ] front to back communication for update progress
 - [ ] 
 
+### Heroku 
+connection to heroku  
+`heroku login`  
+add heroku remote  
+`heroku git:remote -a planetary-lander`  
+deploy to heroku  
+`git push heroku main`  
