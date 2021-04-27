@@ -50,6 +50,10 @@
             //   console.log(Tools.dataLoader.data); // empty data
             // })
             // Tools.dataLoader.load()
+
+            Tools.ajaxPost('./connect',{login:'test', password:'1234'},(rep)=>{
+              console.log(rep);
+            })
             
         }
 

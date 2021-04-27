@@ -128,4 +128,8 @@ const updateProgress = function(login,progress) {
 
 
 
-module.exports = knex;
+module.exports = {
+  connection: connection,
+  register: register,
+  updateProgress: updateProgress,
+};
