@@ -42,7 +42,7 @@ app.post('/connect',(req,res, next)=>{
   con.connection(login,password)
   .then((rep)=>{
     res.json({login:rep.login, progress:rep.progress})
-  }).catch((err)=>{
+  },(err)=>{
     res.json(err)
   })
   
