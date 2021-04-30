@@ -56,7 +56,15 @@
       "bonus": [
         {"type":"fuel", "x": 500, "y": 500, "amount":50 }
       ],
-      "fuelMax":250
+      "fuelMax":250,
+      "rules":{
+        "type":"dust_devils",
+        "params":{
+          "size": 15,
+          "frequency":{"min":10,"max":20},
+          "repeat":-1
+        }
+      }
     }
   ]
 }

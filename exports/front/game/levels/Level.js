@@ -261,13 +261,24 @@ Level.prototype.end = function () {
 Level.prototype.applyRules = function () {
   console.log(this.engine.world.gravity)
   if(this.data.levels[this.state.game.currentLevel].rules){
+    let params = this.data.levels[this.state.game.currentLevel].rules.params;
     switch (this.data.levels[this.state.game.currentLevel].rules.type) {
       case "gravity_change":
         // #gravityRule
         console.log('GRAVITY_CHANGE');
-        let params = this.data.levels[this.state.game.currentLevel].rules.params;
-        this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+        
+        this.tweenRule = new GravityChange(this.engine, params);
         break;
+        case "dust_devils":
+          // #gravityRule
+          console.log('DUST DEVILS');
+          let dd = new DustDevils(params);
+          this.addChild(dd.sprite);
+          dd.sprite.x=400;
+          dd.sprite.y=300;
+          // let params = this.data.levels[this.state.game.currentLevel].rules.params;
+          // this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+          break;
 
       default:
         break;

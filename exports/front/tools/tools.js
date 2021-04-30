@@ -370,3 +370,13 @@ Tools.overwritePixiTexture = function (textureName, url, callBack) {
   loader.add(textureName, url);
   loader.once("complete", callBack);
 };
+
+
+Tools.getAnimationLoop = function(sprite,from,to) {
+  const textures = [];
+      for(let i = from; i <= to; i ++){
+          const texture = PIXI.Texture.from(`${sprite}${String(i-1).padStart(4,"0")}`);
+          textures.push(texture);
+      }
+      return textures;
+}

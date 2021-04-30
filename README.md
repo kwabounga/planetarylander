@@ -52,8 +52,8 @@ ____
 
 ### on server 
 
-Must have a `.env` file on root containts:
-
+Must have a `.env` file on root containts:  
+(or environement Variables)  
 ```env
 ENVIRONMENT=dev
 PORT=1234
@@ -142,6 +142,8 @@ ____
 - [ ] front to back communication for update progress
 - [ ] 
 
+----
+
 ### Heroku 
 connection to heroku  
 `heroku login`  
@@ -149,3 +151,10 @@ add heroku remote
 `heroku git:remote -a planetary-lander`  
 deploy to heroku  
 `git push heroku main`  
+
+----
+
+### JSON REMAINDERS:
+
+[MAIN](./doc/main.md)  
+[LEVELS](./doc/levels.md)  

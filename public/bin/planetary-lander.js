@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Thu, 29 Apr 2021 12:11:38 GMT
+   * @last_update Fri, 30 Apr 2021 11:42:56 GMT
    * ISC 
    * 
    */
@@ -462,6 +462,15 @@ Tools.overwritePixiTexture = function (textureName, url, callBack) {
   loader.once("complete", callBack);
 };
 
+
+Tools.getAnimationLoop = function(sprite,from,to) {
+  const textures = [];
+      for(let i = from; i <= to; i ++){
+          const texture = PIXI.Texture.from(`${sprite}${String(i-1).padStart(4,"0")}`);
+          textures.push(texture);
+      }
+      return textures;
+}
 /* ... end [tools.js] */
 
 /* added by combiner */
@@ -909,13 +918,24 @@ Level.prototype.end = function () {
 Level.prototype.applyRules = function () {
   console.log(this.engine.world.gravity)
   if(this.data.levels[this.state.game.currentLevel].rules){
+    let params = this.data.levels[this.state.game.currentLevel].rules.params;
     switch (this.data.levels[this.state.game.currentLevel].rules.type) {
       case "gravity_change":
         // #gravityRule
         console.log('GRAVITY_CHANGE');
-        let params = this.data.levels[this.state.game.currentLevel].rules.params;
-        this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+        
+        this.tweenRule = new GravityChange(this.engine, params);
         break;
+        case "dust_devils":
+          // #gravityRule
+          console.log('DUST DEVILS');
+          let dd = new DustDevils(params);
+          this.addChild(dd.sprite);
+          dd.sprite.x=400;
+          dd.sprite.y=300;
+          // let params = this.data.levels[this.state.game.currentLevel].rules.params;
+          // this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+          break;
 
       default:
         break;
@@ -1265,6 +1285,72 @@ Level.prototype.addKeysEvents = function () {
 };
 
 /* ... end [Level.js] */
+
+/* added by combiner */
+
+/* [GravityChange.js] ... begin */
+function GravityChange(engine, params) {
+  return gsap.fromTo(engine.world.gravity, params.from,params.to);
+}
+
+/* ... end [GravityChange.js] */
+
+/* added by combiner */
+
+/* [DustDevils.js] ... begin */
+function DustDevils (params) {
+  this.params = params
+  this.sprite = this.createSprite(this.params.size);
+  this.body;
+  this.tween;
+
+}
+/**
+ * gsap tween
+ */
+DustDevils.prototype.createTween = function () {
+  
+}
+/**
+ * Pixi animated Sprite
+ */
+DustDevils.prototype.createSprite = function (size=10) {
+  let c = new PIXI.Container();
+  for (let i = 0; i < size; i++) {
+    // calculate to review
+    let scaleX = (((i+1)/size)*0.5)+0.5;
+    console.log(scaleX);
+    let s = this.getDDPart({x:scaleX,y:1}) ;
+    c.addChild(s);
+    s.y = i * -16
+  }
+  c.filters = [new PIXI.filters.BlurFilter(2,3,3)]
+  return c;
+}
+
+DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
+  let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust',1,4))
+  s.anchor.set(0.5);
+  s.ticker = PIXI.ticker.shared;
+	s.ticker.speed = 0.25;
+  s.gotoAndPlay(Tools.randomBetween(0,4));
+  s.scale = scale;
+  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-10,10)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  return s;
+}
+/**
+ * Matter Body
+ */
+DustDevils.prototype.createBody = function () {
+
+}
+// loop 
+DustDevils.prototype.update = function () {
+
+}
+
+
+/* ... end [DustDevils.js] */
 
 /* added by combiner */
 
