@@ -276,8 +276,25 @@ Level.prototype.applyRules = function () {
           this.addChild(dd.sprite);
           dd.sprite.x=400;
           dd.sprite.y=300;
+
           // let params = this.data.levels[this.state.game.currentLevel].rules.params;
-          // this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+          this.tweenRule = gsap.fromTo(
+            dd.sprite,
+            {
+              x: 0,
+              duration: params.duration,
+              repeat: params.repeat,
+              yoyo: true,
+              // ease: "back.in(2)",
+            },
+            {
+              x: 800,
+              duration: params.duration,
+              repeat: params.repeat,
+              yoyo: true,
+              // ease: "back.out(2)",
+            }
+          );
           break;
 
       default:

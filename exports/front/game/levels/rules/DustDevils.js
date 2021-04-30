@@ -3,11 +3,15 @@ function DustDevils (params) {
   this.sprite = this.createSprite(this.params.size);
   this.body;
   this.tween;
+  this.wireframe = this.createWireFrame(this.params.size);;
 
 }
 /**
  * gsap tween
  */
+DustDevils.prototype.createWireFrame = function (size) {
+  
+}
 DustDevils.prototype.createTween = function () {
   
 }
@@ -24,18 +28,32 @@ DustDevils.prototype.createSprite = function (size=10) {
     c.addChild(s);
     s.y = i * -16
   }
+  let p = this.getProjection()
+  c.addChild(p);
   c.filters = [new PIXI.filters.BlurFilter(2,3,3)]
   return c;
 }
 
+DustDevils.prototype.getProjection = function () {
+  const me = this;
+  let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust_projections',1,4))
+  s.anchor.set(0.5,1);
+  s.ticker = PIXI.ticker.shared;
+	s.ticker.speed = 0.25;
+  s.gotoAndPlay(Tools.randomBetween(0,4));
+  
+  // gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  return s;
+}
 DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
+  const me = this;
   let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust',1,4))
   s.anchor.set(0.5);
   s.ticker = PIXI.ticker.shared;
 	s.ticker.speed = 0.25;
   s.gotoAndPlay(Tools.randomBetween(0,4));
   s.scale = scale;
-  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-10,10)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
   return s;
 }
 /**

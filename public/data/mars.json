@@ -61,8 +61,10 @@
         "type":"dust_devils",
         "params":{
           "size": 15,
+          "gap":12,
           "frequency":{"min":10,"max":20},
-          "repeat":-1
+          "repeat":-1,
+          "duration":20
         }
       }
     }

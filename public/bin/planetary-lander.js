@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Fri, 30 Apr 2021 11:42:56 GMT
+   * @last_update Fri, 30 Apr 2021 12:28:15 GMT
    * ISC 
    * 
    */
@@ -933,8 +933,25 @@ Level.prototype.applyRules = function () {
           this.addChild(dd.sprite);
           dd.sprite.x=400;
           dd.sprite.y=300;
+
           // let params = this.data.levels[this.state.game.currentLevel].rules.params;
-          // this.tweenRule = gsap.fromTo(this.engine.world.gravity, params.from,params.to);
+          this.tweenRule = gsap.fromTo(
+            dd.sprite,
+            {
+              x: 0,
+              duration: params.duration,
+              repeat: params.repeat,
+              yoyo: true,
+              // ease: "back.in(2)",
+            },
+            {
+              x: 800,
+              duration: params.duration,
+              repeat: params.repeat,
+              yoyo: true,
+              // ease: "back.out(2)",
+            }
+          );
           break;
 
       default:
@@ -1303,11 +1320,15 @@ function DustDevils (params) {
   this.sprite = this.createSprite(this.params.size);
   this.body;
   this.tween;
+  this.wireframe = this.createWireFrame(this.params.size);;
 
 }
 /**
  * gsap tween
  */
+DustDevils.prototype.createWireFrame = function (size) {
+  
+}
 DustDevils.prototype.createTween = function () {
   
 }
@@ -1324,18 +1345,32 @@ DustDevils.prototype.createSprite = function (size=10) {
     c.addChild(s);
     s.y = i * -16
   }
+  let p = this.getProjection()
+  c.addChild(p);
   c.filters = [new PIXI.filters.BlurFilter(2,3,3)]
   return c;
 }
 
+DustDevils.prototype.getProjection = function () {
+  const me = this;
+  let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust_projections',1,4))
+  s.anchor.set(0.5,1);
+  s.ticker = PIXI.ticker.shared;
+	s.ticker.speed = 0.25;
+  s.gotoAndPlay(Tools.randomBetween(0,4));
+  
+  // gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  return s;
+}
 DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
+  const me = this;
   let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust',1,4))
   s.anchor.set(0.5);
   s.ticker = PIXI.ticker.shared;
 	s.ticker.speed = 0.25;
   s.gotoAndPlay(Tools.randomBetween(0,4));
   s.scale = scale;
-  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-10,10)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
   return s;
 }
 /**
