@@ -16,6 +16,38 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":481,"h":159},
 	"sourceSize": {"w":481,"h":159}
 },
+"dust0000":
+{
+	"frame": {"x":394,"y":721,"w":62,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":19},
+	"sourceSize": {"w":62,"h":19}
+},
+"dust0001":
+{
+	"frame": {"x":451,"y":739,"w":59,"h":17},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":62,"h":19},
+	"sourceSize": {"w":62,"h":19}
+},
+"dust0002":
+{
+	"frame": {"x":456,"y":720,"w":55,"h":19},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":0,"w":62,"h":19},
+	"sourceSize": {"w":62,"h":19}
+},
+"dust0003":
+{
+	"frame": {"x":394,"y":739,"w":57,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":1,"w":62,"h":19},
+	"sourceSize": {"w":62,"h":19}
+},
 "earth0000":
 {
 	"frame": {"x":0,"y":440,"w":202,"h":202},

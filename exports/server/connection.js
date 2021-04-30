@@ -1,12 +1,9 @@
 
 require('dotenv').config();
-// var hash = require('object-hash');
-// console.log(process.env.BDD_NAME,process.env.BDD_PASS,process.env.BDD_USER,process.env.BDD_HOST,);
-
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
+const {ERRORS,SUCCESS} = require('./messages');
 
 const knex = require('knex')({
   client: 'mysql',
@@ -17,8 +14,7 @@ const knex = require('knex')({
     database : process.env.BDD_NAME
   },debug: true
 });
-let progress = JSON.stringify({progress:'in progress'})
-let progress2 = JSON.stringify({progress:'in progress', bla:'bla'})
+
 // INSERT 
 
 //REGISTER et hashage du mdp Ok
@@ -27,9 +23,14 @@ const register = function(mail, login, password, progress) {
     bcrypt.hash(password, saltRounds, function(err, hash) {
         // Store hash in your password DB.
         if(err) reject(err)
-        knex('users').insert({mail:mail,login:login,password:hash, progress:progress}).then((rep)=>{
-          // console.log(rep);
-          resolve(rep)
+        knex('users').insert({mail:mail,login:login,password:hash, progress:progress})
+        .then((rep)=>{
+          console.log(SUCCESS.BDD_USER_CREATED);
+          resolve({success:SUCCESS.BDD_USER_CREATED,response:rep})
+        })
+        .catch((err)=>{
+          console.log(ERRORS.BDD_USER_ALREADY_EXIST);
+          reject({error:ERRORS.BDD_USER_ALREADY_EXIST, original:err})
         })
     });
   })
@@ -80,14 +81,14 @@ const connection = function(login, password) {
     .then((rep)=>{
       const userObj = rep[0];
       if(userObj === undefined){
-        reject({error:'l\'utilisateur n\'existe pas '})
+        reject({error:ERRORS.BDD_USER_DOES_NOT_EXIST})
       }
       let hash = userObj.password
       bcrypt.compare(password, hash).then((result)=>{
         if(result){
-          resolve(userObj)
+          resolve({success:SUCCESS.BDD_USER_LOGGED, original:userObj})
         } else {
-          reject({error:'mot de passe incorrect'})
+          reject({error:ERRORS.BDD_USER_WRONG_PASSWORD})
         }
       })
     }).catch((err)=>{

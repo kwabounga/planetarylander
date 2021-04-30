@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Wed, 28 Apr 2021 04:58:04 GMT
+   * @last_update Thu, 29 Apr 2021 12:11:38 GMT
    * ISC 
    * 
    */
