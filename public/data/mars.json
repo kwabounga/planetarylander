@@ -4,7 +4,7 @@
       "shell": 100,
       "reactorPower": 1.3,
       "reactorPowerMax": 26,
-      "stabilizersPower": 0.0015,
+      "stabilizersPower": 0.0012,
       "fuel": 500,
       "fuelConsumption": 0.2,
       "speedMax":40

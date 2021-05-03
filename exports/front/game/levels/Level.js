@@ -193,7 +193,7 @@ Level.prototype.damageLander = function () {
   }
 };
 Level.prototype.getRules = function (rule) {
-  console.log(rule.params);
+  console.log('getRules', rule.params);
 }
 /**
  * getBonus
@@ -275,7 +275,8 @@ Level.prototype.applyRules = function () {
   this.state.log(this.engine.world.gravity);
   if(this.data.levels[this.state.game.currentLevel].rules){
     let params = this.data.levels[this.state.game.currentLevel].rules.params;
-    switch (this.data.levels[this.state.game.currentLevel].rules.type) {
+    let type = this.data.levels[this.state.game.currentLevel].rules.type;
+    switch (type) {
       case "gravity_change":
         // #gravityRule
         console.log('GRAVITY_CHANGE');
@@ -285,7 +286,7 @@ Level.prototype.applyRules = function () {
         case "dust_devils":
           // #gravityRule
           console.log('DUST DEVILS');
-          let dd = new DustDevils(params);
+          let dd = new DustDevils(type,params);
           this.addChild(dd.sprite);
           if (this.state.isDebug) {
             this.addChild(dd.wireframe);

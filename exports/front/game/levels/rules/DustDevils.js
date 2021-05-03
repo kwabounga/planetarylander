@@ -1,4 +1,5 @@
-function DustDevils (params) {
+function DustDevils (type, params) {
+  this.type = type;
   this.params = params;
   this.sprite = this.createSprite(this.params.size);
   this.body = this.createBody(this.params);

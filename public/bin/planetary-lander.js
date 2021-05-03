@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Sun, 02 May 2021 18:16:02 GMT
+   * @last_update Mon, 03 May 2021 04:46:47 GMT
    * ISC 
    * 
    */
@@ -850,7 +850,7 @@ Level.prototype.damageLander = function () {
   }
 };
 Level.prototype.getRules = function (rule) {
-  console.log(rule.params.type);
+  console.log('getRules', rule.params);
 }
 /**
  * getBonus
@@ -932,7 +932,8 @@ Level.prototype.applyRules = function () {
   this.state.log(this.engine.world.gravity);
   if(this.data.levels[this.state.game.currentLevel].rules){
     let params = this.data.levels[this.state.game.currentLevel].rules.params;
-    switch (this.data.levels[this.state.game.currentLevel].rules.type) {
+    let type = this.data.levels[this.state.game.currentLevel].rules.type;
+    switch (type) {
       case "gravity_change":
         // #gravityRule
         console.log('GRAVITY_CHANGE');
@@ -942,7 +943,7 @@ Level.prototype.applyRules = function () {
         case "dust_devils":
           // #gravityRule
           console.log('DUST DEVILS');
-          let dd = new DustDevils(params);
+          let dd = new DustDevils(type,params);
           this.addChild(dd.sprite);
           if (this.state.isDebug) {
             this.addChild(dd.wireframe);
@@ -1347,10 +1348,11 @@ function GravityChange(engine, params) {
 /* added by combiner */
 
 /* [DustDevils.js] ... begin */
-function DustDevils (params) {
+function DustDevils (type, params) {
+  this.type = type;
   this.params = params;
   this.sprite = this.createSprite(this.params.size);
-  this.body = this.createBody(this.params.size, this.params.dustPart);
+  this.body = this.createBody(this.params);
   this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
   this.tween;
 }
@@ -1435,15 +1437,15 @@ DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
 /**
  * Matter Body
  */
-DustDevils.prototype.createBody = function (size, dustPart) {
+DustDevils.prototype.createBody = function (params) {
   let vSet = [
-    { "x": -(dustPart.w*0.5)/2, "y": 0 },
-    { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
-    { "x": dustPart.w/2, "y": -(dustPart.h*size) },
-    { "x": (dustPart.w*0.5)/2, "y": 0 }
+    { "x": -(params.dustPart.w*0.5)/2, "y": 0 },
+    { "x": -params.dustPart.w/2, "y": -(params.dustPart.h*params.size) },
+    { "x": params.dustPart.w/2, "y": -(params.dustPart.h*params.size) },
+    { "x": (params.dustPart.w*0.5)/2, "y": 0 }
   ]
   
-  let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true})
+  let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: true})
   // this.params.partHeight
   return b;
 }
