@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Fri, 30 Apr 2021 12:28:15 GMT
+   * @last_update Sun, 02 May 2021 18:16:02 GMT
    * ISC 
    * 
    */
@@ -677,6 +677,7 @@ function Level(main, callBack = null) {
   this.stars = [];
   this.bonus = [];
   this.malus = [];
+  this.rules = [];
   this.callBack = callBack;
 
   this.landerExploded = null;
@@ -688,7 +689,7 @@ function Level(main, callBack = null) {
   // TODO: gerer les landzones ds les json
 
   // overwrite settings
-  this.overWriteSettings(this.data.levels[this.state.game.currentLevel])
+  this.overWriteSettings(this.data.levels[this.state.game.currentLevel]);
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
 /**
@@ -745,10 +746,10 @@ Level.prototype.init = function () {
   this.addlandZones();
   this.addStars();
   this.addBonus();
+  this.applyRules();
 
   // collisions
   this.addCollisions();
-  this.applyRules()
 };
 
 
@@ -806,6 +807,15 @@ Level.prototype.addCollisions = function () {
           me.getBonus(b);
         }
       });
+      // rules
+      console.log(pair.bodyA, pair.bodyB);
+      me.rules.forEach((r) => {
+        if (pair.bodyA === r.body) {
+          me.getRules(r);
+        } else if (pair.bodyB === r.body) {
+          me.getRules(r);
+        }
+      });
     }
   });
 };
@@ -815,7 +825,7 @@ Level.prototype.addCollisions = function () {
 Level.prototype.die = function () {
   const me = this;
   this.lander.isDie = true;
-  console.log(this.lander.sprite.params.sprite);  
+  this.state.log(this.lander.sprite.params.sprite);  
 
   Landers.explode(me.lander, me, (lExp)=>{
     me.landerExploded = lExp;
@@ -839,6 +849,9 @@ Level.prototype.damageLander = function () {
     this.die();
   }
 };
+Level.prototype.getRules = function (rule) {
+  console.log(rule.params.type);
+}
 /**
  * getBonus
  */
@@ -905,7 +918,7 @@ Level.prototype.end = function () {
   }else {
     if (Math.abs(this.state.game.speedY * 25) > this.state.game.speedMax || Math.abs(this.state.game.speedX * 25) > this.state.game.speedMax){
       this.state.game.shell = 0;
-      this.damageLander()
+      this.damageLander();
     }else {
       this.win();
     }
@@ -916,7 +929,7 @@ Level.prototype.end = function () {
  * #dustDevils
  */
 Level.prototype.applyRules = function () {
-  console.log(this.engine.world.gravity)
+  this.state.log(this.engine.world.gravity);
   if(this.data.levels[this.state.game.currentLevel].rules){
     let params = this.data.levels[this.state.game.currentLevel].rules.params;
     switch (this.data.levels[this.state.game.currentLevel].rules.type) {
@@ -931,10 +944,16 @@ Level.prototype.applyRules = function () {
           console.log('DUST DEVILS');
           let dd = new DustDevils(params);
           this.addChild(dd.sprite);
-          dd.sprite.x=400;
-          dd.sprite.y=300;
+          if (this.state.isDebug) {
+            this.addChild(dd.wireframe);
+          }
+          // let d =  { body: dd.body, sprite: dd.sprite, wireFrame: dd.wireframe }
+          this.rules.push(dd);
+          dd.init();
+          
 
           // let params = this.data.levels[this.state.game.currentLevel].rules.params;
+          /*
           this.tweenRule = gsap.fromTo(
             dd.sprite,
             {
@@ -952,6 +971,7 @@ Level.prototype.applyRules = function () {
               // ease: "back.out(2)",
             }
           );
+           */
           break;
 
       default:
@@ -962,10 +982,20 @@ Level.prototype.applyRules = function () {
 /**
  * update / game loop
  */
+Level.prototype.updateRules = function () {
+  this.rules.forEach(r => {
+    //r.update();
+    r.sprite.position = r.body.position;
+    r.wireframe.position = r.body.position;
+
+    this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
+  });
+}
 Level.prototype.update = function () {
   this.updateLander();
   this.updateStars();
   this.updateBonus();
+  this.updateRules();
   if (this.landerExploded && this.landerExploded.bodies.length > 0) {
     this.updateStack();
   }
@@ -986,7 +1016,7 @@ Level.prototype.updateStack = function () {
 Level.prototype.updateLander = function () {
   const m = this;
   if (m.lander.isDie && m.lander.body.position.y >= m.terrain.sprite.height + 600){
-    console.log(m.lander.body)
+    this.state.log(m.lander.body);
     m.gameOver();
   }
   if (
@@ -1203,6 +1233,8 @@ Level.prototype.getAllBodiesInThisLevel = function () {
     this.terrain.body,
     this.stars.map((s) => s.body),
     this.bonus.map((b) => b.body),
+    this.malus.map((m) => m.body),
+    this.rules.map((r) => r.body),
   ];
 
   // return a flatten array of all bodies in the level
@@ -1262,7 +1294,7 @@ Level.prototype.addKeysEvents = function () {
         Tools.pixiColor("#ffc0c0"),
         true
         );
-        setTimeout(()=>{me.state.isPause = true;},20)
+        setTimeout(()=>{me.state.isPause = true;},20);
         
     }
   };
@@ -1316,21 +1348,48 @@ function GravityChange(engine, params) {
 
 /* [DustDevils.js] ... begin */
 function DustDevils (params) {
-  this.params = params
+  this.params = params;
   this.sprite = this.createSprite(this.params.size);
-  this.body;
+  this.body = this.createBody(this.params.size, this.params.dustPart);
+  this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
   this.tween;
-  this.wireframe = this.createWireFrame(this.params.size);;
-
+}
+/**
+ * debug wireframe
+ */
+DustDevils.prototype.createWireFrame = function (size, dustPart) {
+  let vSet = [
+    { "x": -(dustPart.w*0.5)/2, "y": 0 },
+    { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
+    { "x": dustPart.w/2, "y": -(dustPart.h*size) },
+    { "x": (dustPart.w*0.5)/2, "y": 0 }
+  ]
+  return Tools.wireFrameFromVertex(0, 0, vSet);
 }
 /**
  * gsap tween
  */
-DustDevils.prototype.createWireFrame = function (size) {
-  
-}
-DustDevils.prototype.createTween = function () {
-  
+DustDevils.prototype.createTween = function (params) {
+  const me = this;
+  return gsap.fromTo(
+    me.body.position,
+    {
+      x: 0,
+      duration: params.duration,
+      repeat: params.repeat,
+      yoyo: true,
+      repeatRefresh: true,
+      ease: "sine.inOut",
+    },
+    {
+      x: 800,
+      duration: params.duration,
+      repeat: params.repeat,
+      yoyo: true,
+      repeatRefresh: true,
+      ease: "sine.inOut",
+    }
+  );
 }
 /**
  * Pixi animated Sprite
@@ -1340,10 +1399,10 @@ DustDevils.prototype.createSprite = function (size=10) {
   for (let i = 0; i < size; i++) {
     // calculate to review
     let scaleX = (((i+1)/size)*0.5)+0.5;
-    console.log(scaleX);
+    State.getInstance().log(scaleX);
     let s = this.getDDPart({x:scaleX,y:1}) ;
     c.addChild(s);
-    s.y = i * -16
+    s.y = i * -this.params.dustPart.h;
   }
   let p = this.getProjection()
   c.addChild(p);
@@ -1370,18 +1429,36 @@ DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
 	s.ticker.speed = 0.25;
   s.gotoAndPlay(Tools.randomBetween(0,4));
   s.scale = scale;
-  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  gsap.fromTo(s, {x:0, duration:0.5, repeat:-1, yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
   return s;
 }
 /**
  * Matter Body
  */
-DustDevils.prototype.createBody = function () {
-
+DustDevils.prototype.createBody = function (size, dustPart) {
+  let vSet = [
+    { "x": -(dustPart.w*0.5)/2, "y": 0 },
+    { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
+    { "x": dustPart.w/2, "y": -(dustPart.h*size) },
+    { "x": (dustPart.w*0.5)/2, "y": 0 }
+  ]
+  
+  let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true})
+  // this.params.partHeight
+  return b;
 }
-// loop 
+// initialization 
+DustDevils.prototype.init = function () {
+  
+  this.sprite.position = this.params.position;
+  this.wireframe.position = this.params.position;
+  this.body.position = this.params.position;
+  // this.tween = this.createTween(this.params);
+}
+// loop update
 DustDevils.prototype.update = function () {
 
+  
 }
 
 
@@ -1893,7 +1970,7 @@ Landers.explode = function (lander, level, callBack) {
       // apply Angular Velocity to each parts for create explosion
       Matter.Body.setMass(b, Tools.randomBetween(2,5));
       Matter.Body.setAngularVelocity(b, Math.random() * 2 - 1);
-      console.log(b);
+      State.getInstance().log(b);
       return b;
     });
 
@@ -2524,6 +2601,7 @@ Main.prototype.initLevel = function (context) {
   this.level = new Level(this, () => {
     me.level.getAllBodiesInThisLevel().forEach((b) => {
       me.bodies.push(b);
+      console.log(b);
     });
     me.initAfterLoadingTerrain();
   });

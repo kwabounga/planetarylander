@@ -127,6 +127,7 @@ Main.prototype.initLevel = function (context) {
   this.level = new Level(this, () => {
     me.level.getAllBodiesInThisLevel().forEach((b) => {
       me.bodies.push(b);
+      console.log(b);
     });
     me.initAfterLoadingTerrain();
   });

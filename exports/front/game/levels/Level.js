@@ -20,6 +20,7 @@ function Level(main, callBack = null) {
   this.stars = [];
   this.bonus = [];
   this.malus = [];
+  this.rules = [];
   this.callBack = callBack;
 
   this.landerExploded = null;
@@ -31,7 +32,7 @@ function Level(main, callBack = null) {
   // TODO: gerer les landzones ds les json
 
   // overwrite settings
-  this.overWriteSettings(this.data.levels[this.state.game.currentLevel])
+  this.overWriteSettings(this.data.levels[this.state.game.currentLevel]);
   this.loadTerrain(this.data.levels[this.state.game.currentLevel]);
 }
 /**
@@ -88,10 +89,10 @@ Level.prototype.init = function () {
   this.addlandZones();
   this.addStars();
   this.addBonus();
+  this.applyRules();
 
   // collisions
   this.addCollisions();
-  this.applyRules()
 };
 
 
@@ -149,6 +150,15 @@ Level.prototype.addCollisions = function () {
           me.getBonus(b);
         }
       });
+      // rules
+      console.log(pair.bodyA, pair.bodyB);
+      me.rules.forEach((r) => {
+        if (pair.bodyA === r.body) {
+          me.getRules(r);
+        } else if (pair.bodyB === r.body) {
+          me.getRules(r);
+        }
+      });
     }
   });
 };
@@ -158,7 +168,7 @@ Level.prototype.addCollisions = function () {
 Level.prototype.die = function () {
   const me = this;
   this.lander.isDie = true;
-  console.log(this.lander.sprite.params.sprite);  
+  this.state.log(this.lander.sprite.params.sprite);  
 
   Landers.explode(me.lander, me, (lExp)=>{
     me.landerExploded = lExp;
@@ -182,6 +192,9 @@ Level.prototype.damageLander = function () {
     this.die();
   }
 };
+Level.prototype.getRules = function (rule) {
+  console.log(rule.params);
+}
 /**
  * getBonus
  */
@@ -248,7 +261,7 @@ Level.prototype.end = function () {
   }else {
     if (Math.abs(this.state.game.speedY * 25) > this.state.game.speedMax || Math.abs(this.state.game.speedX * 25) > this.state.game.speedMax){
       this.state.game.shell = 0;
-      this.damageLander()
+      this.damageLander();
     }else {
       this.win();
     }
@@ -259,7 +272,7 @@ Level.prototype.end = function () {
  * #dustDevils
  */
 Level.prototype.applyRules = function () {
-  console.log(this.engine.world.gravity)
+  this.state.log(this.engine.world.gravity);
   if(this.data.levels[this.state.game.currentLevel].rules){
     let params = this.data.levels[this.state.game.currentLevel].rules.params;
     switch (this.data.levels[this.state.game.currentLevel].rules.type) {
@@ -274,10 +287,16 @@ Level.prototype.applyRules = function () {
           console.log('DUST DEVILS');
           let dd = new DustDevils(params);
           this.addChild(dd.sprite);
-          dd.sprite.x=400;
-          dd.sprite.y=300;
+          if (this.state.isDebug) {
+            this.addChild(dd.wireframe);
+          }
+          // let d =  { body: dd.body, sprite: dd.sprite, wireFrame: dd.wireframe }
+          this.rules.push(dd);
+          dd.init();
+          
 
           // let params = this.data.levels[this.state.game.currentLevel].rules.params;
+          /*
           this.tweenRule = gsap.fromTo(
             dd.sprite,
             {
@@ -295,6 +314,7 @@ Level.prototype.applyRules = function () {
               // ease: "back.out(2)",
             }
           );
+           */
           break;
 
       default:
@@ -305,10 +325,20 @@ Level.prototype.applyRules = function () {
 /**
  * update / game loop
  */
+Level.prototype.updateRules = function () {
+  this.rules.forEach(r => {
+    //r.update();
+    r.sprite.position = r.body.position;
+    r.wireframe.position = r.body.position;
+
+    this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
+  });
+}
 Level.prototype.update = function () {
   this.updateLander();
   this.updateStars();
   this.updateBonus();
+  this.updateRules();
   if (this.landerExploded && this.landerExploded.bodies.length > 0) {
     this.updateStack();
   }
@@ -329,7 +359,7 @@ Level.prototype.updateStack = function () {
 Level.prototype.updateLander = function () {
   const m = this;
   if (m.lander.isDie && m.lander.body.position.y >= m.terrain.sprite.height + 600){
-    console.log(m.lander.body)
+    this.state.log(m.lander.body);
     m.gameOver();
   }
   if (
@@ -546,6 +576,8 @@ Level.prototype.getAllBodiesInThisLevel = function () {
     this.terrain.body,
     this.stars.map((s) => s.body),
     this.bonus.map((b) => b.body),
+    this.malus.map((m) => m.body),
+    this.rules.map((r) => r.body),
   ];
 
   // return a flatten array of all bodies in the level
@@ -605,7 +637,7 @@ Level.prototype.addKeysEvents = function () {
         Tools.pixiColor("#ffc0c0"),
         true
         );
-        setTimeout(()=>{me.state.isPause = true;},20)
+        setTimeout(()=>{me.state.isPause = true;},20);
         
     }
   };

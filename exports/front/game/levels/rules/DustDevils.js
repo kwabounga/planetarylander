@@ -1,19 +1,46 @@
 function DustDevils (params) {
-  this.params = params
+  this.params = params;
   this.sprite = this.createSprite(this.params.size);
-  this.body;
+  this.body = this.createBody(this.params);
+  this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
   this.tween;
-  this.wireframe = this.createWireFrame(this.params.size);;
-
+}
+/**
+ * debug wireframe
+ */
+DustDevils.prototype.createWireFrame = function (size, dustPart) {
+  let vSet = [
+    { "x": -(dustPart.w*0.5)/2, "y": 0 },
+    { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
+    { "x": dustPart.w/2, "y": -(dustPart.h*size) },
+    { "x": (dustPart.w*0.5)/2, "y": 0 }
+  ]
+  return Tools.wireFrameFromVertex(0, 0, vSet);
 }
 /**
  * gsap tween
  */
-DustDevils.prototype.createWireFrame = function (size) {
-  
-}
-DustDevils.prototype.createTween = function () {
-  
+DustDevils.prototype.createTween = function (params) {
+  const me = this;
+  return gsap.fromTo(
+    me.body.position,
+    {
+      x: 0,
+      duration: params.duration,
+      repeat: params.repeat,
+      yoyo: true,
+      repeatRefresh: true,
+      ease: "sine.inOut",
+    },
+    {
+      x: 800,
+      duration: params.duration,
+      repeat: params.repeat,
+      yoyo: true,
+      repeatRefresh: true,
+      ease: "sine.inOut",
+    }
+  );
 }
 /**
  * Pixi animated Sprite
@@ -23,10 +50,10 @@ DustDevils.prototype.createSprite = function (size=10) {
   for (let i = 0; i < size; i++) {
     // calculate to review
     let scaleX = (((i+1)/size)*0.5)+0.5;
-    console.log(scaleX);
+    State.getInstance().log(scaleX);
     let s = this.getDDPart({x:scaleX,y:1}) ;
     c.addChild(s);
-    s.y = i * -16
+    s.y = i * -this.params.dustPart.h;
   }
   let p = this.getProjection()
   c.addChild(p);
@@ -53,17 +80,35 @@ DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
 	s.ticker.speed = 0.25;
   s.gotoAndPlay(Tools.randomBetween(0,4));
   s.scale = scale;
-  gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
+  gsap.fromTo(s, {x:0, duration:0.5, repeat:-1, yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
   return s;
 }
 /**
  * Matter Body
  */
-DustDevils.prototype.createBody = function () {
-
+DustDevils.prototype.createBody = function (params) {
+  let vSet = [
+    { "x": -(params.dustPart.w*0.5)/2, "y": 0 },
+    { "x": -params.dustPart.w/2, "y": -(params.dustPart.h*params.size) },
+    { "x": params.dustPart.w/2, "y": -(params.dustPart.h*params.size) },
+    { "x": (params.dustPart.w*0.5)/2, "y": 0 }
+  ]
+  
+  let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: true})
+  // this.params.partHeight
+  return b;
 }
-// loop 
+// initialization 
+DustDevils.prototype.init = function () {
+  
+  this.sprite.position = this.params.position;
+  this.wireframe.position = this.params.position;
+  this.body.position = this.params.position;
+  // this.tween = this.createTween(this.params);
+}
+// loop update
 DustDevils.prototype.update = function () {
 
+  
 }
 
