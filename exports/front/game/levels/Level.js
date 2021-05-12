@@ -193,7 +193,9 @@ Level.prototype.damageLander = function () {
   }
 };
 Level.prototype.getRules = function (rule) {
-  console.log('getRules', rule.params);
+  // console.log('getRules', rule.type, rule.params);
+  // ici appliquer les rules > static
+  RulesSetter.set(this.lander, rule);
 }
 /**
  * getBonus
@@ -332,7 +334,7 @@ Level.prototype.updateRules = function () {
     r.sprite.position = r.body.position;
     r.wireframe.position = r.body.position;
 
-    this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
+    //this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
   });
 }
 Level.prototype.update = function () {
