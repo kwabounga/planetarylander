@@ -9,6 +9,7 @@ const knex = require('knex')({
   client: 'mysql',
   connection: {
     host : process.env.BDD_HOST,
+    port : process.env.BDD_PORT,
     user : process.env.BDD_USER,
     password : process.env.BDD_PASS,
     database : process.env.BDD_NAME
@@ -35,7 +36,11 @@ const register = function(mail, login, password, progress) {
     });
   })
 }
-// register('test@test.fr','test', '1234', progress2)
+// let progress = {
+//   progress:{test:'blaaaaa'}
+// }
+// let jsonProgress = JSON.stringify(progress);
+// register('test@test.fr','test', '1234', jsonProgress)
 // .then((rep)=>{
 //   console.log(rep);
 // }).catch((err)=>{

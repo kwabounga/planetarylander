@@ -76,6 +76,15 @@ app.post('/register',(req,res, next)=>{
   })
   
 })
+// user Update
+// todo update de la progression
+
+// user deconnection
+// envoyer une requette lorsque que lutilisateur quitte la page 
+
+
+// todo voir pour des web socket!? pour gérer la connection / deconnection
+
 
 // activation du serveur
 server.listen(port, function () {

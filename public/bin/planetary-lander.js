@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Mon, 03 May 2021 04:46:47 GMT
+   * @last_update Fri, 14 May 2021 06:38:06 GMT
    * ISC 
    * 
    */
@@ -850,7 +850,9 @@ Level.prototype.damageLander = function () {
   }
 };
 Level.prototype.getRules = function (rule) {
-  console.log('getRules', rule.params);
+  // console.log('getRules', rule.type, rule.params);
+  // ici appliquer les rules > static
+  RulesSetter.set(this.lander, rule);
 }
 /**
  * getBonus
@@ -989,7 +991,7 @@ Level.prototype.updateRules = function () {
     r.sprite.position = r.body.position;
     r.wireframe.position = r.body.position;
 
-    this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
+    //this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
   });
 }
 Level.prototype.update = function () {
@@ -1335,6 +1337,34 @@ Level.prototype.addKeysEvents = function () {
 };
 
 /* ... end [Level.js] */
+
+/* added by combiner */
+
+/* [RulesSetter.js] ... begin */
+/**
+ * Apply rules forces on lander 
+ */
+
+var RulesSetter = RulesSetter || {};
+
+RulesSetter.set = function(lander, rule){
+  switch (rule.type) {
+    case 'dust_devils':
+        RulesSetter.getDustDevils(lander, rule);
+      break;
+  
+    default:
+
+      break;
+  }
+}
+
+// Mars Rules 
+RulesSetter.getDustDevils = function(lander, rule) {
+  console.log('RulesSetter type DUST DEVILS', rule.params)
+
+}
+/* ... end [RulesSetter.js] */
 
 /* added by combiner */
 

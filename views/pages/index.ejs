@@ -53,21 +53,21 @@
 
             
             // connection au profil uilisateur
-            // Tools.ajaxPost('./connect',{login:'<%= login %>', password:'1234'},(rep)=>{
-            //   console.log(rep);
-            //   // console.log(JSON.parse(rep));
-            //   let userData = JSON.parse(rep);
-            //   if(userData.error) {
-            //     console.log(userData.error);
-            //     return;
-            //   };
+            Tools.ajaxPost('./connect',{login:'<%= login %>', password:'1234'},(rep)=>{
+              console.log(rep);
+              // console.log(JSON.parse(rep));
+              let userData = JSON.parse(rep);
+              if(userData.error) {
+                console.log(userData.error);
+                return;
+              };
               
-            //   let progress = JSON.parse(userData.progress)
-            //   s.user.login = userData.login
-            //   s.user.progress = progress
+              let progress = JSON.parse(userData.progress)
+              s.user.login = userData.login
+              s.user.progress = progress
 
-            //   console.log(s.user)
-            // })
+              console.log(s.user)
+            })
             
         }
 
