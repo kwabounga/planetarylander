@@ -75,7 +75,7 @@
         window.onbeforeunload = function(){
           let s = State.getInstance();
           console.log('beforeonload?!');
-          Tools.ajaxPost('./quit',{token:s.user.token},(rep)=>{
+          Tools.ajaxPost('./quit', s.user ,(rep)=>{
               console.log(rep);
               // console.log(JSON.parse(rep));              
             })

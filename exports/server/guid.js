@@ -1,8 +1,9 @@
 function guid() {
-  rand = function () {
+  let rand = function () {
     return Math.floor(Math.random() * 1250)
   }
-  return rand() + '-' + rand() + '-' + rand();
+  let now = Date.now()
+  return rand() + '-' + rand() + '-' + rand() + '-' + now;
 }
 
 module.exports = guid;

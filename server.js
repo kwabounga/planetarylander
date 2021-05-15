@@ -51,9 +51,7 @@ app.post('/connect',(req,res, next)=>{
   .then((rep)=>{
     console.log(rep.success);
     let userInfos = rep.original;
-    // ICI CREER UN TOKEN ET LE STOCKER AVEC LES INFOS DE L'UTILISATEUR
-    // RENVOYER LE TOKEN ET S'EN SERVIR POUR L'UPDATE
-    let token = guid(); // faire ca bien
+    let token = guid();
     let user = new User({token:token, login:userInfos.login, progress:userInfos.progress})
     connectedUsers[token] = user;
     res.json(user.serialize())
@@ -65,9 +63,20 @@ app.post('/connect',(req,res, next)=>{
 
 // users register
 app.post('/quit',(req,res, next)=>{
-
   console.log('quit:', req.body);
-  res.json('user disconneted [' + req.body.token + ']')
+  let tk = req.body.token;
+  let user = connectedUsers[tk];
+  if(user){
+    // maj de la progression
+    user.updateProgress(req.body.progress, con);
+    // suppression de la session
+    delete connectedUsers[tk];
+    console.log('User '+ tk +' disconnected')
+    res.json('user disconneted [' + tk + ']');
+  } else {
+    res.json('not saved bad token');
+  }
+
 });
 
 
@@ -92,11 +101,6 @@ app.post('/register',(req,res, next)=>{
 // user Update
 // todo update de la progression
 
-// user deconnection
-// envoyer une requette lorsque que lutilisateur quitte la page 
-
-
-// todo voir pour des web socket!? pour gérer la connection / deconnection
 
 
 // activation du serveur
