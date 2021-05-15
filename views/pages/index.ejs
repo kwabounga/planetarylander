@@ -23,7 +23,7 @@
     
 
     <script>
-      var userToken;
+      
         function init(){
 
 
@@ -63,18 +63,19 @@
                 return;
               };
               
-              let progress = JSON.parse(userData.progress)
-              s.user.login = userData.login
-              s.user.progress = progress
+              let progress = JSON.parse(userData.progress);
+              s.user.token = userData.token;
+              s.user.login = userData.login;
+              s.user.progress = progress;
 
               console.log(s.user)
-              userToken =  s.user.token;
             })
             
         }
         window.onbeforeunload = function(){
+          let s = State.getInstance();
           console.log('beforeonload?!');
-          Tools.ajaxPost('./quit',{token:userToken},(rep)=>{
+          Tools.ajaxPost('./quit',{token:s.user.token},(rep)=>{
               console.log(rep);
               // console.log(JSON.parse(rep));              
             })

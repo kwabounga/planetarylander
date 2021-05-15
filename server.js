@@ -6,12 +6,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 5001;
 const server = http.createServer(app);
-const User = require('./exports/server/User')
+const User = require('./exports/server/User');
 const con = require('./exports/server/connection');
-const guid = require('./exports/server/guid')
+const guid = require('./exports/server/guid');
 app.set('view engine', 'ejs');
 
 const {ERRORS, SUCCESS} = require('./exports/server/messages');
+
+app.use(bodyParser.json());
 
 const connectedUsers = {};
 // console.log(ERRORS.BDD_USER_ALREADY_EXIST);
@@ -36,7 +38,7 @@ app.get('*', function(req, res, next){
   res.redirect('/');
 })
 // 
-app.use(bodyParser.json());
+
 
 // users connection 
 app.post('/connect',(req,res, next)=>{
@@ -63,6 +65,7 @@ app.post('/connect',(req,res, next)=>{
 
 // users register
 app.post('/quit',(req,res, next)=>{
+
   console.log('quit:', req.body);
   res.json('user disconneted [' + req.body.token + ']')
 });

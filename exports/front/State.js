@@ -19,6 +19,7 @@ const State = (function () {
         this.keySpace = null;
         this.menuData = undefined;
         this.user = {
+            token:null,
             login:'anon',
             progress:{}
         }
