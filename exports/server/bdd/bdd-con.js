@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const {ERRORS,SUCCESS} = require('./messages');
+const {ERRORS,SUCCESS} = require('../utils/messages');
 
 const knex = require('knex')({
   client: 'mysql',
@@ -23,11 +23,12 @@ const register = function(mail, login, password, progress) {
   return new Promise((resolve, reject)=>{
     bcrypt.hash(password, saltRounds, function(err, hash) {
         // Store hash in your password DB.
+        let userObj = {mail:mail,login:login,password:hash, progress:progress};
         if(err) reject(err)
-        knex('users').insert({mail:mail,login:login,password:hash, progress:progress})
+        knex('users').insert(userObj)
         .then((rep)=>{
           console.log(SUCCESS.BDD_USER_CREATED);
-          resolve({success:SUCCESS.BDD_USER_CREATED,response:rep})
+          resolve({success:SUCCESS.BDD_USER_CREATED, original:userObj})
         })
         .catch((err)=>{
           console.log(ERRORS.BDD_USER_ALREADY_EXIST);
@@ -56,8 +57,7 @@ const register = function(mail, login, password, progress) {
 // knex('users')
 // // .where('mail', 'jeanyves.chaillou@gmail.com3')
 // .where('mail', 'jeanyves.chaillou@gmail.com4')
-// .del().then(()=>{
-  
+// .del().then(()=>{  
 //   knex.select('mail', 'login', 'password', 'progress').from('users').then((rep)=>{
 //     console.log(rep);
 //     process.exit()

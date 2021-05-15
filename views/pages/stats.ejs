@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planetary lander</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/png" />
+
+    <%- include('../partials/libs/libs-css.ejs'); %>
+
+  </head>
+  <body onload="init()">
+    <div class="container-fluid">
+      <%- include('../partials/nav.ejs'); %>
+
+      <div>stats</div>
+    </div>
+    
+    
+
+    <script>
+      // using base url for links with port on local and without port online
+        var baseUrl = '<%= baseUrl %>';
+        function init(){
+
+          console.log('loading stats')
+        }
+    </script>
+    <%- include('../partials/libs/libs-js-ext.ejs'); %>
+  </body>
+</html>

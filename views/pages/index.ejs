@@ -8,22 +8,28 @@
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
 
+    <%- include('../partials/libs/libs-css.ejs'); %>
+
   </head>
   <body onload="init()">
-    <!-- loader -->
-    <div id="loader"><img id="loader-logo" class="rotating"src="./assets/iconkwa.png"></img></div>
-    <!-- canvas -->
-    <canvas id="game-canvas" width="800" height="600" style="display: none;"></canvas>
-
+    <div class="container-fluid">      
+      <%- include('../partials/nav.ejs'); %>
+      <!-- loader -->
+      <div class="mx-auto" id="loader"><img id="loader-logo" class="rotating"src="./assets/iconkwa.png"></img></div>
+      <!-- canvas -->
+      <canvas class="mx-auto" id="game-canvas" width="800" height="600" style="display: none;"></canvas>
+      <%- include('../partials/register-form.ejs'); %>
+    </div>
     <% if(env === 'dev'){ %>
-      <%- include('../partials/libs-dev.ejs'); %>
+      <%- include('../partials/libs/libs-dev.ejs'); %>
     <% } else{ %>  
-        <%- include('../partials/libs-prod.ejs'); %>
+        <%- include('../partials/libs/libs-prod.ejs'); %>
     <% } %>
     
 
     <script>
-      
+      // using base url for links with port on local and without port online
+        var baseUrl = '<%= baseUrl %>';
         function init(){
 
 
@@ -37,6 +43,8 @@
                 let main = new Main(d);
               });
             });
+
+            //
             // FOR DEBUG ONLY
             // TODO: swap level / reload terrain  
             
@@ -54,22 +62,22 @@
 
             
             // connection au profil uilisateur
-            Tools.ajaxPost('./connect',{login:'<%= login %>', password:'1234'},(rep)=>{
-              console.log(rep);
-              // console.log(JSON.parse(rep));
-              let userData = JSON.parse(rep);
-              if(userData.error) {
-                console.log(userData.error);
-                return;
-              };
+            // Tools.ajaxPost('./connect',{login:'<%= login %>', password:'1234'},(rep)=>{
+            //   console.log(rep);
+            //   // console.log(JSON.parse(rep));
+            //   let userData = JSON.parse(rep);
+            //   if(userData.error) {
+            //     console.log(userData.error);
+            //     return;
+            //   };
               
-              let progress = JSON.parse(userData.progress);
-              s.user.token = userData.token;
-              s.user.login = userData.login;
-              s.user.progress = progress;
+            //   let progress = JSON.parse(userData.progress);
+            //   s.user.token = userData.token;
+            //   s.user.login = userData.login;
+            //   s.user.progress = progress;
 
-              console.log(s.user)
-            })
+            //   console.log(s.user)
+            // })
             
         }
         window.onbeforeunload = function(){
@@ -81,6 +89,6 @@
             })
         }
     </script>
-    
+    <%- include('../partials/libs/libs-js-ext.ejs'); %>
   </body>
 </html>
