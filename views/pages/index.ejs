@@ -23,6 +23,7 @@
     
 
     <script>
+      var userToken;
         function init(){
 
 
@@ -67,10 +68,17 @@
               s.user.progress = progress
 
               console.log(s.user)
+              userToken =  s.user.token;
             })
             
         }
-
+        window.onbeforeunload = function(){
+          console.log('beforeonload?!');
+          Tools.ajaxPost('./quit',{token:userToken},(rep)=>{
+              console.log(rep);
+              // console.log(JSON.parse(rep));              
+            })
+        }
     </script>
     
   </body>

@@ -6,13 +6,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 5001;
 const server = http.createServer(app);
-
+const User = require('./exports/server/User')
 const con = require('./exports/server/connection');
-
+const guid = require('./exports/server/guid')
 app.set('view engine', 'ejs');
 
 const {ERRORS, SUCCESS} = require('./exports/server/messages');
 
+const connectedUsers = {};
 // console.log(ERRORS.BDD_USER_ALREADY_EXIST);
 // console.log(SUCCESS.BDD_USER_CREATED);
 
@@ -50,7 +51,10 @@ app.post('/connect',(req,res, next)=>{
     let userInfos = rep.original;
     // ICI CREER UN TOKEN ET LE STOCKER AVEC LES INFOS DE L'UTILISATEUR
     // RENVOYER LE TOKEN ET S'EN SERVIR POUR L'UPDATE
-    res.json({login:userInfos.login, progress:userInfos.progress})
+    let token = guid(); // faire ca bien
+    let user = new User({token:token, login:userInfos.login, progress:userInfos.progress})
+    connectedUsers[token] = user;
+    res.json(user.serialize())
   },(err)=>{
     res.json(err)
   })
@@ -58,6 +62,12 @@ app.post('/connect',(req,res, next)=>{
 })
 
 // users register
+app.post('/quit',(req,res, next)=>{
+  console.log('quit:', req.body);
+  res.json('user disconneted [' + req.body.token + ']')
+});
+
+
 app.post('/register',(req,res, next)=>{
   // console.log(req.body);
   console.log('Got body:', req.body);
