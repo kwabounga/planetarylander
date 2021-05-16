@@ -6,7 +6,7 @@
    * @description game like Atari's LunarLander in arcade mode 
    * @version 1.0.0 
    * @see https://github.com/kwabounga/maxi#readme 
-   * @last_update Sat, 15 May 2021 23:04:43 GMT
+   * @last_update Sun, 16 May 2021 15:59:08 GMT
    * ISC 
    * 
    */
@@ -1486,7 +1486,7 @@ DustDevils.prototype.init = function () {
   this.sprite.position = this.params.position;
   this.wireframe.position = this.params.position;
   this.body.position = this.params.position;
-  // this.tween = this.createTween(this.params);
+  this.tween = this.createTween(this.params);
 }
 // loop update
 DustDevils.prototype.update = function () {

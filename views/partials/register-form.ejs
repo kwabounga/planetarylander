@@ -3,15 +3,15 @@
   <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
     Enregistrement
   </button> 
-  <form action="/connect" method="POST">
+  <form id="connectionForm">
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text" id="">@</span>
       </div>
-      <input type="email" class="form-control" placeholder="Email">
-      <input type="password" class="form-control" placeholder="Mot de passe">
+      <input id="cemail" type="email" name="email" required class="form-control" placeholder="Email">
+      <input id="cpassword" type="password" name="password" required class="form-control" placeholder="Mot de passe">
       <div class="input-group-append">
-        <button class="btn btn-primary" type="submit">Connexion</button>
+        <button id="btConnect" class="btn btn-primary" type="button">Connexion</button>
       </div>
     </div>
   </form>
@@ -21,7 +21,7 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <form>
+      <form id="registerForm">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -30,27 +30,27 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="exampleInputEmail1">Adresse Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ecrire votre email">
-          <small id="emailHelp" class="form-text text-muted">le mail n'est utilisé que pour enregistrer la progression</small>
+          <label for="remail">Adresse Email</label>
+          <input type="email" class="form-control" id="remail" name="remail" aria-describedby="remailHelp" placeholder="Ecrire votre email" required>
+          <small id="remailHelp" class="form-text text-muted">le mail n'est utilisé que pour enregistrer la progression</small>
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">Pseudo</label>
-          <input type="username" class="form-control" id="exampleInputEmail1" aria-describedby="usernameHelp" placeholder="Pseudo">
-          <small id="usernameHelp" class="form-text text-muted">le pseudo affiché en jeu et dans les highscores</small>
+          <label for="rusername">Pseudo</label>
+          <input type="username" class="form-control" id="rusername" name="rusername" aria-describedby="rusernameHelp" placeholder="Pseudo" required>
+          <small id="rusernameHelp" class="form-text text-muted">le pseudo affiché en jeu et dans les highscores</small>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Mot de passe</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
+          <label for="rpassword">Mot de passe</label>
+          <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="Mot de passe" required>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Confirmer le mot de passe</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirmer le mot de passe">
+          <label for="crpassword">Confirmer le mot de passe</label>
+          <input type="password" class="form-control" id="crpassword" name="crpassword" placeholder="Confirmer le mot de passe" required>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="button" class="btn btn-primary">S'enregistrer</button>
+        <button id="btRegister" type="button" class="btn btn-primary">S'enregistrer</button>
       </div>
     </form>
     </div>

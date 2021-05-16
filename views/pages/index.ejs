@@ -26,69 +26,11 @@
         <%- include('../partials/libs/libs-prod.ejs'); %>
     <% } %>
     
-
     <script>
       // using base url for links with port on local and without port online
-        var baseUrl = '<%= baseUrl %>';
-        function init(){
-
-
-            let s = State.getInstance(); 
-            Tools.ajaxGet(`./data/main.json`, (mdata) => {
-              let mData = JSON.parse(mdata);
-              s.menuData = mData.menu;
-              console.log(s)
-              Tools.ajaxGet(`./data/${Tools.getHash()}.json`, (data) => {
-                let d = JSON.parse(data);
-                let main = new Main(d);
-              });
-            });
-
-            //
-            // FOR DEBUG ONLY
-            // TODO: swap level / reload terrain  
-            
-            // console.log(Tools.dataLoader.data);
-            // Tools.dataLoader.add('main','./data/main.json');
-            // // Tools.dataLoader.add('moon','./data/moon.json');
-            // // // Tools.dataLoader.add('error','./data/thisfiledoesnotexist.json'); // error not found here
-            // Tools.dataLoader.once((data)=>{
-            //   console.log(data); // get the data
-            //   console.log(Tools.dataLoader.data); // access direct to the data
-            //   Tools.dataLoader.clean() // clean up 
-            //   console.log(Tools.dataLoader.data); // empty data
-            // })
-            // Tools.dataLoader.load()
-
-            
-            // connection au profil uilisateur
-            // Tools.ajaxPost('./connect',{login:'<%= login %>', password:'1234'},(rep)=>{
-            //   console.log(rep);
-            //   // console.log(JSON.parse(rep));
-            //   let userData = JSON.parse(rep);
-            //   if(userData.error) {
-            //     console.log(userData.error);
-            //     return;
-            //   };
-              
-            //   let progress = JSON.parse(userData.progress);
-            //   s.user.token = userData.token;
-            //   s.user.login = userData.login;
-            //   s.user.progress = progress;
-
-            //   console.log(s.user)
-            // })
-            
-        }
-        window.onbeforeunload = function(){
-          let s = State.getInstance();
-          console.log('beforeonload?!');
-          Tools.ajaxPost('./quit', s.user ,(rep)=>{
-              console.log(rep);
-              // console.log(JSON.parse(rep));              
-            })
-        }
+      var baseUrl = '<%= baseUrl %>';
     </script>
+    <script src="./js/index.js"></script>
     <%- include('../partials/libs/libs-js-ext.ejs'); %>
   </body>
 </html>

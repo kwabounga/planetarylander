@@ -105,7 +105,7 @@ DustDevils.prototype.init = function () {
   this.sprite.position = this.params.position;
   this.wireframe.position = this.params.position;
   this.body.position = this.params.position;
-  // this.tween = this.createTween(this.params);
+  this.tween = this.createTween(this.params);
 }
 // loop update
 DustDevils.prototype.update = function () {

@@ -62,7 +62,7 @@
         "type":"dust_devils",
         "params":{
           "size": 15,
-          "position": {"x":300,"y":300},
+          "position": {"x":300,"y":1850},
           "dustPart": {"w":62,"h":16},
           "gap":12,
           "frequency":{"min":10,"max":20},
