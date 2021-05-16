@@ -141,7 +141,7 @@ function setBaseUrl(req) {
 
 function connection (userInfos) {
   let token = guid();
-  let user = new User({token:token, login:userInfos.login, progress:userInfos.progress})
+  let user = new User({token:token, login:userInfos.login, progress:userInfos.progress, mail:userInfos.mail})
   connectedUsers[token] = user;
   connectedUsers[token].hash = userInfos.password;
   return user

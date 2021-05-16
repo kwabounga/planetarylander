@@ -112,10 +112,10 @@ const connection = function(mail, password) {
 
 
 //UPDATING PROGRESSION OK
-const updateProgress = function(login,progress) {
+const updateProgress = function(mail,progress) {
   return new Promise((resolve,reject)=>{
     knex('users')
-    .where({login:login})
+    .where({mail:mail})
     .update({progress:progress})
     .then((rep)=>{
       resolve({success:'the progress is updated'})
