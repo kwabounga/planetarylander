@@ -91,7 +91,7 @@ const connection = function(mail, password) {
       let hash = userObj.password
       bcrypt.compare(password, hash).then((result)=>{
         if(result){
-          resolve({success:SUCCESS.BDD_USER_LOGGED, original:userObj})
+          resolve({success:SUCCESS.BDD_USER_LOGGED, original:{mail:userObj.mail,login:userObj.login,progress:userObj.progress}})
         } else {
           reject({error:ERRORS.BDD_USER_WRONG_PASSWORD})
         }

@@ -122,13 +122,14 @@ function initFormsValidation () {
             console.log(userData.error);
             return;
           };
-          
+          let s = State.getInstance(); 
           let progress = JSON.parse(userData.progress);
           s.user.token = userData.token;
           s.user.login = userData.login;
           s.user.progress = progress;
       
-          console.log(s.user)
+          console.log(s.user);
+          $('#dropdownConnect').dropdown('hide');
         })
     } else {
       console.log('connectionForm is INVALID');
@@ -156,7 +157,7 @@ function initFormsValidation () {
           console.log(userData.error);
           return;
         };
-        
+        let s = State.getInstance(); 
         let progress = JSON.parse(userData.progress);
         s.user.token = userData.token;
         s.user.login = userData.login;
