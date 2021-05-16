@@ -1,24 +1,6 @@
-<!-- Button trigger modal -->
-<div class="registerBar">
-  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Enregistrement
-  </button> 
-  <form id="connectionForm">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="">@</span>
-      </div>
-      <input id="cemail" type="email" name="email" required class="form-control" placeholder="Email">
-      <input id="cpassword" type="password" name="password" required class="form-control" placeholder="Mot de passe">
-      <div class="input-group-append">
-        <button id="btConnect" class="btn btn-primary" type="button">Connexion</button>
-      </div>
-    </div>
-  </form>
-</div>
+<!-- Modal Register -->
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <form id="registerForm">
@@ -32,7 +14,7 @@
         <div class="form-group">
           <label for="remail">Adresse Email</label>
           <input type="email" class="form-control" id="remail" name="remail" aria-describedby="remailHelp" placeholder="Ecrire votre email" required>
-          <small id="remailHelp" class="form-text text-muted">le mail n'est utilisé que pour enregistrer la progression</small>
+          <small id="remailHelp" class="form-text text-muted">le mail n'est utilisé que pour la connexion <br /> et pour pouvoir récupérer son mot de passe</small>
         </div>
         <div class="form-group">
           <label for="rusername">Pseudo</label>
@@ -56,4 +38,3 @@
     </div>
   </div>
 </div>
-

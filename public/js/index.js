@@ -83,27 +83,53 @@ function initFormsValidation () {
 			},
 			messages: {
 				rusername: {
-					required: "Please enter a username",
-					minlength: "Your username must consist of at least 2 characters"
+					required: "Entrer votre pseudo",
+					minlength: "Votre pseudo doit faire au moins 3 caractères"
 				},
 				rpassword: {
-					required: "Please provide a password",
-					minlength: "Your password must be at least 5 characters long"
+					required: "Entrer un mot de passe",
+					minlength: "Votre mot de passe doit faire au moins 5 caractères"
 				},
 				crpassword: {
-					required: "Please provide a password",
-					minlength: "Your password must be at least 5 characters long",
-					equalTo: "Please enter the same password as above"
+          required: "Entrer un mot de passe",
+					minlength: "Votre mot de passe doit faire au moins 5 caractères",
+					equalTo: "Entrer le même mot de passe que précédemment"
 				},
-				remail: "Please enter a zizi email address"
+				remail: {
+          required: "Entrer une adresse mail",
+          email: "Entrer une adresse mail valide"
+        }
 			}
     });
   })
   // handler for connection 
   $('#btConnect').click( ()=>{
-    console.log('validation?!');
+    
     if($('#connectionForm').valid()){
       console.log('connectionForm is VALID');
+      let formValues = $('#connectionForm').serializeArray();
+      console.log(formValues)
+      let userConnectionValues = {
+        mail: formValues[0].value,
+        password: formValues[1].value,
+      }
+
+      Tools.ajaxPost('./connect',userConnectionValues,(rep)=>{
+          console.log(rep);
+          // console.log(JSON.parse(rep));
+          let userData = JSON.parse(rep);
+          if(userData.error) {
+            console.log(userData.error);
+            return;
+          };
+          
+          let progress = JSON.parse(userData.progress);
+          s.user.token = userData.token;
+          s.user.login = userData.login;
+          s.user.progress = progress;
+      
+          console.log(s.user)
+        })
     } else {
       console.log('connectionForm is INVALID');
       
@@ -112,9 +138,34 @@ function initFormsValidation () {
   
   // handler for registration 
   $('#btRegister').click( ()=>{
-    console.log('validation?!');
+    
     if($('#registerForm').valid()){
       console.log('registerForm is VALID');
+      let formValues = $('#registerForm').serializeArray();
+      console.log(formValues)
+      let userRegistrationObj = {
+        mail: formValues[0].value,
+        login: formValues[1].value,
+        password: formValues[2].value,
+      }
+      Tools.ajaxPost('./register',userRegistrationObj,(rep)=>{
+        console.log(rep);
+        // console.log(JSON.parse(rep));
+        let userData = JSON.parse(rep);
+        if(userData.error) {
+          console.log(userData.error);
+          return;
+        };
+        
+        let progress = JSON.parse(userData.progress);
+        s.user.token = userData.token;
+        s.user.login = userData.login;
+        s.user.progress = progress;
+
+        console.log(s.user)
+        $('#registerModal').modal('hide');
+      })
+      
     } else {
       console.log('registerForm is INVALID');
       

@@ -27,8 +27,7 @@ const connectedUsers = {};
 app.get('/', function (req, res, next) {
   setBaseUrl(req);
   res.render('pages/index', {
-    env: process.env.ENVIRONMENT,
-    login: 'test'
+    env: process.env.ENVIRONMENT
   });
 });
 
@@ -36,8 +35,7 @@ app.get('/', function (req, res, next) {
 app.get('/high-scores', function (req, res, next) {
   setBaseUrl(req);
   res.render('pages/stats', {
-    env: process.env.ENVIRONMENT,
-    login: 'test'
+    env: process.env.ENVIRONMENT
   });
 });
 
@@ -60,9 +58,9 @@ app.post('/connect',(req,res, next)=>{
   console.log(req.query);
   console.log('Got body:', req.body);
   const connectInfos = req.body;
-  let login = connectInfos.login;
+  let mail = connectInfos.mail;
   let password = connectInfos.password;
-  con.connection(login, password)
+  con.connection(mail, password)
   .then((rep)=>{
     console.log(rep.success);
     let userInfos = rep.original;
@@ -110,7 +108,7 @@ app.post('/register',(req,res, next)=>{
   let password = connectInfos.password;
   let mail = connectInfos.mail;
   const progress_sample = require('./exports/server/utils/progress-sample');
-  let progress = progress_sample;
+  let progress = JSON.stringify(progress_sample);
 
  // TODO after creation create session and send user token cf : connect
   con.register(mail, login, password, progress)

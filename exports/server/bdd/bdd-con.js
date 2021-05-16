@@ -78,11 +78,11 @@ const register = function(mail, login, password, progress) {
 
 
 // Connection OK and Verification du mdp
-const connection = function(login, password) {
+const connection = function(mail, password) {
   return new Promise((resolve,reject)=>{
     knex.select('mail','login', 'password', 'progress')
     .from('users')
-    .where({login:login})
+    .where({mail:mail})
     .then((rep)=>{
       const userObj = rep[0];
       if(userObj === undefined){
