@@ -12,9 +12,9 @@
     "files": [
       "../front/State.js",
       "../front/tools/tools.js",
+      "../front/utils/Profil.js",
       "../front/tools/Keyboard.js",
       "../front/hud/Ui.js",
-      "../front/utils/Profil.js",
       "../front/game/levels/Level.js",
       "../front/game/levels/rules/RulesSetter.js",
       "../front/game/levels/rules/GravityChange.js",

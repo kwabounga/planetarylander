@@ -141,23 +141,29 @@ function initFormsValidation () {
         login: formValues[1].value,
         password: formValues[2].value,
       }
-      Tools.ajaxPost('./register',userRegistrationObj,(rep)=>{
-        console.log(rep);
-        // console.log(JSON.parse(rep));
-        let userData = JSON.parse(rep);
-        if(userData.error) {
-          console.log(userData.error);
-          return;
-        };
-        let s = State.getInstance(); 
-        let progress = JSON.parse(userData.progress);
-        s.user.token = userData.token;
-        s.user.login = userData.login;
-        s.user.progress = progress;
-
-        console.log(s.user)
-        $('#registerModal').modal('hide');
+      Profil.register(State.getInstance(),userRegistrationObj)
+      .then((user)=>{
+        console.log(user);
+      }).catch((error)=>{
+        console.log(error);
       })
+      // Tools.ajaxPost('./register',userRegistrationObj,(rep)=>{
+      //   console.log(rep);
+      //   // console.log(JSON.parse(rep));
+      //   let userData = JSON.parse(rep);
+      //   if(userData.error) {
+      //     console.log(userData.error);
+      //     return;
+      //   };
+      //   let s = State.getInstance(); 
+      //   let progress = JSON.parse(userData.progress);
+      //   s.user.token = userData.token;
+      //   s.user.login = userData.login;
+      //   s.user.progress = progress;
+
+      //   console.log(s.user)
+      //   $('#registerModal').modal('hide');
+      // })
       
     } else {
       console.log('registerForm is INVALID');
@@ -169,10 +175,12 @@ function initFormsValidation () {
 
 // Force save and quit session
 window.onbeforeunload = function(){
-  let s = State.getInstance();
+  // let s = State.getInstance();
   console.log('beforeonload?!');
-  Tools.ajaxPost('./quit', s.user ,(rep)=>{
-      console.log(rep);
-      // console.log(JSON.parse(rep));              
-    })
+  // Tools.ajaxPost('./quit', s.user ,(rep)=>{
+
+  //     console.log(rep);
+  //     // console.log(JSON.parse(rep));              
+  //   })
+  Profil.saveAndQuit(State.getInstance())
 }
