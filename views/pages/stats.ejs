@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
 
-    <%- include('../partials/libs/libs-css.ejs'); %>
+    <% if(env === 'dev'){ %>
+      <%- include('../partials/libs/libs-css-local.ejs'); %>
+    <% } else{ %>  
+      <%- include('../partials/libs/libs-css-ext.ejs'); %>
+    <% } %>
 
   </head>
   <body onload="init()">
@@ -16,6 +20,9 @@
       <%- include('../partials/nav.ejs'); %>
 
       <div>stats</div>
+      <% stats.forEach((stat)=>{ %>
+        <div><%= stat.login %></div>
+      <% }) %>
     </div>
     
     
@@ -28,6 +35,11 @@
           console.log('loading stats')
         }
     </script>
-    <%- include('../partials/libs/libs-js-ext.ejs'); %>
+    <!-- libs js -->
+    <% if(env === 'dev'){ %>
+      <%- include('../partials/libs/libs-js-local.ejs'); %>
+    <% } else{ %>  
+      <%- include('../partials/libs/libs-js-ext.ejs'); %>
+    <% } %>
   </body>
 </html>

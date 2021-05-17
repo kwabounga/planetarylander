@@ -129,7 +129,18 @@ const updateProgress = function(mail,progress) {
 //   console.log(rep.success);
 // })
 
-
+const stats = function(){
+return new Promise((resolve, reject )=>{
+  knex.select('login','progress')
+  .from('users')
+  .then((allUsersStats)=>{
+    resolve(allUsersStats);
+  })
+  .catch((error)=>{
+    reject(error)
+  })
+})
+}
 
 
 
@@ -138,4 +149,5 @@ module.exports = {
   connection: connection,
   register: register,
   updateProgress: updateProgress,
+  stats: stats,
 };

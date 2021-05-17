@@ -34,9 +34,17 @@ app.get('/', function (req, res, next) {
 // highscores
 app.get('/high-scores', function (req, res, next) {
   setBaseUrl(req);
-  res.render('pages/stats', {
-    env: process.env.ENVIRONMENT
-  });
+  con.stats()
+  .then((allUserStats)=>{
+    res.render('pages/stats', {
+      env: process.env.ENVIRONMENT,
+      stats: allUserStats
+    });
+  })
+  .catch((error)=>{
+    res.json(error)
+  })
+  
 });
 
 
