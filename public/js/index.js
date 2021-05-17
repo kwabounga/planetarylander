@@ -114,23 +114,15 @@ function initFormsValidation () {
         password: formValues[1].value,
       }
 
-      Tools.ajaxPost('./connect',userConnectionValues,(rep)=>{
-          console.log(rep);
-          // console.log(JSON.parse(rep));
-          let userData = JSON.parse(rep);
-          if(userData.error) {
-            console.log(userData.error);
-            return;
-          };
-          let s = State.getInstance(); 
-          let progress = JSON.parse(userData.progress);
-          s.user.token = userData.token;
-          s.user.login = userData.login;
-          s.user.progress = progress;
       
-          console.log(s.user);
-          $('#dropdownConnect').dropdown('hide');
-        })
+      Profil.connect(State.getInstance(), userConnectionValues)
+      .then((user)=>{
+        console.log(user);
+        $('#dropdownConnect').dropdown('hide');
+      }).catch((error)=>{
+        console.log(error);
+      })
+      
     } else {
       console.log('connectionForm is INVALID');
       

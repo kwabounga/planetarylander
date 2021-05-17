@@ -14,6 +14,7 @@
       "../front/tools/tools.js",
       "../front/tools/Keyboard.js",
       "../front/hud/Ui.js",
+      "../front/utils/Profil.js",
       "../front/game/levels/Level.js",
       "../front/game/levels/rules/RulesSetter.js",
       "../front/game/levels/rules/GravityChange.js",
