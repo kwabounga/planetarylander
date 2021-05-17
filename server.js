@@ -73,6 +73,27 @@ app.post('/connect',(req,res, next)=>{
   
 })
 
+// users save
+app.post('/save',(req,res, next)=>{
+  console.log('save:', req.body);
+  let tk = req.body.token;
+  let user = connectedUsers[tk];
+  if(user){
+    // maj de la progression
+    user.updateProgress(req.body.progress, con)
+    .then((rep)=>{
+      console.log('User ['+ tk +'] progress ' + rep.success)      
+      res.json(resJsonFactory.success('Progress Saved for User [' + tk + ']'));
+    })
+    .catch((rep)=>{
+      res.json(resJsonFactory.error(rep.error));
+    });    
+  } else {
+    res.json(resJsonFactory.error('not saved bad token'));
+  }  
+});
+
+
 // users save && quit
 app.post('/quit',(req,res, next)=>{
   console.log('quit:', req.body);
@@ -144,5 +165,6 @@ function connection (userInfos) {
   let user = new User({token:token, login:userInfos.login, progress:userInfos.progress, mail:userInfos.mail})
   connectedUsers[token] = user;
   connectedUsers[token].hash = userInfos.password;
+  // console.log(userInfos.password);
   return user
 }
