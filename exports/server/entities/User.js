@@ -6,7 +6,12 @@ function User (data) {
 }
 
 User.prototype.serialize = function () {
-  return JSON.parse(JSON.stringify(this))
+  let publicUser = {
+    token: this.token,
+    mail: this.mail,
+    progress: this.progress,
+  }
+  return JSON.parse(JSON.stringify(publicUser))
 }
 User.prototype.updateProgress = function (progress,con) {
   console.log(`User[${this.token}][${this.mail}].updateProgress`, progress);

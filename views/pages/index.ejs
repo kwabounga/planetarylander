@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
 
-    <%- include('../partials/libs/libs-css.ejs'); %>
+    <!-- lib css -->
+    <% if(env === 'dev'){ %>
+      <%- include('../partials/libs/libs-css-local.ejs'); %>
+    <% } else{ %>  
+      <%- include('../partials/libs/libs-css-ext.ejs'); %>
+    <% } %>
 
   </head>
   <body onload="init()">
@@ -31,6 +36,12 @@
       var baseUrl = '<%= baseUrl %>';
     </script>
     <script src="./js/index.js"></script>
-    <%- include('../partials/libs/libs-js-ext.ejs'); %>
+    <!-- lib js -->
+    <% if(env === 'dev'){ %>
+      <%- include('../partials/libs/libs-js-local.ejs'); %>
+    <% } else{ %>  
+      <%- include('../partials/libs/libs-js-ext.ejs'); %>
+    <% } %>
+    
   </body>
 </html>
