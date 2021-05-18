@@ -27,7 +27,7 @@ Profil.saveAndQuit = function(state){
   })
 }
 
-Profil.register = function(state, userConnectionValues){
+Profil.register = function(state, userRegistrationObj){
   return new Promise((resolve, reject)=>{
     Tools.ajaxPost('./register',userRegistrationObj,(rep)=>{
       console.log(rep);

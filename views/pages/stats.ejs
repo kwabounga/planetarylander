@@ -18,10 +18,17 @@
   <body onload="init()">
     <div class="container-fluid">
       <%- include('../partials/nav.ejs'); %>
-
       <div>stats</div>
       <% stats.forEach((stat)=>{ %>
         <div><%= stat.login %></div>
+        <% let scoreTotal = 0;  %>
+        <% let progress = JSON.parse(stat.progress);  %>
+        <% progress.worlds.forEach((world)=>{ %>
+          <% world.levels.forEach((level)=>{ %>
+            <% scoreTotal += level.score %>
+          <% }) %>
+        <% }) %>
+        <div><%=  scoreTotal %></div>
       <% }) %>
     </div>
     
