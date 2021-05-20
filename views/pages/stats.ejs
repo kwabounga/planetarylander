@@ -5,31 +5,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Planetary lander</title>
-    <link rel="stylesheet" href="./css/styles.css">
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
-
+    
     <% if(env === 'dev'){ %>
       <%- include('../partials/libs/libs-css-local.ejs'); %>
     <% } else{ %>  
-      <%- include('../partials/libs/libs-css-ext.ejs'); %>
+        <%- include('../partials/libs/libs-css-ext.ejs'); %>
     <% } %>
+    <link rel="stylesheet" href="./css/styles.css">
 
   </head>
   <body onload="init()">
     <div class="container-fluid">
       <%- include('../partials/nav.ejs'); %>
-      <div>stats</div>
-      <% stats.forEach((stat)=>{ %>
-        <div><%= stat.login %></div>
-        <% let scoreTotal = 0;  %>
-        <% let progress = JSON.parse(stat.progress);  %>
-        <% progress.worlds.forEach((world)=>{ %>
-          <% world.levels.forEach((level)=>{ %>
-            <% scoreTotal += level.score %>
+      <div>High Scores</div>
+      <div class="row">
+        <div class="col-12">
+        <table class="table" data-toggle="table" data-search="true" data-pagination="true">
+          <thead>
+              <tr>
+                  <th data-sortable="true" data-field="login">Joueur</th>
+                  <th data-sortable="true" data-field="score">Score Total</th>
+                  <th data-sortable="true" data-field="stars">Nombre d'Etoiles</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% stats.forEach((stat,id)=>{ %>
+              <% let colorClass =  ''; %>
+              <% if(id%2==0)colorClass = 'rowhighlight'; %>              
+              <tr class="<%= colorClass %>">
+                <td class=""><%= stat.login %></td>
+                <% let scoreTotal = 0;  %>
+                <% let nbStars = 0;  %>
+                <% let progress = JSON.parse(stat.progress);  %>
+                <% progress.worlds.forEach((world)=>{ %>
+                  <% world.levels.forEach((level)=>{ %>
+                    <% scoreTotal += level.score %>
+                    <% level.stars.forEach((star)=>{ %>
+                      <% if(star) nbStars ++; %>
+                      <% }) %>
+                  <% }) %>
+                <% }) %>
+                <td class=""><%= scoreTotal %></td>
+                <td class=""><%= nbStars %></td>                
+              </tr>
+            <% }) %>
+              
+              
+          </tbody>
+      </table>
+    </div>
+      </div>
+      <!-- <div class="row justify-content-md-center rowheader">
+        <div class="d-none d-md-block col-lg-8">Joueur</div>
+        <div class="d-none d-md-block col col-sm col-lg-2">Score Total</div>
+        <div class="d-none d-md-block col col-sm col-lg-2">Nombre d'Etoiles</div>
+      </div>
+      <% stats.forEach((stat,id)=>{ %>
+        <% let colorClass =  ''; %>
+        <% if(id%2==0)colorClass = 'rowhighlight'; %>
+        <div class="row justify-content-md-center <%= colorClass %>">
+          <div class="col-sm col-lg-8"><%= stat.login %></div>
+          <% let scoreTotal = 0;  %>
+          <% let nbStars = 0;  %>
+          <% let progress = JSON.parse(stat.progress);  %>
+          <% progress.worlds.forEach((world)=>{ %>
+            <% world.levels.forEach((level)=>{ %>
+              <% scoreTotal += level.score %>
+              <% level.stars.forEach((star)=>{ %>
+                <% if(star) nbStars ++; %>
+                <% }) %>
+            <% }) %>
           <% }) %>
-        <% }) %>
-        <div><%=  scoreTotal %></div>
-      <% }) %>
+          <div class="col col-sm col-lg-2"><%= scoreTotal %></div>
+          <div class="col col-sm col-lg-2"><%= nbStars %></div>
+          <div class="col-12">
+            
+            
+        </div>
+        </div>
+      <% }) %> -->
     </div>
     
     

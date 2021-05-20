@@ -1,3 +1,33 @@
+
+/* bootstrap styles overload */
+
+.bg-dark {
+	background-color: #201505 !important;
+}
+
+.btn-secondary {
+	color: #fff;
+	background-color: #4e4b44;
+	border-color: #626154;
+}
+
+.btn-secondary:hover {
+	color: #fff;
+	background-color: #68635a;
+	border-color: #616254;
+}
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
+	color: #fff;
+	background-color: #5a564e;
+	border-color: #616254;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+	color: #16181b;
+	text-decoration: none;
+	background-color: #35332e;
+}
+/* LOADING PICTO */
+
 @-webkit-keyframes rotating /* Safari and Chrome */ {
   from {
     -webkit-transform: rotate(360deg);
@@ -37,8 +67,10 @@
 body {
   margin: 0;
   padding: 0;
+  padding-top: 4rem;
   display: flex;
   justify-content: center;
+  background-color: dimgrey;
 }
 #loader {
   width: 800px;
@@ -64,4 +96,17 @@ body {
   display: flex;
   justify-content: space-evenly;
   flex-direction: row-reverse;
+}
+
+.row{
+  background-color: gray;
+  color:navajowhite;
+}
+
+.rowhighlight{
+  background-color: rgb(80, 74, 74);
+}
+.rowheader {
+  background-color: rgb(31, 23, 2);
+  color: rgb(248, 218, 141);
 }

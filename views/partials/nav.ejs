@@ -1,5 +1,5 @@
 <!-- navigation -->
-<nav class="nav navbar navbar-light bg-light justify-content-between">
+<nav class="navbar fixed-top navbar-dark bg-dark justify-content-between">
   <a class="navbar-brand" href="/high-scores">
     <img src="favicon.png" width="30" height="30" alt="" />
   </a>
@@ -14,8 +14,8 @@
     >
       Connexion
     </button>
-    <div class="dropdown-menu dropdown-menu-right">
-      <form id="connectionForm" class="px-4 py-3">
+    <div class="dropdown-menu dropdown-menu-right bg-dark text-light border border-warning">
+      <form id="connectionForm" class="px-4 py-3 ">
         <div class="form-group">
           <label for="cemail">Email address</label>
           <input id="cemail" type="email" name="email" required class="form-control" placeholder="Email">
@@ -31,10 +31,10 @@
             Remember me
           </label>
         </div>
-        <button id="btConnect" class="btn btn-primary" type="button">Connexion</button>
+        <button id="btConnect" class="btn btn-secondary" type="button">Connexion</button>
       </form>
       <div class="dropdown-divider"></div>
-  <button class="dropdown-item" data-toggle="modal" data-target="#registerModal">Nouveau? S'enregister</button>
+  <button class="dropdown-item text-warning" data-toggle="modal" data-target="#registerModal">Nouveau? S'enregister</button>
     </div>
   </div>
 </nav>
