@@ -1,4 +1,5 @@
 /* fonts */ 
+/* https://write.corbpie.com/using-custom-ttf-or-otf-fonts-in-css-and-html/ */
 @font-face {
   font-family: 'gameover';
   src: url('../fonts/ka1.ttf');
