@@ -4,67 +4,87 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+ /* Overloaded by Jean-Yves Chaillou @ kwa 
+  * @see: http://kwabounga.github.com
+  */
 :root {
-  --blue: #007bff;
-  --indigo: #6610f2;
-  --purple: #6f42c1;
-  --pink: #e83e8c;
-  --red: #dc3545;
-  --orange: #fd7e14;
-  --yellow: #ffc107;
-  --green: #28a745;
-  --teal: #20c997;
-  --cyan: #17a2b8;
-  --white: #fff;
-  --gray: #6c757d;
-  --grey-dark: #343a40;
-  --black: #000000;
 
+  --blue-rgb: 0, 123, 255;
+  --indigo-rgb: 102, 16, 242;
+  --purple-rgb: 111, 66, 193;
+  --pink-rgb: 232, 62, 140;
+  --red-rgb: 220, 53, 69;
+  --orange-rgb: 253, 126, 20;
+  --yellow-rgb: 255, 193, 7;
+  --green-rgb: 40, 167, 69;
+  --teal-rgb: 32, 201, 151;
+  --cyan-rgb: 23, 162, 184;
+  --white-rgb: 255, 255, 255;
+  --gray-rgb: 108, 117, 125;
+  --grey-dark-rgb: 52, 58, 64;
+  --black-rgb: 0, 0, 0;
 
-  --primary: #007bff;
-  --secondary: #6c757d;
-  --success: #28a745;
-  --info: #17a2b8;
-  --warning: #ffc107;
-  --danger: #dc3545;
-  --light: #f8f9fa;
-  --dark: #212529;
+  --blue: rgb(0, 123, 255);
+  --indigo: rgb(102, 16, 242);
+  --purple: rgb(111, 66, 193);
+  --pink: rgb(232, 62, 140);
+  --red: rgb(220, 53, 69);
+  --orange: rgb(253, 126, 20);
+  --yellow: rgb(255, 193, 7);
+  --green: rgb(40, 167, 69);
+  --teal: rgb(32, 201, 151);
+  --cyan: rgb(23, 162, 184);
+  --white: rgb(255, 255, 255);
+  --gray: rgb(108, 117, 125);
+  --grey-dark: rgb(52, 58, 64);
+  --black: rgb(0, 0, 0);
 
-  --primary-darker: #004288;
-  --secondary-darker: #4a5055;
-  --success-darker: #1a6b2c;
-  --info-darker: #107383;
-  --warning-darker: #a27a04;
-  --danger-darker: #7f1f28;
-  --light-darker: #bfc0c1;
-  --dark-darker: #15171a;
+  
 
-  --primary-lighter: #3b99ff;
-  --secondary-lighter: #aab8c5;
-  --success-lighter: #53a764;
-  --info-lighter: #1fd8f5;
-  --warning-lighter: #ffe366;
-  --danger-lighter: #fa696c;
-  --light-lighter: #fafbfc;
-  --dark-lighter: #444d55;
+  --primary: rgb(var(--blue-rgb));
+  --secondary: rgb(var(--grey-dark-rgb));
+  --success: rgb(var(--green-rgb));
+  --info: rgb(var(--cyan-rgb));
+  --warning: rgb(var(--yellow-rgb));
+  --danger: rgb(var(--red-rgb));
+  --light: rgb(var(--white-rgb));
+  --dark: rgb(var(--black-rgb));
 
-  --primary-alpha-5: rgba(38, 143, 255, 0.5);
-  --secondary-alpha-5: rgba(130, 138, 145, 0.5);
-  --success-alpha-5: rgba(58, 176, 195, 0.5);
-  --info-alpha-5: rgba(72, 180, 97, 0.5);
-  --warning-alpha-5: rgba(222, 170, 12, 0.5);
-  --danger-alpha-5: rgba(225, 83, 97, 0.5);
-  --light-alpha-5: rgba(216, 217, 219, 0.5);
-  --dark-alpha-5: rgba(82, 88, 93, 0.5);
+  --primary-darker: color(var(--primary) blackness(+ 5%));
+  --secondary-darker: color(var(--secondary) blackness(+ 5%));;
+  --success-darker: color(var(--success) blackness(+ 5%));
+  --info-darker: color(var(--info) blackness(+ 5%));;
+  --warning-darker: color(var(--warning) blackness(+ 5%));;
+  --danger-darker: color(var(--danger) blackness(+ 5%));;
+  --light-darker: color(var(--light) blackness(+ 5%));;
+  --dark-darker: color(var(--dark) blackness(+ 5%));;
 
-  --toast-color-primary: #7cb8ff;
-  --toast-color-secondary: #cadbea;
-  --toast-color-success: #88db9a;
-  --toast-color-info: #a1e1f5;
-  --toast-color-warning: #ffeea2;
-  --toast-color-danger: #facfcb;
-  --toast-color-light: #fafbfc;
-  --toast-color-dark: #758593;
+  --primary-lighter: color(var(--primary) whiteness(+ 5%));
+  --secondary-lighter: color(var(--secondary) whiteness(+ 5%));;
+  --success-lighter: color(var(--success) whiteness(+ 5%));
+  --info-lighter: color(var(--info) whiteness(+ 5%));;
+  --warning-lighter: color(var(--warning) whiteness(+ 5%));;
+  --danger-lighter: color(var(--danger) whiteness(+ 5%));;
+  --light-lighter: color(var(--light) whiteness(+ 5%));;
+  --dark-lighter: color(var(--dark) whiteness(+ 5%));;
+
+  --primary-alpha-5: rgba(var(--blue-rgb), 0.5);
+  --secondary-alpha-5: rgba(var(--grey-dark-rgb), 0.5);
+  --success-alpha-5: rgba(var(--green-rgb), 0.5);
+  --info-alpha-5: rgba(var(--cyan-rgb), 0.5);
+  --warning-alpha-5: rgba(var(--yellow-rgb), 0.5);
+  --danger-alpha-5: rgba(var(--red-rgb), 0.5);
+  --light-alpha-5: rgba(var(--white-rgb), 0.5);
+  --dark-alpha-5: rgba(var(--black-rgb), 0.5);
+
+  --toast-color-primary:color(var(--primary) whiteness(+ 15%));
+  --toast-color-secondary:color(var(--secondary) whiteness(+ 15%));;
+  --toast-color-success:color(var(--success) whiteness(+ 15%));
+  --toast-color-info:color(var(--info) whiteness(+ 15%));;
+  --toast-color-warning:color(var(--warning) whiteness(+ 15%));;
+  --toast-color-danger:color(var(--danger) whiteness(+ 15%));;
+  --toast-color-light:color(var(--light) whiteness(+ 15%));;
+  --toast-color-dark:color(var(--dark) whiteness(+ 15%));;
 
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
