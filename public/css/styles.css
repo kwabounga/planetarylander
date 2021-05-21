@@ -1,8 +1,19 @@
 /* fonts */ 
 /* https://write.corbpie.com/using-custom-ttf-or-otf-fonts-in-css-and-html/ */
 @font-face {
-  font-family: 'gameover';
-  src: url('../fonts/ka1.ttf');
+  font-family: 'KarmaticArcade';
+  src: url('/font/KarmaticArcade.svg#KarmaticArcade') format('svg'),
+       url('/font/KarmaticArcade.ttf') format('truetype'),
+       url('/font/KarmaticArcade.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ka1';
+  src: url('/font/ka1.eot');
+  src: url('/font/ka1.eot?#iefix') format('embedded-opentype'),
+       url('/font/ka1.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
@@ -129,6 +140,6 @@ body {
   background-color: rgb(31, 23, 2);
   color: rgb(248, 218, 141);
 }
-.t-go{
-  font-family: 'gameover';
+.font-karmaticArcade{
+  font-family: 'KarmaticArcade';
 }
