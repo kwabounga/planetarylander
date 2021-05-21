@@ -1,7 +1,13 @@
-
+/* fonts */ 
+@font-face {
+  font-family: 'gameover';
+  src: url('../fonts/ka1.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
 /* bootstrap styles overload */
 
-.bg-dark {
+.bg-dark, .table-bg  {
 	background-color: #201505 !important;
 }
 
@@ -25,6 +31,14 @@
 	color: #16181b;
 	text-decoration: none;
 	background-color: #35332e;
+}
+
+.table-hover tbody tr:hover{
+	color: #d8910e;
+}
+
+.fixed-table-pagination {
+	color: #d8910e;
 }
 /* LOADING PICTO */
 
@@ -103,10 +117,17 @@ body {
   color:navajowhite;
 }
 
+.rowdarklight{
+  background-color: rgb(58, 50, 35);
+}
+
 .rowhighlight{
-  background-color: rgb(80, 74, 74);
+  background-color: rgb(77, 66, 47);
 }
 .rowheader {
   background-color: rgb(31, 23, 2);
   color: rgb(248, 218, 141);
+}
+.t-go{
+  font-family: 'gameover';
 }

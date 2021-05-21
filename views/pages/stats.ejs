@@ -18,12 +18,12 @@
   <body onload="init()">
     <div class="container-fluid">
       <%- include('../partials/nav.ejs'); %>
-      <div>High Scores</div>
+      <div class="t-go">High Scores</div>
       <div class="row">
-        <div class="col-12">
-        <table class="table" data-toggle="table" data-search="true" data-pagination="true">
+        <div class="table-bg col-12">
+        <table class="table bg-dark text-light" data-toggle="table" data-search="true" data-pagination="true">
           <thead>
-              <tr>
+              <tr class="rowheader">
                   <th data-sortable="true" data-field="login">Joueur</th>
                   <th data-sortable="true" data-field="score">Score Total</th>
                   <th data-sortable="true" data-field="stars">Nombre d'Etoiles</th>
@@ -32,7 +32,7 @@
           <tbody>
             <% stats.forEach((stat,id)=>{ %>
               <% let colorClass =  ''; %>
-              <% if(id%2==0)colorClass = 'rowhighlight'; %>              
+              <% colorClass = (id%2==0)?'rowdarklight': 'rowhighlight'; %>              
               <tr class="<%= colorClass %>">
                 <td class=""><%= stat.login %></td>
                 <% let scoreTotal = 0;  %>
@@ -43,48 +43,19 @@
                     <% scoreTotal += level.score %>
                     <% level.stars.forEach((star)=>{ %>
                       <% if(star) nbStars ++; %>
-                      <% }) %>
+                    <% }) %>
                   <% }) %>
                 <% }) %>
                 <td class=""><%= scoreTotal %></td>
                 <td class=""><%= nbStars %></td>                
               </tr>
-            <% }) %>
-              
-              
+            <% }) %>              
           </tbody>
       </table>
     </div>
-      </div>
-      <!-- <div class="row justify-content-md-center rowheader">
-        <div class="d-none d-md-block col-lg-8">Joueur</div>
-        <div class="d-none d-md-block col col-sm col-lg-2">Score Total</div>
-        <div class="d-none d-md-block col col-sm col-lg-2">Nombre d'Etoiles</div>
-      </div>
-      <% stats.forEach((stat,id)=>{ %>
-        <% let colorClass =  ''; %>
-        <% if(id%2==0)colorClass = 'rowhighlight'; %>
-        <div class="row justify-content-md-center <%= colorClass %>">
-          <div class="col-sm col-lg-8"><%= stat.login %></div>
-          <% let scoreTotal = 0;  %>
-          <% let nbStars = 0;  %>
-          <% let progress = JSON.parse(stat.progress);  %>
-          <% progress.worlds.forEach((world)=>{ %>
-            <% world.levels.forEach((level)=>{ %>
-              <% scoreTotal += level.score %>
-              <% level.stars.forEach((star)=>{ %>
-                <% if(star) nbStars ++; %>
-                <% }) %>
-            <% }) %>
-          <% }) %>
-          <div class="col col-sm col-lg-2"><%= scoreTotal %></div>
-          <div class="col col-sm col-lg-2"><%= nbStars %></div>
-          <div class="col-12">
-            
-            
         </div>
-        </div>
-      <% }) %> -->
+      <!-- modale register -->
+      <%- include('../partials/register-form.ejs'); %>
     </div>
     
     
@@ -93,7 +64,6 @@
       // using base url for links with port on local and without port online
         var baseUrl = '<%= baseUrl %>';
         function init(){
-
           console.log('loading stats')
         }
     </script>
