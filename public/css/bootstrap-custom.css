@@ -53,22 +53,22 @@
   --dark: rgb(var(--black-rgb));
 
   --primary-darker: color(var(--primary) blackness(+ 5%));
-  --secondary-darker: color(var(--secondary) blackness(+ 5%));;
+  --secondary-darker: color(var(--secondary) blackness(+ 5%));
   --success-darker: color(var(--success) blackness(+ 5%));
-  --info-darker: color(var(--info) blackness(+ 5%));;
-  --warning-darker: color(var(--warning) blackness(+ 5%));;
-  --danger-darker: color(var(--danger) blackness(+ 5%));;
-  --light-darker: color(var(--light) blackness(+ 5%));;
-  --dark-darker: color(var(--dark) blackness(+ 5%));;
+  --info-darker: color(var(--info) blackness(+ 5%));
+  --warning-darker: color(var(--warning) blackness(+ 5%));
+  --danger-darker: color(var(--danger) blackness(+ 5%));
+  --light-darker: color(var(--light) blackness(+ 5%));
+  --dark-darker: color(var(--dark) blackness(+ 5%));
 
   --primary-lighter: color(var(--primary) whiteness(+ 5%));
-  --secondary-lighter: color(var(--secondary) whiteness(+ 5%));;
+  --secondary-lighter: color(var(--secondary) whiteness(+ 5%));
   --success-lighter: color(var(--success) whiteness(+ 5%));
-  --info-lighter: color(var(--info) whiteness(+ 5%));;
-  --warning-lighter: color(var(--warning) whiteness(+ 5%));;
-  --danger-lighter: color(var(--danger) whiteness(+ 5%));;
-  --light-lighter: color(var(--light) whiteness(+ 5%));;
-  --dark-lighter: color(var(--dark) whiteness(+ 5%));;
+  --info-lighter: color(var(--info) whiteness(+ 5%));
+  --warning-lighter: color(var(--warning) whiteness(+ 5%));
+  --danger-lighter: color(var(--danger) whiteness(+ 5%));
+  --light-lighter: color(var(--light) whiteness(+ 5%));
+  --dark-lighter: color(var(--dark) whiteness(+ 5%));
 
   --primary-alpha-5: rgba(var(--blue-rgb), 0.5);
   --secondary-alpha-5: rgba(var(--grey-dark-rgb), 0.5);
@@ -80,13 +80,13 @@
   --dark-alpha-5: rgba(var(--black-rgb), 0.5);
 
   --toast-color-primary:color(var(--primary) whiteness(+ 15%));
-  --toast-color-secondary:color(var(--secondary) whiteness(+ 15%));;
+  --toast-color-secondary:color(var(--secondary) whiteness(+ 15%));
   --toast-color-success:color(var(--success) whiteness(+ 15%));
-  --toast-color-info:color(var(--info) whiteness(+ 15%));;
-  --toast-color-warning:color(var(--warning) whiteness(+ 15%));;
-  --toast-color-danger:color(var(--danger) whiteness(+ 15%));;
-  --toast-color-light:color(var(--light) whiteness(+ 15%));;
-  --toast-color-dark:color(var(--dark) whiteness(+ 15%));;
+  --toast-color-info:color(var(--info) whiteness(+ 15%));
+  --toast-color-warning:color(var(--warning) whiteness(+ 15%));
+  --toast-color-danger:color(var(--danger) whiteness(+ 15%));
+  --toast-color-light:color(var(--light) whiteness(+ 15%));
+  --toast-color-dark:color(var(--dark) whiteness(+ 15%));
 
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
@@ -2642,8 +2642,6 @@ fieldset:disabled a.btn {
 
 .btn-primary:hover {
   color: var(--white);
-  /*background-color: #0069d9;*/
-  /*border-color: #0062cc;*/
   background-color: var(--primary);
   border-color: var(--primary);
   filter: brightness(90%) contrast(150%);
