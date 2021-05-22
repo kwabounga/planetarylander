@@ -119,4 +119,4 @@ assets/lander_titan.png
 .env
 .vscode/*
 
-/public/bin/
+/public/bin/*
