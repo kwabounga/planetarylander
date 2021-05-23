@@ -144,15 +144,6 @@ ____
 
 ----
 
-### Heroku 
-connection to heroku  
-`heroku login`  
-add heroku remote  
-`heroku git:remote -a planetary-lander`  
-deploy to heroku  
-`git push heroku main`  
-
-----
 
 ### JSON REMAINDERS:
 
