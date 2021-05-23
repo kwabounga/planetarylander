@@ -14,6 +14,7 @@ const errors = {
   BDD_USER_WRONG_PASSWORD: 'BDD: mot de passe incorrect',
   BDD_USER_ALREADY_EXIST: 'BDD: l\'utilisateur existe déjà',
   ROUTING_ROUTE_DOES_NOT_EXIST: 'Routing: la route n\'existe pas',
+  MAP_NO_SOURCE: 'no source map',
 }
 module.exports = {
   SUCCESS: success,

@@ -30,26 +30,26 @@
               </tr>
           </thead>
           <tbody>
-            <% stats.forEach((stat,id)=>{ %>
-              <% let colorClass =  ''; %>
-              <% colorClass = (id%2==0)?'rowdarklight': 'rowhighlight'; %>              
-              <tr class="<%= colorClass %>">
-                <td class=""><%= stat.login %></td>
-                <% let scoreTotal = 0;  %>
-                <% let nbStars = 0;  %>
-                <% let progress = JSON.parse(stat.progress);  %>
-                <% progress.worlds.forEach((world)=>{ %>
-                  <% world.levels.forEach((level)=>{ %>
-                    <% scoreTotal += level.score %>
-                    <% level.stars.forEach((star)=>{ %>
-                      <% if(star) nbStars ++; %>
-                    <% }) %>
-                  <% }) %>
-                <% }) %>
-                <td class=""><%= scoreTotal %></td>
-                <td class=""><%= nbStars %></td>                
-              </tr>
-            <% }) %>              
+          <%_ stats.forEach((stat,id)=>{ _%>
+            <%_ let colorClass =  ''; _%>
+            <%_ colorClass = (id%2==0)?'rowdarklight': 'rowhighlight'; _%>              
+            <tr class="<%= colorClass %>">
+              <td class=""><%= stat.login %></td>
+              <%_ let scoreTotal = 0;  _%>
+              <%_ let nbStars = 0;  _%>
+              <%_ let progress = JSON.parse(stat.progress);_%>
+              <%_ progress.worlds.forEach((world)=>{ _%>
+                <%_ world.levels.forEach((level)=>{ _%>
+                  <%_ scoreTotal += level.score _%>
+                  <%_ level.stars.forEach((star)=>{ _%>
+                    <%_ if(star) nbStars ++; _%>
+                  <%_ }) _%>
+                <%_ }) _%>
+              <%_ }) _%>
+              <td class=""><%= scoreTotal %></td>
+              <td class=""><%= nbStars %></td>
+            </tr>
+          <%_ }) _%>
           </tbody>
       </table>
     </div>

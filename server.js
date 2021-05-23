@@ -27,7 +27,8 @@ const connectedUsers = {};
 app.get('/', function (req, res, next) {
   setBaseUrl(req);
   res.render('pages/index', {
-    env: process.env.ENVIRONMENT
+    env: process.env.ENVIRONMENT,
+    min: process.env.MINIFIED,
   });
 });
 
@@ -51,12 +52,19 @@ app.get('/high-scores', function (req, res, next) {
 // route générique pour les fichiers dossier public ( resources locales )
 app.use(express.static('public'))
 
-
+// bug fix for no source css map file
+const noSourced = [
+  '/css/%3Cno%20source%3E'
+]
 // redirection for all get req to the index
-app.get('*', function(req, res, next){
-  console.log(ERRORS.ROUTING_ROUTE_DOES_NOT_EXIST , req.path);
-  res.redirect('/');
-})
+app.get("*", function (req, res, next) {
+  if (noSourced.includes(req.path)) {
+    res.json({ error: ERRORS.MAP_NO_SOURCE });
+  } else {
+    console.log(ERRORS.ROUTING_ROUTE_DOES_NOT_EXIST, req.path);
+    res.redirect("/");
+  }
+});
 
 // 
 

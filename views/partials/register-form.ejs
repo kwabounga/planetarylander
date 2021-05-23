@@ -5,7 +5,7 @@
     <div class="modal-content bg-dark text-light border border-warning">
       <form id="registerForm">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">S'enregistrer</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -13,21 +13,21 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="remail">Adresse Email</label>
-          <input type="email" class="form-control" id="remail" name="remail" aria-describedby="remailHelp" placeholder="Ecrire votre email" required>
-          <small id="remailHelp" class="form-text text-muted">le mail n'est utilisé que pour la connexion <br /> et pour pouvoir récupérer son mot de passe</small>
+          <input type="email" class="form-control" id="remail" name="remail" aria-describedby="remailHelp" placeholder="Ecrire votre email" required autocomplete="email">
+          <small id="remailHelp" class="form-text text-warning">le mail n'est utilisé que pour la connexion <br /> et pour pouvoir récupérer son mot de passe</small>
         </div>
         <div class="form-group">
           <label for="rusername">Pseudo</label>
           <input type="username" class="form-control" id="rusername" name="rusername" aria-describedby="rusernameHelp" placeholder="Pseudo" required>
-          <small id="rusernameHelp" class="form-text text-muted">le pseudo affiché en jeu et dans les highscores</small>
+          <small id="rusernameHelp" class="form-text text-warning">le pseudo affiché en jeu et dans les highscores</small>
         </div>
         <div class="form-group">
           <label for="rpassword">Mot de passe</label>
-          <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="Mot de passe" required>
+          <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="Mot de passe" required autocomplete="new-password">
         </div>
         <div class="form-group">
           <label for="crpassword">Confirmer le mot de passe</label>
-          <input type="password" class="form-control" id="crpassword" name="crpassword" placeholder="Confirmer le mot de passe" required>
+          <input type="password" class="form-control" id="crpassword" name="crpassword" placeholder="Confirmer le mot de passe" required autocomplete="new-password">
         </div>
       </div>
       <div class="modal-footer">

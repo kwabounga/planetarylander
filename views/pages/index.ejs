@@ -26,7 +26,7 @@
       <!-- modale register -->
       <%- include('../partials/register-form.ejs'); %>
     </div>
-    <% if(env === 'dev'){ %>
+    <% if(min === 'no' || env === 'dev'){ %>
       <%- include('../partials/libs/libs-dev.ejs'); %>
     <% } else{ %>  
         <%- include('../partials/libs/libs-prod.ejs'); %>
@@ -37,6 +37,7 @@
       var baseUrl = '<%= baseUrl %>';
     </script>
     <script src="./js/index.js"></script>
+
     <!-- lib js -->
     <% if(env === 'dev'){ %>
       <%- include('../partials/libs/libs-js-local.ejs'); %>

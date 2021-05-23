@@ -19,11 +19,11 @@
 }
 /* bootstrap styles overload */
 
-.bg-dark, .table-bg  {
+/* .bg-dark, .table-bg  {
 	background-color: #201505 !important;
-}
+} */
 
-.btn-secondary {
+/* .btn-secondary {
 	color: #fff;
 	background-color: #4e4b44;
 	border-color: #626154;
@@ -38,8 +38,8 @@
 	color: #fff;
 	background-color: #5a564e;
 	border-color: #616254;
-}
-.dropdown-item:focus, .dropdown-item:hover {
+} */
+/* .dropdown-item:focus, .dropdown-item:hover {
 	color: #16181b;
 	text-decoration: none;
 	background-color: #35332e;
@@ -51,7 +51,7 @@
 
 .fixed-table-pagination {
 	color: #d8910e;
-}
+} */
 /* LOADING PICTO */
 
 @-webkit-keyframes rotating /* Safari and Chrome */ {
