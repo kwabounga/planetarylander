@@ -11,7 +11,7 @@ const State = (function () {
         this.height = 600;
         this.isMobile = Tools.isMobile();
         this.isPause = false;
-        this.isDebug = false;
+        this.isDebug = true;
 
         this.keyUp = null;
         this.keyLeft = null;
@@ -36,7 +36,7 @@ const State = (function () {
         }
         this.log = function(...arg){
             if(instance.isDebug){
-                console.log(...arg)
+                //console.log(...arg)
             }
         }
         // public elements

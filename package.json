@@ -41,8 +41,9 @@
     "postcss": "postcss --use postcss-cssnext --map --output ./public/css/bootstrap-custom-out.css ./public/css/bootstrap-custom.css",
     "postcss-min": "postcss --use postcss-cssnext --use cssnano --map --output ./public/css/bootstrap-custom-out.css ./public/css/bootstrap-custom.css",
     "builder": "npm run postcss-min && npm run clean && npm run combine && npm run minify && echo 'combined and minified'",
-    "dev": "npm run postcss && npm run clean && npm run combine && node server.js",
-    "dev-b": "npm run postcss-min && npm run clean && npm run combine && npm run minify && node server.js",
+    "dev": "npm run clean && npm run combine && node server.js",
+    "dev:css": "npm run postcss && npm run clean && npm run combine && node server.js",
+    "dev:css:build": "npm run postcss-min && npm run clean && npm run combine && npm run minify && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "bdd-con": "node ./exports/server/connection.js"
   },

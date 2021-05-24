@@ -47,7 +47,8 @@ DustDevils.prototype.createTween = function (params) {
  * Pixi animated Sprite
  */
 DustDevils.prototype.createSprite = function (size=10) {
-  let c = new PIXI.Container();
+  let c = new PIXI.Sprite();
+  c.anchor.set(0.5);
   for (let i = 0; i < size; i++) {
     // calculate to review
     let scaleX = (((i+1)/size)*0.5)+0.5;
@@ -56,9 +57,9 @@ DustDevils.prototype.createSprite = function (size=10) {
     c.addChild(s);
     s.y = i * -this.params.dustPart.h;
   }
-  let p = this.getProjection()
+  let p = this.getProjection();
   c.addChild(p);
-  c.filters = [new PIXI.filters.BlurFilter(2,3,3)]
+  c.filters = [new PIXI.filters.BlurFilter(2,3,3)];
   return c;
 }
 
@@ -96,15 +97,16 @@ DustDevils.prototype.createBody = function (params) {
   ]
   
   let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: true})
+  // let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true})
   // this.params.partHeight
   return b;
 }
 // initialization 
 DustDevils.prototype.init = function () {
-  
+  this.body.position = {x:400,y:300} 
+  // this.body.position = this.params.position;
   this.sprite.position = this.params.position;
   this.wireframe.position = this.params.position;
-  this.body.position = this.params.position;
   this.tween = this.createTween(this.params);
 }
 // loop update

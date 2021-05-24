@@ -114,6 +114,15 @@ Level.prototype.addCollisions = function () {
       } else if (me.terrain.body.parts.includes(pair.bodyB)) {
         me.damageLander();
       }
+      // rules
+      // console.log(pair.bodyA, pair.bodyB);
+      me.rules.forEach((r) => {
+        if (pair.bodyA === r.body) {
+          me.getRules(r);
+        } else if (pair.bodyB === r.body) {
+          me.getRules(r);
+        }
+      });
     }
   });
   Matter.Events.on(me.engine, "collisionStart", function (event) {
@@ -150,15 +159,15 @@ Level.prototype.addCollisions = function () {
           me.getBonus(b);
         }
       });
-      // rules
-      console.log(pair.bodyA, pair.bodyB);
-      me.rules.forEach((r) => {
-        if (pair.bodyA === r.body) {
-          me.getRules(r);
-        } else if (pair.bodyB === r.body) {
-          me.getRules(r);
-        }
-      });
+      // // rules
+      // console.log(pair.bodyA, pair.bodyB);
+      // me.rules.forEach((r) => {
+      //   if (pair.bodyA === r.body) {
+      //     me.getRules(r);
+      //   } else if (pair.bodyB === r.body) {
+      //     me.getRules(r);
+      //   }
+      // });
     }
   });
 };
