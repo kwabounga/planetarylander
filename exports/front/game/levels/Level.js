@@ -339,9 +339,8 @@ Level.prototype.applyRules = function () {
  */
 Level.prototype.updateRules = function () {
   this.rules.forEach(r => {
-    //r.update();
-    r.sprite.position = r.body.position;
-    r.wireframe.position = r.body.position;
+    r.update();
+    
 
     //this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
   });

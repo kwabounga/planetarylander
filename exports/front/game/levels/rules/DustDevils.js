@@ -31,7 +31,7 @@ DustDevils.prototype.createTween = function (params) {
       repeat: params.repeat,
       yoyo: true,
       repeatRefresh: true,
-      ease: "sine.inOut",
+      ease: "sine.inOut"
     },
     {
       x: 800,
@@ -96,14 +96,14 @@ DustDevils.prototype.createBody = function (params) {
     { "x": (params.dustPart.w*0.5)/2, "y": 0 }
   ]
   
-  let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: true})
-  // let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true})
-  // this.params.partHeight
+  let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: false});
+  // let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true});
+  // this.params.partHeight;
   return b;
 }
 // initialization 
 DustDevils.prototype.init = function () {
-  this.body.position = {x:400,y:300} 
+  this.body.position = {x:400,y:300};
   // this.body.position = this.params.position;
   this.sprite.position = this.params.position;
   this.wireframe.position = this.params.position;
@@ -111,7 +111,8 @@ DustDevils.prototype.init = function () {
 }
 // loop update
 DustDevils.prototype.update = function () {
-
+  this.sprite.position = this.body.position;
+  this.wireframe.position = this.body.position;
   
 }
 
