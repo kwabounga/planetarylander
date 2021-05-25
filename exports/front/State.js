@@ -36,7 +36,7 @@ const State = (function () {
         }
         this.log = function(...arg){
             if(instance.isDebug){
-                //console.log(...arg)
+                console.log(...arg)
             }
         }
         // public elements

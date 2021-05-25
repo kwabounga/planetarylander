@@ -67,7 +67,8 @@
           "gap":12,
           "frequency":{"min":10,"max":20},
           "repeat":-1,
-          "duration":10
+          "duration":10,
+          "xmouvment":{"min":150, "max":400}
         }
       }
     }

@@ -4,7 +4,7 @@ function DustDevils (type, params) {
   this.sprite = this.createSprite(this.params.size);
   this.body = this.createBody(this.params);
   this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
-  this.tween;
+  this.tween = null;
 }
 /**
  * debug wireframe
@@ -26,7 +26,7 @@ DustDevils.prototype.createTween = function (params) {
   return gsap.fromTo(
     me.body.position,
     {
-      x: 0,
+      x: params.xmouvment.min,
       duration: params.duration,
       repeat: params.repeat,
       yoyo: true,
@@ -34,7 +34,7 @@ DustDevils.prototype.createTween = function (params) {
       ease: "sine.inOut"
     },
     {
-      x: 800,
+      x: params.xmouvment.max,
       duration: params.duration,
       repeat: params.repeat,
       yoyo: true,
@@ -103,8 +103,8 @@ DustDevils.prototype.createBody = function (params) {
 }
 // initialization 
 DustDevils.prototype.init = function () {
-  this.body.position = {x:400,y:300};
-  // this.body.position = this.params.position;
+  // this.body.position = {x:400,y:300};
+  this.body.position = this.params.position;
   this.sprite.position = this.params.position;
   this.wireframe.position = this.params.position;
   this.tween = this.createTween(this.params);
