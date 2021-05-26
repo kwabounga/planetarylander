@@ -3,23 +3,42 @@ function DustDevils (type, params) {
   this.params = params;
   this.sprite = this.createSprite(this.params.size);
   this.body = this.createBody(this.params);
-  this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
+  // this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
+  this.wireframe = this.createWireFrame(this.params);
   this.tween = null;
 }
 /**
  * debug wireframe
+ * 
+ * @param {int} size - number of parts
+ * @param {Object} dustPart - the dustdevils part object cf: mars.json
+ * 
+ * @returns {Pixi.graphic} the wireframe debug object
  */
-DustDevils.prototype.createWireFrame = function (size, dustPart) {
+DustDevils.prototype.createWireFrame = function (params) {
   let vSet = [
-    { "x": -(dustPart.w*0.5)/2, "y": 0 },
-    { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
-    { "x": dustPart.w/2, "y": -(dustPart.h*size) },
-    { "x": (dustPart.w*0.5)/2, "y": 0 }
+    { "x": -(params.dustPart.w*0.5)/2, "y": 0 },
+    { "x": -params.dustPart.w/2, "y": -(params.dustPart.h*params.size) },
+    { "x": params.dustPart.w/2, "y": -(params.dustPart.h*params.size) },
+    { "x": (params.dustPart.w*0.5)/2, "y": 0 }
   ]
   return Tools.wireFrameFromVertex(0, 0, vSet);
 }
+// DustDevils.prototype.createWireFrame = function (size, dustPart) {
+//   let vSet = [
+//     { "x": -(dustPart.w*0.5)/2, "y": 0 },
+//     { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
+//     { "x": dustPart.w/2, "y": -(dustPart.h*size) },
+//     { "x": (dustPart.w*0.5)/2, "y": 0 }
+//   ]
+//   return Tools.wireFrameFromVertex(0, 0, vSet);
+// }
 /**
  * gsap tween
+ * 
+ * @param {Object} params - the dust parameters object
+ * 
+ * @returns {gsap.tween} the dustDevils animation
  */
 DustDevils.prototype.createTween = function (params) {
   const me = this;
@@ -44,7 +63,10 @@ DustDevils.prototype.createTween = function (params) {
   );
 }
 /**
- * Pixi animated Sprite
+ * DustDevils.createSprite
+ * 
+ * @param {int} size - the number of parts
+ * @returns {Pixi.Sprite} the dustDevil graphic object
  */
 DustDevils.prototype.createSprite = function (size=10) {
   let c = new PIXI.Sprite();
@@ -62,7 +84,10 @@ DustDevils.prototype.createSprite = function (size=10) {
   c.filters = [new PIXI.filters.BlurFilter(2,3,3)];
   return c;
 }
-
+/**
+ * DustDevils.getProjection
+ * @returns {Pixi.extras.AnimatedSprite} the base projection of the dustdevil Object
+ */
 DustDevils.prototype.getProjection = function () {
   const me = this;
   let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust_projections',1,4))
@@ -74,6 +99,11 @@ DustDevils.prototype.getProjection = function () {
   // gsap.fromTo(s, {x:0,duration:0.5,repeat:-1,yoyo:true},{x:()=>{return Tools.randomBetween(-me.params.gap,me.params.gap)},duration:()=>{return Tools.randomBetween(0.5,1)},repeat:-1,repeatRefresh: true,yoyo:true});
   return s;
 }
+/**
+ * DustDevils.getDDPart
+ * @param {Object} scale - the scaling informations 
+ * @returns {Pixi.extras.AnimatedSprite} - a dustDevil part
+ */
 DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
   const me = this;
   let s = new PIXI.extras.AnimatedSprite(Tools.getAnimationLoop('dust',1,4))
@@ -86,7 +116,11 @@ DustDevils.prototype.getDDPart = function (scale = {x:1,y:1}) {
   return s;
 }
 /**
- * Matter Body
+ * DustDevils.createBody
+ * 
+ * @param {object} params - the dust devil object parameters
+ * 
+ * @returns {Matter.Body} the dustdevil physic Object
  */
 DustDevils.prototype.createBody = function (params) {
   let vSet = [
@@ -96,7 +130,8 @@ DustDevils.prototype.createBody = function (params) {
     { "x": (params.dustPart.w*0.5)/2, "y": 0 }
   ]
   
-  let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: false});
+  let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: true, label: "DUSTDEVILBODY"});
+  // b.label = "DUSTDEVILBODY";
   // let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true});
   // this.params.partHeight;
   return b;
@@ -111,8 +146,10 @@ DustDevils.prototype.init = function () {
 }
 // loop update
 DustDevils.prototype.update = function () {
-  this.sprite.position = this.body.position;
-  this.wireframe.position = this.body.position;
+  // this.wireframe.position = this.body.position;
+  this.wireframe.position.y = this.body.position.y + (this.params.dustPart.h * this.params.size)/2;
+  this.wireframe.position.x = this.body.position.x + (this.params.dustPart.w);
+  this.sprite.position = this.wireframe.position;
   
 }
 

@@ -18,6 +18,6 @@ RulesSetter.set = function(lander, rule){
 
 // Mars Rules 
 RulesSetter.getDustDevils = function(lander, rule) {
-  console.log('RulesSetter type DUST DEVILS', rule.params)
+  console.log('RulesSetter type DUST DEVILS', rule)
 
 }
