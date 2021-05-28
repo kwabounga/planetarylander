@@ -74,6 +74,7 @@ Main.prototype.loadSpriteSheet = function () {
     me.loader.add(`terrain${lvlID}`, lvl.sprite);
   });
   
+  this.loader.add("particle", "./assets/wind_particle.png");
   this.loader.add("landersSpriteSheet", "./assets/landers.json");
   this.loader.add("uiSpriteSheet", "./assets/ui.json");
   this.loader.add("deadFontWalking", "./assets/DeadFontWalking.fnt");

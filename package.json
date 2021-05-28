@@ -19,6 +19,7 @@
       "../front/game/levels/rules/RulesSetter.js",
       "../front/game/levels/rules/GravityChange.js",
       "../front/game/levels/rules/DustDevils.js",
+      "../front/game/levels/rules/Wind.js",
       "../front/game/landers/Flag.js",
       "../front/game/landers/Stabilizer.js",
       "../front/game/landers/Reactor.js",

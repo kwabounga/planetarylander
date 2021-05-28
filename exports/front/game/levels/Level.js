@@ -11,6 +11,7 @@ function Level(main, callBack = null) {
   this.engine = main.engine;
   this.stage = main.stage;
   this.data = main.data;
+  this.renderer = main.renderer;
   this.isGameOver = false;
   this.state = State.getInstance();
 
@@ -306,29 +307,13 @@ Level.prototype.applyRules = function () {
           this.rules.push(dd);
           dd.init();
           
-
-          // let params = this.data.levels[this.state.game.currentLevel].rules.params;
-          /*
-          this.tweenRule = gsap.fromTo(
-            dd.sprite,
-            {
-              x: 0,
-              duration: params.duration,
-              repeat: params.repeat,
-              yoyo: true,
-              // ease: "back.in(2)",
-            },
-            {
-              x: 800,
-              duration: params.duration,
-              repeat: params.repeat,
-              yoyo: true,
-              // ease: "back.out(2)",
-            }
-          );
-           */
           break;
-
+          case "wind":
+            // #gravityRule
+            console.log('WIND');
+            
+            let wind = new Wind(this.stage,this.renderer, params);
+            break;
       default:
         break;
     }
