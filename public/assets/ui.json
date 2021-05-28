@@ -2,7 +2,7 @@
 
 "bonus_fuel0000":
 {
-	"frame": {"x":460,"y":633,"w":51,"h":49},
+	"frame": {"x":422,"y":399,"w":51,"h":49},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":49},
@@ -10,7 +10,7 @@
 },
 "cloud0000":
 {
-	"frame": {"x":0,"y":0,"w":481,"h":159},
+	"frame": {"x":5,"y":5,"w":481,"h":159},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":481,"h":159},
@@ -18,7 +18,7 @@
 },
 "dust0000":
 {
-	"frame": {"x":432,"y":768,"w":62,"h":18},
+	"frame": {"x":125,"y":984,"w":62,"h":18},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":19},
@@ -26,7 +26,7 @@
 },
 "dust0001":
 {
-	"frame": {"x":432,"y":804,"w":59,"h":17},
+	"frame": {"x":416,"y":615,"w":59,"h":17},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":0,"w":62,"h":19},
@@ -34,7 +34,7 @@
 },
 "dust0002":
 {
-	"frame": {"x":456,"y":708,"w":55,"h":19},
+	"frame": {"x":416,"y":568,"w":55,"h":19},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":0,"w":62,"h":19},
@@ -42,7 +42,7 @@
 },
 "dust0003":
 {
-	"frame": {"x":432,"y":786,"w":57,"h":18},
+	"frame": {"x":416,"y":592,"w":57,"h":18},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":1,"w":62,"h":19},
@@ -50,7 +50,7 @@
 },
 "dust_projections0000":
 {
-	"frame": {"x":394,"y":738,"w":109,"h":16},
+	"frame": {"x":5,"y":984,"w":109,"h":16},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":123,"h":18},
@@ -58,7 +58,7 @@
 },
 "dust_projections0001":
 {
-	"frame": {"x":343,"y":829,"w":123,"h":17},
+	"frame": {"x":358,"y":974,"w":123,"h":17},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":123,"h":18},
@@ -66,7 +66,7 @@
 },
 "dust_projections0002":
 {
-	"frame": {"x":394,"y":691,"w":111,"h":17},
+	"frame": {"x":358,"y":996,"w":111,"h":17},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":5,"y":0,"w":123,"h":18},
@@ -74,7 +74,7 @@
 },
 "dust_projections0003":
 {
-	"frame": {"x":394,"y":754,"w":115,"h":14},
+	"frame": {"x":5,"y":1005,"w":115,"h":14},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":8,"y":3,"w":123,"h":18},
@@ -82,7 +82,7 @@
 },
 "earth0000":
 {
-	"frame": {"x":0,"y":440,"w":202,"h":202},
+	"frame": {"x":5,"y":460,"w":202,"h":202},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":202},
@@ -90,7 +90,7 @@
 },
 "europa0000":
 {
-	"frame": {"x":0,"y":642,"w":181,"h":181},
+	"frame": {"x":5,"y":667,"w":181,"h":181},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":181,"h":181},
@@ -98,7 +98,7 @@
 },
 "ingame_star0000":
 {
-	"frame": {"x":401,"y":633,"w":59,"h":58},
+	"frame": {"x":422,"y":336,"w":59,"h":58},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":59,"h":58},
@@ -106,7 +106,7 @@
 },
 "jupiter0000":
 {
-	"frame": {"x":0,"y":340,"w":412,"h":100},
+	"frame": {"x":5,"y":355,"w":412,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":412,"h":100},
@@ -114,7 +114,7 @@
 },
 "mars0000":
 {
-	"frame": {"x":202,"y":637,"w":192,"h":192},
+	"frame": {"x":212,"y":662,"w":192,"h":192},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":192},
@@ -122,7 +122,7 @@
 },
 "moon0000":
 {
-	"frame": {"x":196,"y":829,"w":147,"h":146},
+	"frame": {"x":206,"y":859,"w":147,"h":146},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":147,"h":146},
@@ -130,7 +130,7 @@
 },
 "ovni0000":
 {
-	"frame": {"x":394,"y":708,"w":62,"h":30},
+	"frame": {"x":409,"y":819,"w":62,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":30},
@@ -138,7 +138,7 @@
 },
 "rocket0000":
 {
-	"frame": {"x":401,"y":573,"w":62,"h":60},
+	"frame": {"x":416,"y":460,"w":62,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":60},
@@ -146,7 +146,7 @@
 },
 "satTitan0000":
 {
-	"frame": {"x":412,"y":269,"w":83,"h":83},
+	"frame": {"x":417,"y":169,"w":83,"h":83},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":83},
@@ -154,7 +154,7 @@
 },
 "saturn0000":
 {
-	"frame": {"x":0,"y":159,"w":407,"h":181},
+	"frame": {"x":5,"y":169,"w":407,"h":181},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":407,"h":181},
@@ -162,7 +162,7 @@
 },
 "star_particle0000":
 {
-	"frame": {"x":481,"y":0,"w":19,"h":18},
+	"frame": {"x":476,"y":568,"w":19,"h":18},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":18},
@@ -170,7 +170,7 @@
 },
 "texture0000":
 {
-	"frame": {"x":0,"y":823,"w":196,"h":126},
+	"frame": {"x":5,"y":853,"w":196,"h":126},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":196,"h":126},
@@ -178,7 +178,7 @@
 },
 "titan0000":
 {
-	"frame": {"x":202,"y":440,"w":199,"h":197},
+	"frame": {"x":212,"y":460,"w":199,"h":197},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":199,"h":197},
@@ -186,7 +186,7 @@
 },
 "ui_button0000":
 {
-	"frame": {"x":401,"y":500,"w":74,"h":73},
+	"frame": {"x":409,"y":741,"w":74,"h":73},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":73},
@@ -194,7 +194,7 @@
 },
 "ui_buttonOver0000":
 {
-	"frame": {"x":412,"y":352,"w":74,"h":74},
+	"frame": {"x":417,"y":257,"w":74,"h":74},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
@@ -202,7 +202,7 @@
 },
 "ui_button_nb0000":
 {
-	"frame": {"x":412,"y":426,"w":74,"h":74},
+	"frame": {"x":409,"y":662,"w":74,"h":74},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
@@ -210,7 +210,7 @@
 },
 "ui_star0000":
 {
-	"frame": {"x":394,"y":768,"w":38,"h":38},
+	"frame": {"x":460,"y":525,"w":38,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":38},
@@ -218,7 +218,7 @@
 },
 "ui_star_disabled0000":
 {
-	"frame": {"x":463,"y":573,"w":39,"h":38},
+	"frame": {"x":416,"y":525,"w":39,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":39,"h":38},
@@ -226,11 +226,19 @@
 },
 "voyager0000":
 {
-	"frame": {"x":407,"y":159,"w":102,"h":110},
+	"frame": {"x":358,"y":859,"w":102,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":110},
 	"sourceSize": {"w":102,"h":110}
+},
+"wind_particle0000":
+{
+	"frame": {"x":192,"y":984,"w":8,"h":7},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":7},
+	"sourceSize": {"w":8,"h":7}
 }},
 "meta": {
 	"app": "Adobe Animate",

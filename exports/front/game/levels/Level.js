@@ -312,7 +312,7 @@ Level.prototype.applyRules = function () {
             // #gravityRule
             console.log('WIND');
             
-            let wind = new Wind(this.stage,this.renderer, params);
+            let wind = new Wind(this,this.renderer, params);
             break;
       default:
         break;

@@ -1,13 +1,18 @@
-function Wind (stage, renderer, params) {
+function Wind (container, renderer, params) {
     this.ticker = PIXI.ticker.shared;
     this.tick = 0;
     this.nbParticles = params.nbParticles;
-    this.stage = stage; 
+    this.container = container; 
     this.renderer = renderer; 
     this.particleContainer = this.setParticlesContainer(this.nbParticles);
-    this.stage.addChild(this.particleContainer);
+    this.container.addChild(this.particleContainer);
+}
+Wind.prototype.Constants = {
+  height:2000,
+  width:600
 }
 Wind.prototype.setParticlesContainer = function(nbParticles) {
+   const me = this;
     let pContainer = new PIXI.particles.ParticleContainer(nbParticles, {
         scale:true,
         position:true,
@@ -18,11 +23,11 @@ Wind.prototype.setParticlesContainer = function(nbParticles) {
     let totalParticles = this.renderer instanceof PIXI.WebGLRenderer ? 500 : 100;
     let allP = [];
     for (let i = 0; i < totalParticles; i++) {
-        let p = new PIXI.Sprite(PIXI.Texture.from('particle'));
+        let p = new PIXI.Sprite(PIXI.Texture.from('wind_particle0000'));
         p.anchor.set(.5);
         p.scale.set(0.8 + Math.random() * 0.3);
-        p.x = Math.random() * 800;
-        p.y = Math.random() * 600;
+        p.x = Math.random() * me.Constants.width;
+        p.y = Math.random() * me.Constants.height;
         p.tint = Math.random() * 0x808080;
         p.direction = 45 * Math.PI * 2;
         p.speed = (2 + Math.random() * 2) * 0.5;
@@ -34,8 +39,8 @@ Wind.prototype.setParticlesContainer = function(nbParticles) {
     let dudeBounds = new PIXI.Rectangle(
         -dudeBoundsPadding,
         -dudeBoundsPadding,
-        800 + dudeBoundsPadding * 2,
-        600 + dudeBoundsPadding * 2
+        me.Constants.height + dudeBoundsPadding * 2,
+        me.Constants.width + dudeBoundsPadding * 2
     );
     
     this.ticker.add(()=>{
@@ -57,6 +62,8 @@ Wind.prototype.setParticlesContainer = function(nbParticles) {
             this.tick += 0.1;
         }
     })
+
+    // pContainer.position.y = 1000;
     return pContainer;
 }
 /*
