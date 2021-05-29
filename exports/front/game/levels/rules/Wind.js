@@ -7,63 +7,59 @@ function Wind (container, renderer, params) {
     this.renderer = renderer; 
     this.direction = this.params.direction;
     this.alpha = 1
-    //this.tweenDirection = this.setChangingDirectionTween(this.params);
-    this.particleContainer = this.setParticlesContainer(this.params);
+    this.timerDirectionChanger = null;
+    this.setTimerDirectionChanger();
+    this.particleContainer = this.setParticlesContainer(this.params,this.params.nbParticles);
+    this.particleContainerBg = this.setParticlesContainer(this.params,this.params.nbParticles/2, true);
+    this.container.addChild(this.particleContainerBg);
     this.container.addChild(this.particleContainer);
 
 }
-Wind.prototype.getDirection = function() {
-  return this.direction;
-}
+
 Wind.prototype.Constants = {
   height:2000,
   width:800
 }
-Wind.prototype.setChangingDirectionTween = function(params) {
-    const me = this;
-    let t = gsap.fromTo(
-        me,
-        { direction: 90,
-          duration: () => { return Tools.randomBetween(.5, 1) }, 
-          delay: () => { return Tools.randomBetween(5, 10) }, 
-          repeat: -1, 
-          repeatRefresh: true, 
-          onComplete: (direction)=>{ console.log('DIRECTION', direction); }, 
-          onCompleteParams:[me.getDirection()], 
-          yoyo: true 
-        },
-        { direction: () => { return Tools.randomBetween(-me.params.direction, me.params.direction) }, 
-          duration: () => { return Tools.randomBetween(.5, 1) }, 
-          delay: () => { return Tools.randomBetween(5, 10) }, 
-          repeat: -1, 
-          repeatRefresh: true, 
-          onComplete: (direction)=>{ console.log('DIRECTION', direction); }, 
-          onCompleteParams:[me.getDirection()], 
-          yoyo: true 
-        }
-        );
-  
-    return t;
+Wind.prototype.setTimerDirectionChanger = function() {
+  const me = this;
+  fTimeOut()
+  function newTime(){
+    return ((Math.random()*5000)+5000);
+  }
+  function fTimeOut () {
+    let nDirection = Math.random() * 90 * Math.PI ;
+    // me.direction = (Math.random() * 360) * Math.PI ;
+    me.timerDirectionChanger = setTimeout(fTimeOut,newTime())
+    console.log('Change wind direction:',me.direction);
+    gsap.to(me,{direction:nDirection, duration:.3,repeat:0})
+  }
 }
-Wind.prototype.setParticlesContainer = function(params) {
+Wind.prototype.setParticlesContainer = function(params, nbParticles , isBG = false) {
    const me = this;
-    let pContainer = new PIXI.particles.ParticleContainer(params.nbParticles, {
+    let pContainer = new PIXI.particles.ParticleContainer(nbParticles, {
         scale:true,
         position:true,
         rotation:true,
         alpha:true,
         uvs:true,
     })
-    let totalParticles = this.renderer instanceof PIXI.WebGLRenderer ? 500 : 100;
+    let totalParticles = this.renderer instanceof PIXI.WebGLRenderer ? nbParticles : 100;
     let allP = [];
+    let pBoundsPadding = 100;
     for (let i = 0; i < totalParticles; i++) {
         let p = new PIXI.Sprite(PIXI.Texture.from('wind_particle0000'));
         p.anchor.set(.5);
-        p.scale.set(0.8 + Math.random() * 0.3);
-        p.x = Math.random() * me.Constants.width;
-        p.y = Math.random() * me.Constants.height;
-        p.tint = Math.random() * 0x808080;
-        p.alpha = Math.random();
+        if(isBG){
+          p.scale.set(0.5 + Math.random() * 0.3);
+          p.alpha = Math.random() * .2;
+          p.tint = Math.random() * Tools.pixiColor('#7cfc00');
+        } else {
+          p.scale.set(0.8 + Math.random() * 0.3);
+          p.alpha = Math.random();
+          p.tint = Math.random() * Tools.pixiColor('#808080');
+        }
+        p.x = Math.random() * me.Constants.width + pBoundsPadding;
+        p.y = Math.random() * me.Constants.height + pBoundsPadding;
         p.direction = params.direction * Math.PI;
         p.speed = (2 + Math.random() * 2) * 0.5;
         p.offset = Math.random() * 100;
@@ -73,7 +69,7 @@ Wind.prototype.setParticlesContainer = function(params) {
         allP.push(p);
         pContainer.addChild(p);
     }
-    let pBoundsPadding = 100;
+    
     let pBounds = new PIXI.Rectangle(
         -pBoundsPadding,
         -pBoundsPadding,
@@ -86,8 +82,8 @@ Wind.prototype.setParticlesContainer = function(params) {
             const p = allP[t];
             //p.direction =  me.direction * Math.PI * .5;
             
-            p.x += Math.sin(me.direction) * (p.speed * p.scale.y);
-            p.y += Math.cos(me.direction) * (p.speed * p.scale.y);
+            p.x += Math.sin(me.direction) * (p.speed * p.scale.y) * (isBG?2:1);
+            p.y += Math.cos(me.direction) * (p.speed * p.scale.y) * (isBG?2:1);
             // p.rotation = -p.direction + Math.PI;
             if (p.x < pBounds.x) {
                 p.x += pBounds.width;

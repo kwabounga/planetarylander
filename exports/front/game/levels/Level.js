@@ -384,7 +384,8 @@ Level.prototype.updateLander = function () {
       );
       this.state.game.fuel -= m.data.lander.motor.fuelConsumption;
     } else {
-      this.state.game.power  = 0
+      this.state.game.power -= m.data.lander.motor.reactorPower * 2 ; 
+      this.state.game.power = Math.max(this.state.game.power, 0);
     }
     if (this.state.keyRight.isDown) {
       Matter.Body.setAngularVelocity(
