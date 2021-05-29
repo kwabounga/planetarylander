@@ -9,8 +9,8 @@ function Wind (container, renderer, params) {
     this.alpha = 1
     this.timerDirectionChanger = null;
     this.setTimerDirectionChanger();
-    this.particleContainer = this.setParticlesContainer(this.params,this.params.nbParticles);
     this.particleContainerBg = this.setParticlesContainer(this.params,this.params.nbParticles/2, true);
+    this.particleContainer = this.setParticlesContainer(this.params,this.params.nbParticles);
     this.container.addChild(this.particleContainerBg);
     this.container.addChild(this.particleContainer);
 
@@ -51,8 +51,8 @@ Wind.prototype.setParticlesContainer = function(params, nbParticles , isBG = fal
         p.anchor.set(.5);
         if(isBG){
           p.scale.set(0.5 + Math.random() * 0.3);
-          p.alpha = Math.random() * .2;
-          p.tint = Math.random() * Tools.pixiColor('#7cfc00');
+          p.alpha = Math.random() * .3;
+          p.tint = Tools.pixiColor('#ffa500');
         } else {
           p.scale.set(0.8 + Math.random() * 0.3);
           p.alpha = Math.random();
