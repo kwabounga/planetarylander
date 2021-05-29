@@ -52,7 +52,7 @@ Button.prototype.emit = function(){
  */
 Button.prototype.comeOut = function(){
   const me = this;
-  gsap.to(me.getBtPhysic().position,{x:(this.pos.x+800),duration:1/*, delay: ((me.index+1)*0.15)*/, ease:'elastic.in(1, 0.75)'})
+  gsap.to(me.getBtPhysic().position,{x:(this.pos.x+800),duration:1/*, delay: ((me.index+1)*0.15)*/, ease:'elastic.in(1, 0.75)', overwrite:true})
 }
 
 /**
