@@ -1,19 +1,53 @@
 function Wind (container, renderer, params) {
     this.ticker = PIXI.ticker.shared;
     this.tick = 0;
+    this.params = params;
     this.nbParticles = params.nbParticles;
     this.container = container; 
     this.renderer = renderer; 
-    this.particleContainer = this.setParticlesContainer(this.nbParticles);
+    this.direction = this.params.direction;
+    this.alpha = 1
+    //this.tweenDirection = this.setChangingDirectionTween(this.params);
+    this.particleContainer = this.setParticlesContainer(this.params);
     this.container.addChild(this.particleContainer);
+
+}
+Wind.prototype.getDirection = function() {
+  return this.direction;
 }
 Wind.prototype.Constants = {
   height:2000,
-  width:600
+  width:800
 }
-Wind.prototype.setParticlesContainer = function(nbParticles) {
+Wind.prototype.setChangingDirectionTween = function(params) {
+    const me = this;
+    let t = gsap.fromTo(
+        me,
+        { direction: 90,
+          duration: () => { return Tools.randomBetween(.5, 1) }, 
+          delay: () => { return Tools.randomBetween(5, 10) }, 
+          repeat: -1, 
+          repeatRefresh: true, 
+          onComplete: (direction)=>{ console.log('DIRECTION', direction); }, 
+          onCompleteParams:[me.getDirection()], 
+          yoyo: true 
+        },
+        { direction: () => { return Tools.randomBetween(-me.params.direction, me.params.direction) }, 
+          duration: () => { return Tools.randomBetween(.5, 1) }, 
+          delay: () => { return Tools.randomBetween(5, 10) }, 
+          repeat: -1, 
+          repeatRefresh: true, 
+          onComplete: (direction)=>{ console.log('DIRECTION', direction); }, 
+          onCompleteParams:[me.getDirection()], 
+          yoyo: true 
+        }
+        );
+  
+    return t;
+}
+Wind.prototype.setParticlesContainer = function(params) {
    const me = this;
-    let pContainer = new PIXI.particles.ParticleContainer(nbParticles, {
+    let pContainer = new PIXI.particles.ParticleContainer(params.nbParticles, {
         scale:true,
         position:true,
         rotation:true,
@@ -29,35 +63,42 @@ Wind.prototype.setParticlesContainer = function(nbParticles) {
         p.x = Math.random() * me.Constants.width;
         p.y = Math.random() * me.Constants.height;
         p.tint = Math.random() * 0x808080;
-        p.direction = 45 * Math.PI * 2;
+        p.alpha = Math.random();
+        p.direction = params.direction * Math.PI;
         p.speed = (2 + Math.random() * 2) * 0.5;
         p.offset = Math.random() * 100;
+        // change direction
+        p.turningSpeed = Math.random() - 0.8;
+
         allP.push(p);
         pContainer.addChild(p);
     }
-    let dudeBoundsPadding = 100;
-    let dudeBounds = new PIXI.Rectangle(
-        -dudeBoundsPadding,
-        -dudeBoundsPadding,
-        me.Constants.height + dudeBoundsPadding * 2,
-        me.Constants.width + dudeBoundsPadding * 2
+    let pBoundsPadding = 100;
+    let pBounds = new PIXI.Rectangle(
+        -pBoundsPadding,
+        -pBoundsPadding,
+        me.Constants.width + pBoundsPadding * 2,
+        me.Constants.height + pBoundsPadding * 2
     );
     
     this.ticker.add(()=>{
         for (let t = 0; t < allP.length; t++) {
             const p = allP[t];
-            p.x += Math.sin(p.direction) * (p.speed * p.scale.y);
-            p.y += Math.cos(p.direction) * (p.speed * p.scale.y);
-            if (p.x < dudeBounds.x) {
-                p.x += dudeBounds.width;
-            } else if (p.x > dudeBounds.x + dudeBounds.width) {
-                p.x -= dudeBounds.width;
+            //p.direction =  me.direction * Math.PI * .5;
+            
+            p.x += Math.sin(me.direction) * (p.speed * p.scale.y);
+            p.y += Math.cos(me.direction) * (p.speed * p.scale.y);
+            // p.rotation = -p.direction + Math.PI;
+            if (p.x < pBounds.x) {
+                p.x += pBounds.width;
+            } else if (p.x > pBounds.x + pBounds.width) {
+                p.x -= pBounds.width;
             }
     
-            if (p.y < dudeBounds.y) {
-                p.y += dudeBounds.height;
-            } else if (p.y > dudeBounds.y + dudeBounds.height) {
-                p.y -= dudeBounds.height;
+            if (p.y < pBounds.y) {
+                p.y += pBounds.height;
+            } else if (p.y > pBounds.y + pBounds.height) {
+                p.y -= pBounds.height;
             }
             this.tick += 0.1;
         }

@@ -11,7 +11,7 @@ const State = (function () {
         this.height = 600;
         this.isMobile = Tools.isMobile();
         this.isPause = false;
-        this.isDebug = true;
+        this.isDebug = false;
 
         this.keyUp = null;
         this.keyLeft = null;
