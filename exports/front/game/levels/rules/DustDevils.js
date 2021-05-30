@@ -1,12 +1,16 @@
-function DustDevils (type, params) {
-  this.type = type;
+/**
+ * DustDevils Object
+ * @param {*} params 
+ */
+function DustDevils (params) {
+  this.type = 'dust_devils';
   this.params = params;
   this.sprite = this.createSprite(this.params.size);
   this.body = this.createBody(this.params);
-  // this.wireframe = this.createWireFrame(this.params.size, this.params.dustPart);
   this.wireframe = this.createWireFrame(this.params);
   this.tween = null;
 }
+
 /**
  * debug wireframe
  * 
@@ -24,15 +28,6 @@ DustDevils.prototype.createWireFrame = function (params) {
   ]
   return Tools.wireFrameFromVertex(0, 0, vSet);
 }
-// DustDevils.prototype.createWireFrame = function (size, dustPart) {
-//   let vSet = [
-//     { "x": -(dustPart.w*0.5)/2, "y": 0 },
-//     { "x": -dustPart.w/2, "y": -(dustPart.h*size) },
-//     { "x": dustPart.w/2, "y": -(dustPart.h*size) },
-//     { "x": (dustPart.w*0.5)/2, "y": 0 }
-//   ]
-//   return Tools.wireFrameFromVertex(0, 0, vSet);
-// }
 /**
  * gsap tween
  * 
@@ -131,12 +126,13 @@ DustDevils.prototype.createBody = function (params) {
   ]
   
   let b = Matter.Bodies.fromVertices(params.position.x, params.position.y, vSet, {isStatic: true, isSensor: true, label: "DUSTDEVILBODY"});
-  // b.label = "DUSTDEVILBODY";
-  // let b = Matter.Bodies.fromVertices(0, 0, vSet, {isStatic: true, isSensor: true});
-  // this.params.partHeight;
   return b;
 }
-// initialization 
+
+
+/**
+ * initialization
+ */ 
 DustDevils.prototype.init = function () {
   // this.body.position = {x:400,y:300};
   this.body.position = this.params.position;
@@ -144,7 +140,10 @@ DustDevils.prototype.init = function () {
   this.wireframe.position = this.params.position;
   this.tween = this.createTween(this.params);
 }
-// loop update
+
+/**
+ * loop update
+ */
 DustDevils.prototype.update = function () {
   // this.wireframe.position = this.body.position;
   this.wireframe.position.y = this.body.position.y + (this.params.dustPart.h * this.params.size)/2;

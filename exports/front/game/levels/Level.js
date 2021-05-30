@@ -282,6 +282,7 @@ Level.prototype.end = function () {
 /**
  * #gravityRule
  * #dustDevils
+ * #wind
  */
 Level.prototype.applyRules = function () {
   this.state.log(this.engine.world.gravity);
@@ -292,44 +293,40 @@ Level.prototype.applyRules = function () {
       case "gravity_change":
         // #gravityRule
         console.log('GRAVITY_CHANGE');
-        
         this.tweenRule = new GravityChange(this.engine, params);
         break;
-        case "dust_devils":
-          // #gravityRule
-          console.log('DUST DEVILS');
-          let dd = new DustDevils(type,params);
-          this.addChild(dd.sprite);
-          if (this.state.isDebug) {
-            this.addChild(dd.wireframe);
-          }
-          // let d =  { body: dd.body, sprite: dd.sprite, wireFrame: dd.wireframe }
-          this.rules.push(dd);
-          dd.init();
-          
-          break;
-          case "wind":
-            // #gravityRule
-            console.log('WIND');
-            
-            let wind = new Wind(this,this.renderer, params);
-            break;
+      case "dust_devils":
+        // #dustDevils
+        console.log('DUST DEVILS');
+        let dd = new DustDevils(params);
+        this.addChild(dd.sprite);
+        if (this.state.isDebug) {
+          this.addChild(dd.wireframe);
+        }
+        this.rules.push(dd);
+        dd.init();
+        break;
+      case "wind":
+        // #wind
+        console.log('WIND');
+        let wind = new Wind(this, this.renderer, params);
+        break;
       default:
         break;
     }
   }
 }
 /**
- * update / game loop
+ * rules updater
  */
 Level.prototype.updateRules = function () {
   this.rules.forEach(r => {
     r.update();
-    
-
-    //this.state.log('DUST DEVILS', r.body.position, r.wireframe.position, r.sprite.position);
   });
 }
+/**
+ * update / game loop
+ */
 Level.prototype.update = function () {
   this.updateLander();
   this.updateStars();
@@ -532,7 +529,9 @@ Level.prototype.addStars = function () {
     me.stars.push(star);
   });
 };
-
+/**
+ * add landzones to the current level
+ */
 Level.prototype.addlandZones = function () {
   const me = this;
   let lZonesFromJson = this.data.levels[this.state.game.currentLevel].landZones;
@@ -557,7 +556,10 @@ Level.prototype.addlandZones = function () {
     me.landZones.push(g);
   });
 };
-
+/**
+ * landzones getter
+ * @returns {Array} - all  landzones in an array
+ */
 Level.prototype.getLandZones = function () {
   return this.landZones;
 };
@@ -588,12 +590,6 @@ Level.prototype.removeKeyEvents = function () {
   this.keyUp.unsubscribe();
   this.keyRight.unsubscribe();
   this.keyLeft.unsubscribe();
-
-  // TODO: synchro with state
-
-  //   this.keyUp = null;
-  //   this.keyRight = null;
-  //   this.keyLeft = null;
 };
 
 /**
