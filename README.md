@@ -105,7 +105,6 @@ ____
       [europa.json](./data/europa.json); 
       [titan.json](./data/titan.json)
 - [x] [bonus](./exports/game/levels/BonusSprite.js) ([fuel](./data/mars.json))
-- [ ] more bonus
 - [x] [damages](./exports/game/levels/Level.js#damageLander)
 - [x] SpriteSheetAutoSlicer !! for explosion
 - [x] [lander](./exports/game/levels/Level.js#die) [explosion](./exports/game/landers/Landers.js#explosion)
@@ -116,30 +115,45 @@ ____
 - [x] Menu stars like balls !
 - [x] Accessing level from [menu](./exports/menu/Menu.js#launchLevel) with event 
 - [x] Rules : europa [gravity](./exports/game/levels/Level.js#gravityRule)
-- [ ] Rules : mars [dust devils](./exports/game/levels/Level.js#dustDevils)
-- [ ] Rules : titan jets
+- [x] Rules : mars [dust devils](./exports/game/levels/Level.js#dustDevils) desing 
+- [x] Rules : titan wind design
+- [ ] Rules : mars [dust devils](./exports/game/levels/Level.js#dustDevils) forces
+- [ ] Rules : titan wind forces
 - [x] Data loader 
 - [x] swap / overLoad Texture
 - [x] start sequency (3, 2, 1, Go)
 - [x] Pause
+- [ ] add explosion animation
+- [ ] tuning for exploding elements (masse)
+- [ ] stop updating rules when pausing
+- [ ] more bonus (repair, fuel)
 - [ ] switch between the worlds from the menu
+- [ ] start levels with a angle
 - [ ] back to the menu from the game (pause exit)
-- [ ] confirm modal
+- [ ] confirm modal on exit (save button; exit without saving)
+- [ ] animation in modal when communicate with server 
 - [ ] add progression and lock levels accordingly
-- [ ] add a login system and save the progression in bdd
 - [x] [clean up](./exports/scripts/clean.js) production files
 - [x] [combine](./exports/scripts/combiner.js) js classes using my own system
 - [x] js classes minification using google-closure-compiler system
 - [x] [build script](./package.json) : clean / combine and minify 
 - [x] show loading animation between unload menu and getStarted
-- [ ] do a 'create bdd script'
 - [x] [express](https://www.npmjs.com/package/express) to serve static files et get post req
 - [x] [ejs](https://www.npmjs.com/package/ejs) for the render
 - [x] [knex](https://knexjs.org/) for the mysql connection
 - [x] knex request for connection / delete / updating and register
 - [x] front to back communication for connection
-- [ ] front to back communication for registrer
-- [ ] front to back communication for update progress
+- [x] front to back communication for registrer
+- [x] front to back communication for update progress
+- [ ] add update systeme ingame 
+- [ ] add a login system and save the progression in bdd
+- [ ] do a 'create bdd script'
+- [ ] multi-rules in a single level
+- [ ] lander tuning 
+- [ ] see for uploading process on the server
+- [ ] desing web page 
+- [ ] connexion or see name in nav bar
+- [ ] updating profil in modal (pseudo; email adresse; reset score/progression)
 - [ ] 
 
 ----

@@ -309,7 +309,7 @@ Level.prototype.applyRules = function () {
       case "wind":
         // #wind
         console.log('WIND');
-        let wind = new Wind(this, this.renderer, params);
+        let wind = new Wind(this, this.renderer, params, this.lander);
         break;
       default:
         break;

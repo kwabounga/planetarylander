@@ -4,7 +4,7 @@
  * @param {PIXI.renderer} renderer - the renderer
  * @param {object} params - the json rules object parameters 
  */
-function Wind(container, renderer, params) {
+function Wind(container, renderer, params, lander) {
   this.ticker = PIXI.ticker.shared;
   this.tick = 0;
   this.params = params;
@@ -12,6 +12,9 @@ function Wind(container, renderer, params) {
   this.container = container;
   this.renderer = renderer;
   this.direction = this.params.direction;
+  this.vectorsDirection = {x:0,y:0};
+  this.fakeDirectionForTween = this.params.direction;
+  this.lander = lander;
   this.alpha = 1
   this.timerDirectionChanger = null;
   this.setTimerDirectionChanger();
@@ -43,11 +46,19 @@ Wind.prototype.setTimerDirectionChanger = function () {
 
   // timeout function
   function fTimeOut() {
-    let nDirection = Math.random() * 90 * Math.PI;
+    let nDirection = Math.random() * 360;
     // me.direction = (Math.random() * 360) * Math.PI ;
     me.timerDirectionChanger = setTimeout(fTimeOut, newTime())
-    console.log('Change wind direction:', me.direction);
-    gsap.to(me, { direction: nDirection, duration: .3, repeat: 0 })
+    console.log('Change wind direction:', me.direction,'to:', nDirection );
+    gsap.to(me, { fakeDirectionForTween: nDirection, duration: .3, repeat: 0, onComplete:()=>{
+      me.direction = me.fakeDirectionForTween;
+      let angleRad = (me.fakeDirectionForTween*Math.PI/180);
+      let vx = Math.sin(angleRad) * .06;
+      let vy = Math.cos(angleRad) * .06;
+      console.log('Set New Vectors:', vx, vy )
+      me.vectorsDirection = {x:vx, y:vy};
+      
+    } })
   }
 }
 
@@ -103,6 +114,15 @@ Wind.prototype.setParticlesContainer = function (params, nbParticles, isBG = fal
 
   // the loop using ticker to refresh particles position and direction
   this.ticker.add(() => {
+    if(!State.getInstance().gameStarted) {
+      return;
+    }
+    Matter.Body.applyForce(
+      me.lander.body,
+      { x: me.lander.body.position.x -=me.vectorsDirection.x, y: me.lander.body.position.y-=me.vectorsDirection.y },
+      { x: 0, y: 0 }
+    );
+
     for (let t = 0; t < allP.length; t++) {
       const p = allP[t];
       p.x += Math.sin(me.direction) * (p.speed * p.scale.y) * (isBG ? 2 : 1);

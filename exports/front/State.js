@@ -10,6 +10,8 @@ const State = (function () {
         this.width = 800;
         this.height = 600;
         this.isMobile = Tools.isMobile();
+
+        this.gameStarted = false;
         this.isPause = false;
         this.isDebug = false;
 
@@ -44,6 +46,7 @@ const State = (function () {
             width: this.width,
             height: this.height,
             isMobile: this.isMobile,            
+            gameStarted: this.gameStarted,            
             isPause: this.isPause,            
             isDebug: this.isDebug,            
             keyUp: this.keyUp,            

@@ -17,12 +17,12 @@
         
   </head>
   <body onload="init()">
-    <div class="container-fluid">      
+    <div class="container-fluid border-warning container-game">      
       <%- include('../partials/nav.ejs'); %>
       <!-- loader -->
-      <div class="mx-auto" id="loader"><img id="loader-logo" class="rotating"src="./assets/iconkwa.png"></img></div>
+      <div class="mx-auto bottomrounded" id="loader"><img id="loader-logo" class="rotating"src="./assets/iconkwa.png"></img></div>
       <!-- canvas -->
-      <canvas class="mx-auto" id="game-canvas" width="800" height="600" style="display: none;"></canvas>
+      <canvas class="mx-auto bottomrounded" id="game-canvas" width="800" height="600" style="display: none;"></canvas>
       <!-- modale register -->
       <%- include('../partials/register-form.ejs'); %>
     </div>

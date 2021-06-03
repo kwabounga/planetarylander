@@ -180,6 +180,7 @@ Main.prototype.initAfterLoadingTerrain = function () {
   this.startSequency(()=>{
     this.level.addKeysEvents();
     this.loopID = requestAnimationFrame(this.update.bind(this));
+    this.state.gameStarted = true;
   })
   this.showCanvas()
 };

@@ -9,6 +9,9 @@ RulesSetter.set = function(lander, rule){
     case 'dust_devils':
         RulesSetter.getDustDevils(lander, rule);
       break;
+    case 'wind':
+        RulesSetter.getWind(lander, rule);
+      break;
   
     default:
 
@@ -16,8 +19,13 @@ RulesSetter.set = function(lander, rule){
   }
 }
 
-// Mars Rules 
+// Dust Devils Rules 
 RulesSetter.getDustDevils = function(lander, rule) {
   console.log('RulesSetter type DUST DEVILS', rule)
+
+}
+// Wind Rules 
+RulesSetter.getWind = function(lander, rule) {
+  console.log('RulesSetter type WIND', rule)
 
 }
