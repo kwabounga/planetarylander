@@ -46,16 +46,23 @@ Wind.prototype.setTimerDirectionChanger = function () {
 
   // timeout function
   function fTimeOut() {
+    // new wind direction
     let nDirection = Math.random() * 360;
     // me.direction = (Math.random() * 360) * Math.PI ;
+    // set new timeout function
     me.timerDirectionChanger = setTimeout(fTimeOut, newTime())
-    console.log('Change wind direction:', me.direction,'to:', nDirection );
+    // console.log('Change wind direction:', me.direction,'to:', nDirection );
+    // apply tween on fake Direction
     gsap.to(me, { fakeDirectionForTween: nDirection, duration: .3, repeat: 0, onComplete:()=>{
+      // set new direction
       me.direction = me.fakeDirectionForTween;
+      // transfom Angle Deg to Rad 
       let angleRad = (me.fakeDirectionForTween*Math.PI/180);
+      // get new vectors
       let vx = Math.sin(angleRad) * .06;
       let vy = Math.cos(angleRad) * .06;
-      console.log('Set New Vectors:', vx, vy )
+      // console.log('Set New Vectors:', vx, vy )
+      // set vectors direction
       me.vectorsDirection = {x:vx, y:vy};
       
     } })
@@ -114,15 +121,19 @@ Wind.prototype.setParticlesContainer = function (params, nbParticles, isBG = fal
 
   // the loop using ticker to refresh particles position and direction
   this.ticker.add(() => {
+    // out of game
     if(!State.getInstance().gameStarted) {
       return;
     }
+
+    // apply force to lander with wind vectors direction
     Matter.Body.applyForce(
       me.lander.body,
       { x: me.lander.body.position.x -=me.vectorsDirection.x, y: me.lander.body.position.y-=me.vectorsDirection.y },
       { x: 0, y: 0 }
     );
 
+    // Update Wind particles positions and rotation
     for (let t = 0; t < allP.length; t++) {
       const p = allP[t];
       p.x += Math.sin(me.direction) * (p.speed * p.scale.y) * (isBG ? 2 : 1);
@@ -141,5 +152,7 @@ Wind.prototype.setParticlesContainer = function (params, nbParticles, isBG = fal
       this.tick += 0.1;
     }
   })
+
+  
   return pContainer;
 }

@@ -248,6 +248,8 @@ Level.prototype.gameOver = function () {
   this.removeKeyEvents();
   this.isGameOver = true;
   this.state.isPause = true;
+  this.state.gameStarted = false;
+
   // see here to cancelAnimationFrame on game over 
 }
 /**
@@ -261,6 +263,7 @@ Level.prototype.win = function () {
   this.lander.sprite.hideReactor();
   this.lander.sprite.hideStabilizersLeft();
   this.lander.sprite.hideStabilizersRight();
+  this.state.gameStarted = false;
   this.isGameOver = true;
   console.log("WIN");
 };
