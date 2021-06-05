@@ -71,6 +71,7 @@ Main.prototype.loadSpriteSheet = function () {
   // TODO: load only the current terrain 
   this.data.levels.forEach((lvl, lvlID) => {
     // loader.add(`terrain${lvlID}`, this.data.levels[lvlID].sprite);
+    console.log('try to loading:', lvl.sprite);
     me.loader.add(`terrain${lvlID}`, lvl.sprite);
   });
   

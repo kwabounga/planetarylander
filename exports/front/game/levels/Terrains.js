@@ -18,6 +18,7 @@ Terrains.load = function (levelParams,currentLevel, callBack) {
   if (Tools === undefined) {
     throw new Error('Must have Tools.js')
   }
+  console.log('try to get terrain :', levelParams.terrain);
   Tools.ajaxGet(levelParams.terrain, (data) => {
     // let d = JSON.parse(data);
     Terrains.create(data, levelParams.centerOfMass,currentLevel, callBack);

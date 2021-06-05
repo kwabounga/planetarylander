@@ -32,7 +32,7 @@
           <tbody>
           <%_ stats.forEach((stat,id)=>{ _%>
             <%_ let colorClass =  ''; _%>
-            <%_ colorClass = (id%2==0)?'rowdarklight': 'rowhighlight'; _%>              
+            <%_ colorClass = (id%2==0)?'rowdarklight': 'rowhighlight'; _%>
             <tr class="<%= colorClass %>">
               <td class=""><%= stat.login %></td>
               <%_ let scoreTotal = 0;  _%>
