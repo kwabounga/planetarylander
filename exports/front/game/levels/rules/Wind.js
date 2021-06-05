@@ -59,8 +59,8 @@ Wind.prototype.setTimerDirectionChanger = function () {
       // transfom Angle Deg to Rad 
       let angleRad = (me.fakeDirectionForTween*Math.PI/180);
       // get new vectors
-      let vx = Math.sin(angleRad) * .06;
-      let vy = Math.cos(angleRad) * .06;
+      let vx = -Math.sin(angleRad) * .1;
+      let vy = Math.cos(angleRad) * .1;
       // console.log('Set New Vectors:', vx, vy )
       // set vectors direction
       me.vectorsDirection = {x:vx, y:vy};
@@ -129,8 +129,8 @@ Wind.prototype.setParticlesContainer = function (params, nbParticles, isBG = fal
     // apply force to lander with wind vectors direction
     Matter.Body.applyForce(
       me.lander.body,
-      { x: me.lander.body.position.x -=me.vectorsDirection.x, y: me.lander.body.position.y-=me.vectorsDirection.y },
-      { x: 0, y: 0 }
+      { x: me.lander.body.position.x, y: me.lander.body.position.y },
+      { x: me.vectorsDirection.x, y: me.vectorsDirection.y }
     );
 
     // Update Wind particles positions and rotation

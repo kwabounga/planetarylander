@@ -27,6 +27,7 @@ function Lander(stage, params) {
  */
 Lander.prototype = Object.create(PIXI.extras.AnimatedSprite.prototype);
 
+
 /**
  * Create the shell sprite
  * and apply shell params

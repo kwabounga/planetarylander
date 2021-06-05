@@ -15,6 +15,8 @@ const State = (function () {
         this.isPause = false;
         this.isDebug = false;
 
+        this.lander = null;
+
         this.keyUp = null;
         this.keyLeft = null;
         this.keyRight = null;
@@ -46,6 +48,7 @@ const State = (function () {
             width: this.width,
             height: this.height,
             isMobile: this.isMobile,            
+            lander: this.lander,            
             gameStarted: this.gameStarted,            
             isPause: this.isPause,            
             isDebug: this.isDebug,            

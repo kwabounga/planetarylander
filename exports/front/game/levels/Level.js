@@ -428,6 +428,7 @@ Level.prototype.addLander = function () {
   this.state.log("ADD LANDER");
   const me = this;
   this.lander = Landers.create(me.data.lander, this);
+  this.state.lander = this.lander;
   this.state.log(this.lander.sprite);
 
   // adding wireframe to renderer if debug

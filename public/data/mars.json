@@ -62,13 +62,14 @@
         "type":"dust_devils",
         "params":{
           "size": 15,
-          "position": {"x":300,"y":300},
+          "position": {"x":300,"y":1850},
           "dustPart": {"w":62,"h":16},
           "gap":12,
           "frequency":{"min":10,"max":20},
           "repeat":-1,
           "duration":10,
-          "xmouvment":{"min":150, "max":400}
+          "xmouvment":{"min":50, "max":750},
+          "force": 15
         }
       }
     }
