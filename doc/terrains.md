@@ -20,6 +20,12 @@
 6. modify the centerOfMass attribute to put the body terrain in the good place
 7. retry again and again 
 
+#### Terrain visual
+
+![Terrain visual](../public/assets/doc/levels_png.jpg)
+#### Terrain body
+
+![Terrain visual](../public/assets/doc/levels_svg.jpg)
 #### codeSnippet
 ```javascript SvgCodeSnippet.js
 var polys = document.querySelectorAll('polygon,polyline');
