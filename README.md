@@ -154,6 +154,11 @@ ____
 - [ ] desing web page 
 - [ ] connexion or see name in nav bar
 - [ ] updating profil in modal (pseudo; email adresse; reset score/progression)
+- [ ] desactivate the stars bodies when lander catch them
+- [ ] desactivate the bonus bodies
+- [ ] create a 'splash screen' after loading with a animation
+- [ ] languages FR /EN ??
+- [ ] highscores / game status in navbar
 - [ ] 
 
 ----

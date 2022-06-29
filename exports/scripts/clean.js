@@ -1,3 +1,7 @@
+/**
+ * utility for cleaning bin directory
+ */
+
 const path = require("path");
 const fs = require("fs");
 

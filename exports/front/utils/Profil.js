@@ -1,3 +1,8 @@
+/**
+ * Profil utility 
+ * provide methods for saving / quit / updating progress / register and connect
+ */
+
 var Profil = Profil || {};
 
 Profil.save = function(state){

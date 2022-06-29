@@ -1,3 +1,8 @@
+/**
+ * User object
+ * @param {User} data 
+ */
+
 function User (data) {
   this.token = data.token;
   this.login = data.login;

@@ -1,3 +1,8 @@
+/**
+ * util to format messages success / error
+ * @param {String} msg 
+ * @returns js object
+ */
 const success = function(msg) {
   return {success:msg};
 }

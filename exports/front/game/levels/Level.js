@@ -172,6 +172,8 @@ Level.prototype.addCollisions = function () {
     }
   });
 };
+
+
 /**
  * #die
  */
@@ -202,6 +204,11 @@ Level.prototype.damageLander = function () {
     this.die();
   }
 };
+
+/**
+ * get rules
+ * @param {Rule} rule 
+ */
 Level.prototype.getRules = function (rule) {
   // console.log('getRules', rule.type, rule.params);
   // ici appliquer les rules > static
@@ -268,7 +275,9 @@ Level.prototype.win = function () {
   console.log("WIN");
 };
 
-
+/**
+ * End of game
+ */
 Level.prototype.end = function () {
   // const me = this;
   if (this.lander.isDie){
@@ -283,6 +292,8 @@ Level.prototype.end = function () {
   };
 }
 /**
+ * get level rule and apply
+ * 
  * #gravityRule
  * #dustDevils
  * #wind
@@ -342,9 +353,9 @@ Level.prototype.update = function () {
   //   this.forceUpdateUI()
   // }
 };
-// Level.prototype.forceUpdateUI = function () {
-  
-// }
+/**
+ * Updating All sub lander's sub level elements when explode 
+ */
 Level.prototype.updateStack = function () {
   const me = this;
   this.landerExploded.bodies.forEach((b, i) => {
@@ -352,6 +363,11 @@ Level.prototype.updateStack = function () {
     me.landerExploded.sprites[i].position = b.position;
   });
 };
+
+/**
+ * update Lander method
+ * synchronize sprite to body
+ */
 Level.prototype.updateLander = function () {
   const m = this;
   if (m.lander.isDie && m.lander.body.position.y >= m.terrain.sprite.height + 600){
@@ -436,11 +452,18 @@ Level.prototype.addLander = function () {
     this.addChild(this.lander.wireFrame);
   }
 };
-
+/**
+ * level's lander accessor
+ * @returns {Lander}
+ */
 Level.prototype.getLander = function () {
   return this.lander;
 };
 
+/**
+ * Update all Bonus method 
+ * synchronize sprites to physic bodies
+ */
 Level.prototype.updateBonus = function () {
   const me = this;
   if (this.data.levels[this.state.game.currentLevel].bonus) {
@@ -452,6 +475,10 @@ Level.prototype.updateBonus = function () {
     });
   }
 };
+/**
+ * Update all Stars method 
+ * synchronize sprites to physic bodies
+ */
 Level.prototype.updateStars = function () {
   const me = this;
   this.stars.forEach((star) => {
@@ -461,6 +488,10 @@ Level.prototype.updateStars = function () {
     }
   });
 };
+
+/**
+ * add bonus in the current level
+ */
 Level.prototype.addBonus = function () {
   if (!this.data.levels[this.state.game.currentLevel].bonus) {
     return;
@@ -501,6 +532,10 @@ Level.prototype.addBonus = function () {
     me.bonus.push(bonus);
   });
 };
+
+/**
+ * add  stars in the current level
+ */
 Level.prototype.addStars = function () {
   let aStars = this.data.levels[this.state.game.currentLevel].stars;
   this.state.log(aStars);
@@ -533,8 +568,10 @@ Level.prototype.addStars = function () {
     me.stars.push(star);
   });
 };
+
+
 /**
- * add landzones to the current level
+ * add landzones in the current level
  */
 Level.prototype.addlandZones = function () {
   const me = this;

@@ -1,3 +1,6 @@
+/**
+ * db connection
+ */
 
 require('dotenv').config();
 

@@ -1,4 +1,8 @@
 
+/**
+ * Commons Errors
+ */
+
 const success = {
   SUCCESS: 'success',
   BDD_USER_CREATED: 'BDD: Utilisateur enregistré',

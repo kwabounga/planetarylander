@@ -1,3 +1,9 @@
+/**
+ * Keyboard mapping for event handling
+ * @param {chara} value the key to map 
+ * @returns {key} the key object
+ */
+
 function keyboard(value) {
     let key = {};
     key.value = value;

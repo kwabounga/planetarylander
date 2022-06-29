@@ -1,3 +1,6 @@
+/**
+ * Base object to create user's progress
+ */
 const progress = {
   worlds: [
     {

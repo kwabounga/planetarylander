@@ -1,3 +1,9 @@
+/**
+ * Tools Utils 
+ * Provide generics methods  useful in game
+ * @static
+ */
+
 var Tools = Tools || {};
 
 /**
